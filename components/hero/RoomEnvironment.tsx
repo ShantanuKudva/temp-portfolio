@@ -67,8 +67,6 @@ const DESK_MESH_COLORS: Record<string, string> = {
   Object_60: "#AAB0B6",
   // pen-holder cup → dark walnut
   Object_27: "#463628",
-  // stapler → near-black
-  Object_42: "#242428",
   // mac mini → space-grey aluminium (lighter blew out to white under the key)
   Object_25: "#83888F",
   // keyboard base + keys → dark
@@ -81,15 +79,21 @@ const DESK_MESH_COLORS: Record<string, string> = {
 };
 // Meshes to remove entirely. Object_41 = the wide backing boards behind the
 // pegboards the user asked to drop ("theres boards here. remove that").
-// Object_56 = the mouse the hero phone was resting on (freed the phone's spot
-// without shoving it to the desk edge).
-const DESK_HIDE = new Set<string>(["Object_41", "Object_56"]);
+// (Object_56 was NOT the mouse — it's the lower wall shelf the box files sit on,
+// so hiding it left the files with no base. Kept visible.)
+const DESK_HIDE = new Set<string>(["Object_41"]);
 // Meshes to render as plain white glazed ceramic (white + smooth). Object_55 =
 // the propped-up plant pot next to the desk.
 const DESK_CERAMIC = new Set<string>(["Object_55"]);
 // Meshes to render as brushed metal (silver, high metalness, satin roughness so
-// the HDRI reads as a brushed sheen). Object_17/28/50 = the articulated desk lamp.
-const DESK_METAL = new Set<string>(["Object_17", "Object_28", "Object_50"]);
+// the HDRI reads as a brushed sheen). Object_17/28/50 = the articulated desk lamp;
+// Object_21 = the wall-mounted pendant lamp's dome.
+const DESK_METAL = new Set<string>([
+  "Object_17",
+  "Object_28",
+  "Object_50",
+  "Object_21",
+]);
 const DESK_DEBUG = false; // rainbow-ID pass (scripts/inspect-desk.mjs reads window.__deskMeshes)
 
 // The gaming desk-setup: authored in mm (bbox ~2234×1915×1280) → ×0.001 to
@@ -236,6 +240,7 @@ const ENV_DIM: Keyframe<number>[] = [
   { at: BEAT.revealStart, value: 0.45, ease: "inOutCubic" },
 ];
 const ENV_BASE = { key: 3.0, fill: 0.85, amb: 0.2, lamp: 1.5, hdri: 0.35 }; // fill up + cooler to fight the orange cast
+const WALL_LAMP_BASE = 2.6; // warm glow spilling from the wall-mounted pendant lamp
 
 export default function RoomEnvironment() {
   const returnSpot = useRef<SpotLight>(null);
@@ -245,6 +250,7 @@ export default function RoomEnvironment() {
   const fillRef = useRef<DirectionalLight>(null);
   const ambRef = useRef<AmbientLight>(null);
   const lampRef = useRef<PointLight>(null);
+  const wallLampRef = useRef<PointLight>(null);
   const returnTarget = useMemo(() => new Object3D(), []);
   const liftTarget = useMemo(() => new Object3D(), []);
   const shadowFrames = useRef(0);
@@ -261,7 +267,13 @@ export default function RoomEnvironment() {
       const hit = raycaster.intersectObjects(scene.children, true)[0];
       const o = hit?.object as Mesh | undefined;
       return o
-        ? { name: o.name, mat: (o.material as MeshStandardMaterial)?.name }
+        ? {
+            name: o.name,
+            mat: (o.material as MeshStandardMaterial)?.name,
+            p: [hit!.point.x, hit!.point.y, hit!.point.z].map(
+              (v) => +v.toFixed(3),
+            ),
+          }
         : null;
     };
   }, [scene, camera, raycaster]);
@@ -305,6 +317,8 @@ export default function RoomEnvironment() {
     if (fillRef.current) fillRef.current.intensity = ENV_BASE.fill * dim;
     if (ambRef.current) ambRef.current.intensity = ENV_BASE.amb * dim;
     if (lampRef.current) lampRef.current.intensity = ENV_BASE.lamp * dim;
+    if (wallLampRef.current)
+      wallLampRef.current.intensity = WALL_LAMP_BASE * dim;
     state.scene.environmentIntensity = ENV_BASE.hdri * dim; // dims the HDRI fill too
     // Perf (lossless): the desk is static, so CACHE its 2048 shadow map instead of
     // re-rasterising ~1M verts every frame. Suspense means frame 1 already has the
@@ -357,6 +371,15 @@ export default function RoomEnvironment() {
         distance={1.8}
         decay={2}
         color="#FFC98A"
+      />
+      {/* Wall-mounted pendant lamp: warm light spilling down out of the dome. */}
+      <pointLight
+        ref={wallLampRef}
+        position={[0.14, 0.88, 0.52]}
+        intensity={WALL_LAMP_BASE}
+        distance={2.8}
+        decay={2}
+        color="#FFDCA0"
       />
 
       {/* Window blinds hung between the sun and the desk — the sun rakes through

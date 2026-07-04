@@ -11,7 +11,7 @@ const BASE =
 const CHROME =
   process.env.CHROME_PATH ??
   "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
-const W = 1280,
+const W = 1600,
   H = 760;
 
 // pixel points per beat
@@ -50,10 +50,13 @@ const POINTS = {
     shelf_green: [1210, 550],
     shelf_support: [1215, 615],
     stapler: [990, 650],
-    vase_top: [205, 285],
-    vase_body: [205, 345],
-    vase_lower: [210, 400],
-    foliage: [220, 150],
+    shelf_up1: [1480, 150],
+    shelf_up2: [1510, 190],
+    shelf_low1: [1440, 330],
+    shelf_low2: [1470, 300],
+    files_base: [1410, 470],
+    tray_upper: [1540, 300],
+    stapler_desk: [1060, 615],
   },
 };
 
