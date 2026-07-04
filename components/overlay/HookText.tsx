@@ -12,10 +12,13 @@ export default function HookText() {
   const text = idx >= 0 ? HOOK_TEXT[idx] : '';
   if (!text) return null;
   return (
-    <div className="pointer-events-none fixed inset-x-0 bottom-[14vh] z-40 flex justify-center px-6">
+    // Bottom-anchored caption band: a soft gradient scrim gives a consistent,
+    // legible zone for the line regardless of the busy 3D scene behind it,
+    // and separates it from the phone/desk instead of crowding that gap.
+    <div className="pointer-events-none fixed inset-x-0 bottom-0 z-40 flex justify-center bg-linear-to-t from-black/60 via-black/25 to-transparent px-6 pb-[8vh] pt-28">
       <ScrambleLine
         text={text}
-        className="text-center font-mono text-2xl font-semibold tracking-tight text-primary-foreground drop-shadow-[0_2px_12px_rgba(42,26,28,0.6)] md:text-4xl"
+        className="max-w-3xl text-center font-mono text-2xl font-semibold tracking-tight text-white drop-shadow-[0_2px_14px_rgba(0,0,0,0.65)] md:text-4xl"
       />
     </div>
   );
