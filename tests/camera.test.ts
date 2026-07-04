@@ -4,12 +4,12 @@ import { sampleTuple3 } from '@/lib/track';
 import { BEAT } from '@/lib/timeline';
 
 describe('camera tables', () => {
-  it('starts as an off-axis 3/4 shot at medium distance, framing the phone on the desk', () => {
+  it('starts as a high-angle close-up looking down at the phone on the desk', () => {
     const pos = sampleTuple3(CAM_POS, BEAT.establishStart);
-    expect(pos[0]).toBeGreaterThan(1.2); // off to the side (3/4)
-    expect(pos[2]).toBeGreaterThan(2.0); // in front at a medium distance (was a far wide-room shot)
     const look = sampleTuple3(CAM_LOOK, BEAT.establishStart);
-    expect(look[2]).toBeLessThan(1.0); // aimed at the desk rest (z~0.55), not the lifted hero
+    expect(pos[1]).toBeGreaterThan(look[1] + 0.4); // camera well above the target → looking down
+    expect(look[1]).toBeLessThan(0.4);             // aimed at the desk surface (not the lifted hero)
+    expect(pos[2]).toBeLessThan(2.0);              // a close-up, not a pulled-back wide shot
   });
 
   it('pushes in close by the end but STOPS in front of the phone (no through-clip)', () => {

@@ -21,8 +21,8 @@ export default function HeroCanvas() {
       // for this room-scale (a few meters) scene.
       camera={{ position: [2.6, 1.5, 4.2], fov: 40, near: 0.01, far: 100 }}
     >
-      {/* Near-black studio void (Oryzo-minimal pivot) — the phone is the only lit subject */}
-      <color attach="background" args={['#08080A']} />
+      {/* Warm dark backdrop for the desk close-up */}
+      <color attach="background" args={['#130D0A']} />
       {/* CameraRig takes over the default camera every frame via useThree — the
           `camera` prop above only supplies its initial pose (first paint, before
           CameraRig's first useFrame runs). Must mount before EffectComposer. */}

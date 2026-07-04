@@ -7,12 +7,11 @@ export const PHONE_HERO_POS: Tuple3 = [0, 0.95, 1.15];
 // 14 Pro (Sketchfab, meshopt+webp) — authored at ~real-world scale, bbox
 // 0.0836 x 0.1709 x 0.0131m (`gltf-transform inspect`). A true-to-life scale
 // read as "too small" for a hero landing (a real phone on a real desk is a
-// speck from the establishing camera), so we deliberately HERO-size it: 1.4
-// gives ~0.117 x 0.239 x 0.018m — a bold, dominant phone that STILL lies flat
-// on the desk at establish without clipping the tabletop (unlike the earlier
-// ~1m mock that punched straight through it). The CameraRig frames it as the
-// subject; this scale sets its heft.
-export const PHONE_SCALE = 1.4;
+// speck from the establishing camera), so we HERO-size it. 1.4 read a touch
+// large against the desk close-up once the real props were in; 1.2 gives
+// ~0.10 x 0.205 x 0.016m — still a confident hero on the desk, a bit more
+// believably phone-sized. The CameraRig frames it as the subject.
+export const PHONE_SCALE = 1.2;
 
 // Desk top surface world Y ≈ 0.1994 (desk bboxMax.y=0.79941 [gltf-transform
 // inspect] + desk position.y=-0.6 [RoomEnvironment.tsx]). At PHONE_SCALE=1.4
