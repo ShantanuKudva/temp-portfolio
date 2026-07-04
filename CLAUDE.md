@@ -8,7 +8,9 @@ Orientation for Claude Code working in this repo. Keep this concise and high-sig
 
 ## Status (as of 2026-07-04)
 
-Design / brainstorm phase. **No application code yet.** The creative direction for the landing sequence is **locked and specified**; the implementation plan has not been written. Next step is the writing-plans skill → build.
+**Build underway** on branch `build/landing-sequence` (master clean), executed via subagent-driven-development against `docs/superpowers/plans/2026-07-04-landing-sequence.md`. Committed: scaffold, scroll engine (`p`), photoreal gate, mock room, phone, camera, hook text, and a `/spike` live scrubbable preview. **Resume from `.superpowers/sdd/RESUME.md`** (+ `progress.md`) — it has the exact next steps. Mid-swap: iPhone 14 Pro (`~/Downloads/iphone_14_pro.glb`, uncompressed → compress + wire in).
+
+**Design updates this session (these OVERRIDE the palette table below + the phone/room spec):** NO cream (hard rule), cherry-maroon now optional, **wall color matches the props**; phone = **iPhone 14 Pro** (Sketchfab); room to be dressed with the Sketchfab "desk-setup" collection + a window with golden sun-rays + a glowing lamp + spotlights on the lift/apps beats. **Order:** iPhone 14 swap → finalize room → then continue (logos, screen, title, preloader, portfolio, tuning).
 
 ## The landing sequence (locked)
 
