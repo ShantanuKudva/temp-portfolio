@@ -176,8 +176,49 @@ function Plants({
 }
 useGLTF.preload("/assets/plants.glb", false, false, withMeshopt);
 
-// (DeskPlant selective-cut helper removed — desk plants now use small, centered
-// Plants clusters placed directly on each side of the desk.)
+// ONE plant cut from the cluster and RECENTERED (base dropped to y=0) so a single
+// pot sits cleanly ON the desk without clipping. `band` picks which x-slice of the
+// cluster to keep (→ a different plant per spot).
+function DeskPlant({
+  position,
+  scale = 1,
+  band = [0.6, 1.4],
+}: {
+  position: [number, number, number];
+  scale?: number;
+  band?: [number, number];
+}) {
+  const { scene } = useGLTF("/assets/plants.glb", false, false, withMeshopt);
+  const obj = useMemo(() => {
+    const c = scene.clone(true);
+    c.updateMatrixWorld(true);
+    const keep = new Box3();
+    c.traverse((o) => {
+      const m = o as Mesh;
+      if (!m.isMesh) return;
+      m.castShadow = true;
+      m.receiveShadow = true;
+      const b = new Box3().setFromObject(m);
+      const cx = (b.min.x + b.max.x) / 2;
+      m.visible = cx >= band[0] && cx <= band[1];
+      if (m.visible) keep.union(b);
+    });
+    if (!keep.isEmpty()) {
+      c.position.set(
+        -(keep.min.x + keep.max.x) / 2,
+        -keep.min.y,
+        -(keep.min.z + keep.max.z) / 2,
+      );
+    }
+    return c;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [scene, band[0], band[1]]);
+  return (
+    <group position={position} scale={scale}>
+      <primitive object={obj} />
+    </group>
+  );
+}
 
 // Return-beat spotlight: narrows onto the phone as it flows back.
 const SPOT_INTENSITY: Keyframe<number>[] = [
@@ -380,8 +421,8 @@ export default function RoomEnvironment() {
       <DeskSetup />
       <Plants position={[-1.9, -0.6, -0.4]} />
       {/* a couple of plants cut from the cluster, on the RIGHT side of the desk */}
-      <Plants position={[-0.52, 0.2, 0.14]} scale={0.22} />
-      <Plants position={[0.9, 0.2, 0.12]} scale={0.22} />
+      <DeskPlant position={[-0.5, 0.2, 0.16]} scale={0.5} band={[-1.4, -0.35]} />
+      <DeskPlant position={[0.9, 0.2, 0.12]} scale={0.5} band={[0.45, 1.4]} />
     </group>
   );
 }
