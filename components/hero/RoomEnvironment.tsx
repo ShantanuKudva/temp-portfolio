@@ -34,6 +34,8 @@ const DESK_MESH_COLORS: Record<string, string> = {
   Object_31: '#1B1B1F', Object_32: '#1B1B1F', // monitor bodies → near-black
   Object_58: '#6E5334', // pegboard → cork/wood
   Object_17: '#2E2E33', Object_28: '#2E2E33', Object_50: '#2E2E33', // desk lamp → dark metal
+  Object_60: '#AAB0B6', // pen-cup contents (pens/scissors) → metal
+  Object_26: '#232327', // headphones (best-guess) → black
 };
 const DESK_DEBUG = false; // rainbow-ID pass (scripts/inspect-desk.mjs reads window.__deskMeshes)
 
@@ -190,6 +192,7 @@ export default function RoomEnvironment() {
   const lampRef = useRef<PointLight>(null);
   const returnTarget = useMemo(() => new Object3D(), []);
   const liftTarget = useMemo(() => new Object3D(), []);
+  const shadowFrames = useRef(0);
 
   // Subtle plaster grain so the wall isn't a flat CG plane.
   const wallBump = useMemo(() => {
@@ -225,6 +228,13 @@ export default function RoomEnvironment() {
     if (ambRef.current) ambRef.current.intensity = ENV_BASE.amb * dim;
     if (lampRef.current) lampRef.current.intensity = ENV_BASE.lamp * dim;
     state.scene.environmentIntensity = ENV_BASE.hdri * dim; // dims the HDRI fill too
+    // Perf (lossless): the desk is static, so CACHE its 2048 shadow map instead of
+    // re-rasterising ~1M verts every frame. Suspense means frame 1 already has the
+    // loaded desk in the map; update for a short warm-up, then freeze auto-update.
+    if (keyRef.current && shadowFrames.current < 60) {
+      shadowFrames.current += 1;
+      if (shadowFrames.current === 60) keyRef.current.shadow.autoUpdate = false;
+    }
   });
 
   return (
