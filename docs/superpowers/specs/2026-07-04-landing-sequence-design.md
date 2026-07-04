@@ -7,7 +7,7 @@
 
 ---
 
-## 1. Concept
+## 1. Concep
 
 The portfolio opens inside a warm, photoreal **cherry-maroon creator's room** — a phone resting on a propped walnut desk, golden daylight through a gold-framed window. As the visitor scrolls, the phone **lifts off the desk** and **3D logos of the real companies the creator covers** (YouTube, Instagram, Claude, OpenAI, Gemini, Figma…) **erupt out of it in disarray**, then **organize into a constellation** — a connected map of the landscape — before **flowing back into the phone**. The phone rotates to landscape, the camera **pushes through the screen** until content fills the viewport, the name resolves out of scrambling type, and the scroll carries the visitor — unbroken — into the portfolio.
 
@@ -22,12 +22,14 @@ The room is the persistent **setting**; the logos are the **subject** (this crea
 ## 2. Goals & non-goals
 
 **Goals**
+
 - A cinematic, fully scroll-driven hero that establishes the creator's craft and personality in seconds.
 - The subject (apps/businesses) is told through **real-company 3D logos** erupting from, and returning to, the phone.
 - The **cherry-maroon room stays the grounded setting** throughout — the phone lifts off a propped desk that remains visible.
 - Seamless, continuous scroll from the climax into the portfolio (no page change / hard cut).
 
 **Non-goals (this spec)**
+
 - Portfolio content sections (Work / About / Contact) — later spec.
 - Final mobile choreography — decided after the desktop build (a reduced fallback is in scope as a principle).
 - Final production copy beyond the locked hook lines; real handles/stats deferred with the portfolio content.
@@ -37,7 +39,7 @@ The room is the persistent **setting**; the logos are the **subject** (this crea
 
 ## 3. Audience & positioning
 
-Primary: brands, collaborators, and clients evaluating the creator, plus fans. A flashy personal showcase that also says "hire me." The creator's niche is **reviewing and making sense of apps & businesses** — the constellation of logos *is* the positioning statement.
+Primary: brands, collaborators, and clients evaluating the creator, plus fans. A flashy personal showcase that also says "hire me." The creator's niche is **reviewing and making sense of apps & businesses** — the constellation of logos _is_ the positioning statement.
 
 ---
 
@@ -47,17 +49,17 @@ A warm, editorial, vintage-luxe **creator's room**, rendered photoreal, that per
 
 **Palette** (cherry maroon):
 
-| Token | Hex | Use |
-|---|---|---|
-| Cherry maroon | `#7B1E2B` | Accent wall, brand, primary |
-| Deep wine | `#571620` | Curtains, deep shadow, hover/pressed |
-| Wine ink | `#2A1A1C` | Darkest surfaces, text on light |
-| Taupe | `#8A7268` | Muted / secondary |
-| Antique gold | `#B08D4C` | Thin accents — window frame, crown molding, art frames |
-| Dusty blush | `#E8C9C4` | Rug, soft washes |
-| Warm sand | `#EADFCF` | Floor, baseboards |
-| Warm cream | `#F4EBDD` | Side wall, ceiling, light surfaces |
-| Forest green | `#2F4A3A` | Plant, one framed piece (minor accent) |
+| Token         | Hex       | Use                                                    |
+| ------------- | --------- | ------------------------------------------------------ |
+| Cherry maroon | `#7B1E2B` | Accent wall, brand, primary                            |
+| Deep wine     | `#571620` | Curtains, deep shadow, hover/pressed                   |
+| Wine ink      | `#2A1A1C` | Darkest surfaces, text on light                        |
+| Taupe         | `#8A7268` | Muted / secondary                                      |
+| Antique gold  | `#B08D4C` | Thin accents — window frame, crown molding, art frames |
+| Dusty blush   | `#E8C9C4` | Rug, soft washes                                       |
+| Warm sand     | `#EADFCF` | Floor, baseboards                                      |
+| Warm cream    | `#F4EBDD` | Side wall, ceiling, light surfaces                     |
+| Forest green  | `#2F4A3A` | Plant, one framed piece (minor accent)                 |
 
 **Set dressing:** maroon accent back wall, warm-cream side wall & ceiling with antique-gold crown molding, warm-sand floor, blush-and-maroon rug; a walnut desk with props (laptop, mug, books, plant, desk lamp with warm pool); a gold-framed window with golden daylight and light shafts; a bookshelf with colored spines; a framed-art trio. Warm, lived-in, luxe.
 
@@ -71,25 +73,25 @@ A warm, editorial, vintage-luxe **creator's room**, rendered photoreal, that per
 
 One normalized scroll progress `p` (0→1) drives everything. Percentages are provisional, tuned in-engine.
 
-| p | Beat | Room / Phone / Camera | Logos | Copy (one morphing line) |
-|---|---|---|---|---|
-| 0–10% | **Establish** | Room in golden daylight; phone rests on the desk; 3/4 establishing camera | in phone | *(line resolves in)* |
-| 10–22% | **Lift** | Phone rises off the desk into the room; camera eases frontal | in phone | **"Tech is loud."** |
-| 22–30% | **Burst** | Phone hero; desk + props stay below | logos **erupt** out of the phone, out of order | **"Tech is loud."** |
-| 30–40% | **Swirl** | — | logos flow toward organization | *(morphing…)* |
-| 40–50% | **Constellation** | warm glow peaks | logos **connect into a network map** above the desk | **"I make it make sense."** |
-| 50–58% | **Hold** | — | the map holds, lightly alive | *(holds)* |
-| 58–65% | **Return** | spotlight narrows to the phone | logos **flow back into the phone** | **"Sixty seconds. Zero fluff."** |
-| 64–74% | **Rotate** | phone turns to landscape; notch/contact fade | — | *(line clears)* |
-| 74–88% | **Push-through** | camera dives through the screen (bezels exit) + screen breakout | — | — |
-| 88–95% | **Reveal** | full-bleed content; soft vignette | — | **"Varsheni — tech that actually clicks."** |
-| 95–100% | **Bridge → portfolio** | continuous scroll into portfolio | — | **"So here's what that looks like."** → **"Recent obsessions."** |
+| p       | Beat                   | Room / Phone / Camera                                                     | Logos                                               | Copy (one morphing line)                                         |
+| ------- | ---------------------- | ------------------------------------------------------------------------- | --------------------------------------------------- | ---------------------------------------------------------------- |
+| 0–10%   | **Establish**          | Room in golden daylight; phone rests on the desk; 3/4 establishing camera | in phone                                            | _(line resolves in)_                                             |
+| 10–22%  | **Lift**               | Phone rises off the desk into the room; camera eases frontal              | in phone                                            | **"Tech is loud."**                                              |
+| 22–30%  | **Burst**              | Phone hero; desk + props stay below                                       | logos **erupt** out of the phone, out of order      | **"Tech is loud."**                                              |
+| 30–40%  | **Swirl**              | —                                                                         | logos flow toward organization                      | _(morphing…)_                                                    |
+| 40–50%  | **Constellation**      | warm glow peaks                                                           | logos **connect into a network map** above the desk | **"I make it make sense."**                                      |
+| 50–58%  | **Hold**               | —                                                                         | the map holds, lightly alive                        | _(holds)_                                                        |
+| 58–65%  | **Return**             | spotlight narrows to the phone                                            | logos **flow back into the phone**                  | **"Sixty seconds. Zero fluff."**                                 |
+| 64–74%  | **Rotate**             | phone turns to landscape; notch/contact fade                              | —                                                   | _(line clears)_                                                  |
+| 74–88%  | **Push-through**       | camera dives through the screen (bezels exit) + screen breakout           | —                                                   | —                                                                |
+| 88–95%  | **Reveal**             | full-bleed content; soft vignette                                         | —                                                   | **"Varsheni — tech that actually clicks."**                      |
+| 95–100% | **Bridge → portfolio** | continuous scroll into portfolio                                          | —                                                   | **"So here's what that looks like."** → **"Recent obsessions."** |
 
 ---
 
 ## 6. The logo system
 
-**Subject:** real companies the creator reviews. Representative set (final list TBD with creator): **YouTube, Instagram** (hero — also the creator's platforms), **Claude, OpenAI, Gemini, Figma, Notion, GitHub, Perplexity, Spotify, Stripe, Midjourney, Meta, Linear**.
+**Subject:** real companies the creator reviews. Representative set (final list TBD with creator): **YouTube, Instagram** (hero — also the creator's platforms), **Claude, OpenAI, Gemini, Figma, Notion, GitHub, Perplexity, Spotify, Stripe, Midjourney, Meta, Linear, Radix UI**.
 
 **Form:** each is a **3D version of the company's official logo** (extruded, glossy, PBR). Using the real marks is editorial/nominative (the creator reviews these companies) — **verify trademark usage per company; this is a defined asset step.** Hero logos (YouTube, Instagram) sit centrally and read slightly larger.
 
@@ -111,10 +113,11 @@ One normalized scroll progress `p` (0→1) drives everything. Percentages are pr
 
 ## 8. Copy, voice & motion
 
-**Voice:** Bold / Confident. **Structure:** independent punchlines building to the name reveal, then a *continuation* bridge into the portfolio.
+**Voice:** Bold / Confident. **Structure:** independent punchlines building to the name reveal, then a _continuation_ bridge into the portfolio.
 
 **The lines** (one persistent line, re-scrambling between each):
-1. "Tech is loud." 2. "I make it make sense." 3. "Sixty seconds. Zero fluff." 4. "Varsheni — tech that actually clicks." *(reveal)* 5. "So here's what that looks like." *(bridge)* → portfolio header "Recent obsessions."
+
+1. "Tech is loud." 2. "I make it make sense." 3. "Sixty seconds. Zero fluff." 4. "Varsheni — tech that actually clicks." _(reveal)_ 5. "So here's what that looks like." _(bridge)_ → portfolio header "Recent obsessions."
 
 **Motion — Decode / Scramble morph.** A single line re-scrambles its own characters from one statement into the next — never a fade; unsettled glyphs at ~50% opacity. Because a scramble is time-based while the scene is scroll-driven, it is **scroll-triggered, time-played**: crossing a beat triggers the ~0.7s decode; the phone/camera/logos scrub directly with `p`. Reversing scroll re-morphs to the previous line.
 
@@ -122,25 +125,25 @@ One normalized scroll progress `p` (0→1) drives everything. Percentages are pr
 
 ## 9. Technical architecture
 
-**Stack:** Next.js (latest, App Router) + React Three Fiber (latest) + `@react-three/drei` + `@react-three/postprocessing` (bloom). **Scroll:** Lenis (smooth scroll) + GSAP ScrollTrigger to pin the hero canvas and expose `p`; portfolio DOM sections live below in the same continuous scroll. *(Chosen over drei `ScrollControls`, which owns its own scroll container and fights a long mixed 3D+DOM page.)*
+**Stack:** Next.js (latest, App Router) + React Three Fiber (latest) + `@react-three/drei` + `@react-three/postprocessing` (bloom). **DOM/UI layer:** Tailwind CSS + **shadcn/ui** (Radix primitives) for **every** DOM element — text overlays, preloader, portfolio handoff, and any buttons/cards/progress — **no hand-rolled UI primitives**; the cherry-maroon palette is wired into the shadcn theme tokens (CSS variables). Custom domain layers with no shadcn equivalent (the R3F scene graph, the scramble-text effect) stay custom but render inside shadcn/Tailwind-styled containers. **Always install the latest stable version of every package.** **Scroll:** Lenis (smooth scroll) + GSAP ScrollTrigger to pin the hero canvas and expose `p`; portfolio DOM sections live below in the same continuous scroll. _(Chosen over drei `ScrollControls`, which owns its own scroll container and fights a long mixed 3D+DOM page.)_
 
 **Single source of truth:** one normalized `p` from a `ScrollProvider`, consumed by every rig; each maps `p` → its own state via a checkpoint table, independently tunable.
 
 **Modules (designed for isolation):**
 
-| Module | Responsibility | Input |
-|---|---|---|
-| `ScrollProvider` | Lenis + ScrollTrigger; emits `p` + section progress | scroll |
-| `HeroCanvas` | Pinned R3F `<Canvas>` + PostFX (bloom) | — |
-| `RoomEnvironment` | The cherry-maroon room: walls, desk, props, HDRI, lighting choreography | `p` |
-| `LogoField` | Real-company 3D logos: 7-checkpoint erupt → constellation → return, + connecting lines | `p` |
-| `PhoneRig` | Phone: rest-on-desk → lift → hero → rotate → push/breakout | `p` |
-| `ScreenContent` | App-grid → reel on the phone screen | `p` |
-| `CameraRig` | Establishing → frontal → push-through path | `p` |
-| `HookText` | DOM overlay; morphing scramble line | `p` |
-| `TitleReveal` | Name + bridge at climax | `p` |
-| `Preloader` | Asset loading + progress gate | — |
-| `PortfolioHandoff` | Seam into the portfolio (stub) | section progress |
+| Module             | Responsibility                                                                         | Input            |
+| ------------------ | -------------------------------------------------------------------------------------- | ---------------- |
+| `ScrollProvider`   | Lenis + ScrollTrigger; emits `p` + section progress                                    | scroll           |
+| `HeroCanvas`       | Pinned R3F `<Canvas>` + PostFX (bloom)                                                 | —                |
+| `RoomEnvironment`  | The cherry-maroon room: walls, desk, props, HDRI, lighting choreography                | `p`              |
+| `LogoField`        | Real-company 3D logos: 7-checkpoint erupt → constellation → return, + connecting lines | `p`              |
+| `PhoneRig`         | Phone: rest-on-desk → lift → hero → rotate → push/breakout                             | `p`              |
+| `ScreenContent`    | App-grid → reel on the phone screen                                                    | `p`              |
+| `CameraRig`        | Establishing → frontal → push-through path                                             | `p`              |
+| `HookText`         | DOM overlay; morphing scramble line                                                    | `p`              |
+| `TitleReveal`      | Name + bridge at climax                                                                | `p`              |
+| `Preloader`        | Asset loading + progress gate                                                          | —                |
+| `PortfolioHandoff` | Seam into the portfolio (stub)                                                         | section progress |
 
 **Asset pipeline:** Draco geometry + KTX2 textures; HDRI environment; baked lighting/lightmaps where possible; a few dynamic lights (window sun, lamp, screen glow); instancing/LODs for logos; capped dynamic shadows; a gated loading screen with progress. **First build step: a photoreal material/lighting test** (real desk asset + HDRI) to validate fidelity and budget before full assembly.
 

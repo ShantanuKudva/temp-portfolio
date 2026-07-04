@@ -16,7 +16,7 @@ One continuous, fully scroll-driven page. The hero is a photoreal cherry-maroon 
 
 1. **Establish** — room, phone resting on a propped walnut desk, golden daylight
 2. **Lift** — scroll lifts the phone off the desk → *"Tech is loud."*
-3. **Burst** — 3D logos of real companies the creator covers (YouTube, Instagram, Claude, OpenAI, Gemini, Figma, Notion, GitHub, Perplexity, Spotify, Stripe, Midjourney, Meta, Linear) erupt out of the phone, out of order
+3. **Burst** — 3D logos of real companies the creator covers (YouTube, Instagram, Claude, OpenAI, Gemini, Figma, Notion, GitHub, Perplexity, Spotify, Stripe, Midjourney, Meta, Linear, Radix UI) erupt out of the phone, out of order
 4. **Constellation** — logos connect into a network map above the desk → *"I make it make sense."*
 5. **Return** — the map flows back into the phone → *"Sixty seconds. Zero fluff."*
 6. **Rotate + Push-through** — phone turns landscape, camera dives through the screen
@@ -29,6 +29,7 @@ The cherry-maroon room is the **persistent setting** (desk + props stay visible 
 ## Tech stack (decided)
 
 - **Next.js** (latest, App Router) + **React Three Fiber** (latest) + `@react-three/drei` + `@react-three/postprocessing` (bloom)
+- **DOM/UI:** Tailwind + **shadcn/ui** (Radix primitives) for **all** DOM UI — overlays, preloader, portfolio handoff, buttons/cards/progress. **No hand-rolled UI primitives ever.** Palette wired into shadcn theme tokens. Custom-only where shadcn has no equivalent (R3F scene, scramble effect), rendered inside shadcn/Tailwind containers. **Always install latest stable package versions.**
 - **Scroll:** Lenis (smooth) + GSAP ScrollTrigger to pin the hero canvas and expose progress. **Not** drei `ScrollControls` (it owns its own scroll container and fights a long mixed 3D+DOM page).
 - **One normalized scroll progress `p` (0..1)** drives every rig; each rig maps `p` → its state via a checkpoint table (independently tunable). Modules: `ScrollProvider`, `HeroCanvas`, `RoomEnvironment`, `LogoField`, `PhoneRig`, `ScreenContent`, `CameraRig`, `HookText`, `TitleReveal`, `Preloader`, `PortfolioHandoff`.
 - **Photoreal is a build given** — real modeled/textured assets, PBR, HDRI, baked GI, Draco geometry + KTX2 textures, gated preloader. Validate fidelity + perf budget as **build step one** (real desk asset + HDRI). Primitive mocks only prove choreography.
