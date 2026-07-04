@@ -1,8 +1,15 @@
 "use client";
 import { useEffect, useMemo, useRef } from "react";
-import { useFrame } from "@react-three/fiber";
-import { Environment, useGLTF } from "@react-three/drei";
-import { Object3D, Box3, CanvasTexture, RepeatWrapping } from "three";
+import { useFrame, useThree } from "@react-three/fiber";
+import { Environment, useGLTF, useTexture } from "@react-three/drei";
+import {
+  Object3D,
+  Box3,
+  CanvasTexture,
+  RepeatWrapping,
+  SRGBColorSpace,
+} from "three";
+import { mulberry32 } from "@/lib/rng";
 import type {
   SpotLight,
   Mesh,
@@ -37,24 +44,50 @@ const DESK_MAT_COLORS: Record<string, string> = {
   wire_204204204: "#0B0D12", // monitor screens → off/dark
   wire_086086086: "#CBCBD0", // game controllers → matte light grey (kill the metallic silver)
 };
+// Per-mesh colours. Mesh names verified by raycast (scripts/pick-desk.mjs), NOT the
+// unreliable model-space bbox dump — several earlier guesses were wrong.
 const DESK_MESH_COLORS: Record<string, string> = {
+  // chair
   Object_15: "#33343A",
   Object_16: "#33343A",
   Object_33: "#33343A",
-  Object_34: "#33343A", // chair → charcoal
-  Object_57: "#26262A", // keyboard → dark
+  Object_34: "#33343A",
+  // plant / pampas in the vase → green
   Object_12: "#4C7A3C",
-  Object_13: "#4C7A3C", // dried pampas in the vase → green
+  Object_13: "#4C7A3C",
+  // monitor bodies → near-black
   Object_31: "#1B1B1F",
-  Object_32: "#1B1B1F", // monitor bodies → near-black
-  Object_58: "#6E5334", // pegboard → cork/wood
+  Object_32: "#1B1B1F",
+  // desk lamp → dark metal
   Object_17: "#2E2E33",
   Object_28: "#2E2E33",
-  Object_50: "#2E2E33", // desk lamp → dark metal
-  Object_60: "#AAB0B6", // pen-cup pens/scissors → metal
-  Object_26: "#232327", // headphones → black
-  Object_39: "#6E4E32", // desk apron/frame → solid wood (was reading dark)
+  Object_50: "#2E2E33",
+  // pegboards (left + right) → cork/wood
+  Object_18: "#6E5334",
+  Object_11: "#6E5334",
+  // headphones → black
+  Object_26: "#232327",
+  // pens / scissors in the cup → metal
+  Object_60: "#AAB0B6",
+  // pen-holder cup → dark walnut
+  Object_27: "#463628",
+  // stapler → near-black
+  Object_42: "#242428",
+  // mac mini → space-grey aluminium (lighter blew out to white under the key)
+  Object_25: "#83888F",
+  // keyboard base + keys → dark
+  Object_48: "#26262A",
+  Object_51: "#3A3A40",
+  // magazine / box files on the shelf → slate
+  Object_58: "#3E4650",
+  // blotter / mousepad → charcoal
+  Object_57: "#26262A",
 };
+// Meshes to remove entirely. Object_41 = the wide backing boards behind the
+// pegboards the user asked to drop ("theres boards here. remove that").
+// Object_56 = the mouse the hero phone was resting on (freed the phone's spot
+// without shoving it to the desk edge).
+const DESK_HIDE = new Set<string>(["Object_41", "Object_56"]);
 const DESK_DEBUG = false; // rainbow-ID pass (scripts/inspect-desk.mjs reads window.__deskMeshes)
 
 // The gaming desk-setup: authored in mm (bbox ~2234×1915×1280) → ×0.001 to
@@ -74,11 +107,7 @@ function DeskSetup() {
     cv.width = cv.height = 512;
     const ctx = cv.getContext("2d");
     if (!ctx) return null;
-    let s = 99;
-    const rnd = () => {
-      s = (s * 1103515245 + 12345) & 0x7fffffff;
-      return s / 0x7fffffff;
-    };
+    const rnd = mulberry32(99);
     const img = ctx.createImageData(512, 512);
     const d = img.data;
     for (let i = 0, p = 0; i < 512 * 512; i++, p += 4) {
@@ -103,6 +132,10 @@ function DeskSetup() {
     scene.traverse((o) => {
       const m = o as Mesh;
       if (!m.isMesh) return;
+      if (DESK_HIDE.has(m.name)) {
+        m.visible = false; // dropped item (also stops it casting shadows)
+        return;
+      }
       m.castShadow = true;
       m.receiveShadow = true;
       const std = m.material as MeshStandardMaterial;
@@ -219,30 +252,49 @@ export default function RoomEnvironment() {
   const liftTarget = useMemo(() => new Object3D(), []);
   const shadowFrames = useRef(0);
 
-  // Subtle plaster grain so the wall isn't a flat CG plane.
-  const wallBump = useMemo(() => {
-    if (typeof document === "undefined") return null;
-    const cv = document.createElement("canvas");
-    cv.width = cv.height = 256;
-    const ctx = cv.getContext("2d");
-    if (!ctx) return null;
-    let s = 1234;
-    const rnd = () => {
-      s = (s * 1103515245 + 12345) & 0x7fffffff;
-      return s / 0x7fffffff;
+  // DEBUG: expose a raycast picker so scripts/pick-desk.mjs can turn a screen point
+  // into the exact mesh name it hits (reliable per-item ID, no hue-matching).
+  const { scene, camera, raycaster } = useThree();
+  useEffect(() => {
+    if (!DESK_DEBUG) return;
+    (
+      window as unknown as { __pick?: (nx: number, ny: number) => unknown }
+    ).__pick = (nx, ny) => {
+      raycaster.setFromCamera({ x: nx, y: ny } as never, camera);
+      const hit = raycaster.intersectObjects(scene.children, true)[0];
+      const o = hit?.object as Mesh | undefined;
+      return o
+        ? { name: o.name, mat: (o.material as MeshStandardMaterial)?.name }
+        : null;
     };
-    ctx.fillStyle = "#808080";
-    ctx.fillRect(0, 0, 256, 256);
-    for (let i = 0; i < 14000; i++) {
-      const v = 96 + rnd() * 104;
-      ctx.fillStyle = `rgb(${v},${v},${v})`;
-      ctx.fillRect(rnd() * 256, rnd() * 256, 1, 1);
-    }
-    const t = new CanvasTexture(cv);
+  }, [scene, camera, raycaster]);
+
+  // Real concrete wall (Poly Haven concrete_wall_009, 4K diffuse → 2K web jpg).
+  // Loaded through drei useTexture so it streams under the preloader gate. We clone
+  // it before configuring — the hook's own texture is frozen (React Compiler) and
+  // the clone shares the image data (no re-decode). Reused as a subtle bump too.
+  const rawWall = useTexture("/assets/textures/concrete-wall.jpg");
+  const wallTex = useMemo(() => {
+    const t = rawWall.clone();
     t.wrapS = t.wrapT = RepeatWrapping;
     t.repeat.set(3, 2);
+    t.colorSpace = SRGBColorSpace;
+    t.anisotropy = 8;
+    t.needsUpdate = true;
     return t;
-  }, []);
+  }, [rawWall]);
+
+  // Plank wood flooring (Poly Haven plank_flooring_04, 4K → 2K web jpg).
+  const rawFloor = useTexture("/assets/textures/plank-floor.jpg");
+  const floorTex = useMemo(() => {
+    const t = rawFloor.clone();
+    t.wrapS = t.wrapT = RepeatWrapping;
+    t.repeat.set(4, 4);
+    t.colorSpace = SRGBColorSpace;
+    t.anisotropy = 8;
+    t.needsUpdate = true;
+    return t;
+  }, [rawFloor]);
 
   useFrame((state) => {
     const p = getP();
@@ -283,14 +335,15 @@ export default function RoomEnvironment() {
         position={[-3, 3.6, 2.4]}
         intensity={ENV_BASE.key}
         color="#FFEAD2"
-        shadow-mapSize={[2048, 2048]}
-        shadow-bias={-0.00018}
-        shadow-camera-near={0.1}
-        shadow-camera-far={12}
-        shadow-camera-left={-4}
-        shadow-camera-right={4}
-        shadow-camera-top={4}
-        shadow-camera-bottom={-4}
+        shadow-mapSize={[4096, 4096]}
+        shadow-bias={-0.00015}
+        shadow-normalBias={0.02}
+        shadow-camera-near={0.5}
+        shadow-camera-far={11}
+        shadow-camera-left={-3.2}
+        shadow-camera-right={3.2}
+        shadow-camera-top={3.2}
+        shadow-camera-bottom={-3.2}
       />
       {/* Cool soft fill from the opposite side to open the shadows. */}
       <directionalLight
@@ -352,15 +405,17 @@ export default function RoomEnvironment() {
         target={liftTarget}
       />
 
-      {/* Warm coloured back wall the desk sits against + a floor. Both receive the
-          sun's shadows — the lamp casts onto the wall, the blinds cast the rays. */}
-      <mesh position={[0.1, 1.3, -0.3]} receiveShadow>
+      {/* Concrete back wall, pulled FORWARD to sit right behind the wall-mounted
+          items (pegboard/shelf/wall-lamp) so they read as fixed to it — no floating
+          gap — and so it catches their cast shadows. */}
+      <mesh position={[0.1, 1.3, -0.05]} receiveShadow>
         <planeGeometry args={[10, 6]} />
         <meshStandardMaterial
-          color="#4E332F"
+          color="#D8CFC6"
+          map={wallTex}
+          bumpMap={wallTex}
+          bumpScale={1.0}
           roughness={0.95}
-          bumpMap={wallBump ?? undefined}
-          bumpScale={2.5}
         />
       </mesh>
       {/* back wall — deep warm clay, closer so it catches the desk's shadow */}
@@ -370,9 +425,13 @@ export default function RoomEnvironment() {
         receiveShadow
       >
         <planeGeometry args={[10, 7]} />
-        <meshStandardMaterial color="#2A1D18" roughness={1} />
+        <meshStandardMaterial
+          color="#9C8468"
+          map={floorTex}
+          roughness={0.85}
+        />
       </mesh>
-      {/* floor */}
+      {/* plank wood floor */}
 
       <DeskSetup />
       <Plants position={[-1.9, -0.6, -0.4]} />

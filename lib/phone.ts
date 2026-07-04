@@ -21,7 +21,7 @@ export const PHONE_SCALE = 1.2;
 // it read as lying flush/inlaid INTO the tabletop rather than on it. 0.209
 // seats it cleanly on top (well under the phone test's y<0.4 "on desk" gate).
 export const PHONE_POS: Keyframe<Tuple3>[] = [
-  { at: BEAT.establishStart, value: [0.35, 0.209, 0.55] },             // resting on the desk
+  { at: BEAT.establishStart, value: [0.35, 0.209, 0.55] },             // resting on the desk (mouse hidden so it's clear)
   { at: BEAT.liftStart,      value: [0.35, 0.209, 0.55] },
   { at: BEAT.burstStart,     value: PHONE_HERO_POS, ease: 'outCubic' },// lifted hero
   { at: BEAT.returnStart,    value: PHONE_HERO_POS },                  // holds hero
