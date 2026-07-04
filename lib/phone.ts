@@ -3,35 +3,27 @@ import { BEAT } from '@/lib/timeline';
 
 export const PHONE_HERO_POS: Tuple3 = [0, 0.95, 1.15];
 
-// Uniform scale applied to the raw `phone.glb` model (Task 6). The GLB is
-// authored at ~10x real-world scale — bbox 0.791 x 1.580 x 0.082m (verified
-// via `gltf-transform inspect` + a headless three.js bbox probe). An initial
-// pass tried a "hero-sized" 0.78 scale (matching the plan's deliberately
-// oversized mock phone, ~0.62 x 1.28m) — but rendered against the *real*
-// desk asset this stood nearly a meter tall and clipped straight through the
-// tabletop; a phone that size reads as absurd, not heroic. Corrected to a
-// REALISTIC scale: 0.1 gives 0.0791 x 0.1580 x 0.0082m, matching a real
-// iPhone (~0.075 x 0.15 x 0.008m per ASSETS.md) almost exactly — the model's
-// own documented "just needs a uniform x0.1 scale" note. At establish this
-// necessarily reads small/normal-sized on the desk rather than heroic; at
-// the hero beat it will also read small against the current *static*
-// placeholder camera — expected, not a bug, since Task 7's CameraRig pushes
-// in to frame it (see PhoneRig.tsx / task report for detail).
-export const PHONE_SCALE = 0.1;
+// Uniform scale applied to the raw `phone.glb` model. The asset is the iPhone
+// 14 Pro (Sketchfab, meshopt+webp) — authored at ~real-world scale, bbox
+// 0.0836 x 0.1709 x 0.0131m (`gltf-transform inspect`). A true-to-life scale
+// read as "too small" for a hero landing (a real phone on a real desk is a
+// speck from the establishing camera), so we deliberately HERO-size it: 1.4
+// gives ~0.117 x 0.239 x 0.018m — a bold, dominant phone that STILL lies flat
+// on the desk at establish without clipping the tabletop (unlike the earlier
+// ~1m mock that punched straight through it). The CameraRig frames it as the
+// subject; this scale sets its heft.
+export const PHONE_SCALE = 1.4;
 
 // Desk top surface world Y ≈ 0.1994 (desk bboxMax.y=0.79941 [gltf-transform
-// inspect] + desk position.y=-0.6 [RoomEnvironment.tsx]). At PHONE_SCALE=0.1
-// lying flat, the phone's own half-thickness is only ~0.004m, so resting
-// its base exactly on the surface needs establishStart/liftStart y≈0.2035 —
-// a few mm over this test suite's `toBeLessThan(0.2)` gate (chosen, it
-// appears, as an approximation of this same desk height). Using 0.199
-// (just under the gate) embeds the phone by ~4mm out of its ~8mm total
-// thickness — sub-pixel at this camera distance, not visible in the verify
-// screenshots, vs. the ~0.6m clip the original 0.06/steep-tilt combination
-// produced once the phone was realistically sized.
+// inspect] + desk position.y=-0.6 [RoomEnvironment.tsx]). At PHONE_SCALE=1.4
+// lying flat the phone is ~0.0183m thick (half ≈ 0.0092m), so its center must
+// sit at ~0.209 for the base to REST ON the surface. The prior 0.199 (tuned
+// for the thin 0.1-scale phone) left this thicker hero phone embedded ~10mm —
+// it read as lying flush/inlaid INTO the tabletop rather than on it. 0.209
+// seats it cleanly on top (well under the phone test's y<0.4 "on desk" gate).
 export const PHONE_POS: Keyframe<Tuple3>[] = [
-  { at: BEAT.establishStart, value: [0.35, 0.199, 0.55] },             // flat on the desk
-  { at: BEAT.liftStart,      value: [0.35, 0.199, 0.55] },
+  { at: BEAT.establishStart, value: [0.35, 0.209, 0.55] },             // resting on the desk
+  { at: BEAT.liftStart,      value: [0.35, 0.209, 0.55] },
   { at: BEAT.burstStart,     value: PHONE_HERO_POS, ease: 'outCubic' },// lifted hero
   { at: BEAT.returnStart,    value: PHONE_HERO_POS },                  // holds hero
   { at: BEAT.rotateStart,    value: PHONE_HERO_POS },
