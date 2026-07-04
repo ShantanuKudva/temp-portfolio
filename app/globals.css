@@ -130,3 +130,121 @@
     @apply font-sans;
   }
 }
+
+/* ── Preloader ─────────────────────────────────────────────────────────────
+   Full-screen gate over the hero canvas: a 3D gyroscope spinner counting to
+   100%. Warm-dark ground (matches the scene bg #130D0A) so the reveal is a
+   fade, not a cut. Cherry-maroon / antique-gold / dusty-blush rings. */
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2.25rem;
+  background: radial-gradient(120% 120% at 50% 32%, #1c120e 0%, #130d0a 58%, #0c0705 100%);
+  opacity: 1;
+  transition: opacity 0.7s ease;
+  will-change: opacity;
+}
+.preloader[data-ready="1"] {
+  opacity: 0;
+}
+.preloader__eyebrow {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  text-transform: uppercase;
+  letter-spacing: 0.55em;
+  font-size: 0.72rem;
+  padding-left: 0.55em;
+  color: #b08d4c;
+}
+.preloader__spinner {
+  position: relative;
+  width: 176px;
+  height: 176px;
+  transform-style: preserve-3d;
+  perspective: 760px;
+}
+.preloader__ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid transparent;
+}
+.preloader__ring--1 {
+  inset: 0;
+  border-top-color: #b08d4c;
+  border-bottom-color: #b08d4c;
+  animation: pl-spin-1 2.2s linear infinite;
+}
+.preloader__ring--2 {
+  inset: 22px;
+  border-left-color: #7b1e2b;
+  border-right-color: #7b1e2b;
+  animation: pl-spin-2 1.7s linear infinite;
+}
+.preloader__ring--3 {
+  inset: 44px;
+  border-top-color: #e8c9c4;
+  border-bottom-color: #e8c9c4;
+  animation: pl-spin-3 1.35s linear infinite;
+}
+.preloader__count {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 2.3rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: #f4ebdd;
+  font-variant-numeric: tabular-nums;
+}
+.preloader__count i {
+  font-style: normal;
+  font-size: 1rem;
+  opacity: 0.55;
+  align-self: flex-start;
+  margin: 0.55rem 0 0 0.1rem;
+}
+.preloader__bar {
+  width: 176px;
+  height: 2px;
+  background: rgba(176, 141, 76, 0.16);
+  overflow: hidden;
+  border-radius: 2px;
+}
+.preloader__bar > span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, #7b1e2b, #b08d4c);
+  transition: width 0.3s ease;
+}
+.preloader__label {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  color: rgba(244, 235, 221, 0.5);
+}
+/* rings tilt into 3D, then spin in their own tilted plane → gyroscope */
+@keyframes pl-spin-1 {
+  from { transform: rotateX(66deg) rotateZ(0deg); }
+  to   { transform: rotateX(66deg) rotateZ(360deg); }
+}
+@keyframes pl-spin-2 {
+  from { transform: rotateY(68deg) rotateZ(0deg); }
+  to   { transform: rotateY(68deg) rotateZ(-360deg); }
+}
+@keyframes pl-spin-3 {
+  from { transform: rotateX(58deg) rotateY(32deg) rotateZ(0deg); }
+  to   { transform: rotateX(58deg) rotateY(32deg) rotateZ(360deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .preloader__ring { animation: none; }
+  .preloader__ring--1 { transform: rotateX(66deg); }
+  .preloader__ring--2 { transform: rotateY(68deg); }
+  .preloader__ring--3 { transform: rotateX(58deg) rotateY(32deg); }
+}
