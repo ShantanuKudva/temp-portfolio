@@ -176,46 +176,74 @@ function Plants({
 }
 useGLTF.preload("/assets/plants.glb", false, false, withMeshopt);
 
-// ONE plant cut from the cluster and RECENTERED (base dropped to y=0) so a single
-// pot sits cleanly ON the desk without clipping. `band` picks which x-slice of the
-// cluster to keep (→ a different plant per spot).
-function DeskPlant({
+// ONE plant lifted out of the cluster by MESH NAME and RECENTERED (base dropped to
+// y=0, centred in x/z), then dropped into a procedural planter so it stands cleanly.
+// plants.glb is a planter arrangement, NOT discrete pots — most meshes are wide
+// soil-beds/troughs (Object_16/10/4/12, up to 2.5m across) and even the upright
+// plants ship WITHOUT their own pot (Object_30 = a braided money-tree whose bare
+// trunk clipped through the desk). So we keep one plant by name and give it a pot
+// we control. See scripts/inspect-plants.mjs.
+function PottedPlant({
   position,
   scale = 1,
-  band = [0.6, 1.4],
+  keep,
+  pot,
 }: {
   position: [number, number, number];
   scale?: number;
-  band?: [number, number];
+  keep: string[];
+  // pot dims are in the plant's LOCAL (pre-scale) space; h = rim height
+  pot?: { h: number; topR: number; botR: number; color?: string };
 }) {
   const { scene } = useGLTF("/assets/plants.glb", false, false, withMeshopt);
+  const keepKey = keep.join(",");
   const obj = useMemo(() => {
     const c = scene.clone(true);
     c.updateMatrixWorld(true);
-    const keep = new Box3();
+    const wanted = new Set(keep);
+    const box = new Box3();
     c.traverse((o) => {
       const m = o as Mesh;
       if (!m.isMesh) return;
       m.castShadow = true;
       m.receiveShadow = true;
-      const b = new Box3().setFromObject(m);
-      const cx = (b.min.x + b.max.x) / 2;
-      m.visible = cx >= band[0] && cx <= band[1];
-      if (m.visible) keep.union(b);
+      m.visible = wanted.has(m.name);
+      if (m.visible) box.union(new Box3().setFromObject(m));
     });
-    if (!keep.isEmpty()) {
+    if (!box.isEmpty()) {
       c.position.set(
-        -(keep.min.x + keep.max.x) / 2,
-        -keep.min.y,
-        -(keep.min.z + keep.max.z) / 2,
+        -(box.min.x + box.max.x) / 2,
+        -box.min.y,
+        -(box.min.z + box.max.z) / 2,
       );
     }
     return c;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [scene, band[0], band[1]]);
+  }, [scene, keepKey]);
+  // Seat the foliage so its trunk sinks into the soil rather than floating.
+  const seatY = pot ? pot.h - 0.05 : 0;
   return (
     <group position={position} scale={scale}>
-      <primitive object={obj} />
+      {pot && (
+        <group>
+          {/* tapered planter */}
+          <mesh position={[0, pot.h / 2, 0]} castShadow receiveShadow>
+            <cylinderGeometry args={[pot.topR, pot.botR, pot.h, 28]} />
+            <meshStandardMaterial
+              color={pot.color ?? "#3B3A36"}
+              roughness={0.85}
+            />
+          </mesh>
+          {/* soil cap so you can't see into the pot */}
+          <mesh position={[0, pot.h - 0.02, 0]} receiveShadow>
+            <cylinderGeometry
+              args={[pot.topR * 0.9, pot.topR * 0.9, 0.03, 28]}
+            />
+            <meshStandardMaterial color="#241A12" roughness={1} />
+          </mesh>
+        </group>
+      )}
+      <primitive object={obj} position={[0, seatY, 0]} />
     </group>
   );
 }
@@ -420,9 +448,14 @@ export default function RoomEnvironment() {
 
       <DeskSetup />
       <Plants position={[-1.9, -0.6, -0.4]} />
-      {/* a couple of plants cut from the cluster, on the RIGHT side of the desk */}
-      <DeskPlant position={[-0.5, 0.2, 0.16]} scale={0.5} band={[-1.4, -0.35]} />
-      <DeskPlant position={[0.9, 0.2, 0.12]} scale={0.5} band={[0.45, 1.4]} />
+      {/* Braided money tree — a FLOOR plant, in a planter, standing beside the desk
+          (back-right corner) so its foliage rises above the desk like a real setup. */}
+      <PottedPlant
+        position={[1.55, -0.6, -0.15]}
+        scale={2.0}
+        keep={["Object_30"]}
+        pot={{ h: 0.16, topR: 0.15, botR: 0.12, color: "#2E2A26" }}
+      />
     </group>
   );
 }
