@@ -1,5 +1,6 @@
 import ScrollProvider from '@/components/scroll/ScrollProvider';
 import HeroCanvas from '@/components/hero/HeroCanvas';
+import HookText from '@/components/overlay/HookText';
 
 export default function Page() {
   return (
@@ -7,6 +8,7 @@ export default function Page() {
       <ScrollProvider>
         <section className="h-screen w-full">
           <HeroCanvas />
+          <HookText />
         </section>
       </ScrollProvider>
       <section className="h-screen w-full" />{/* below-hero spacer; PortfolioHandoff replaces later */}
