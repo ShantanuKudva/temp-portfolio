@@ -68,13 +68,15 @@ function DeskSetup() {
 }
 useGLTF.preload('/assets/desk-setup.glb', false, false, withMeshopt);
 
-// House plants (metre-scale cluster) dressed to the left of the desk.
-function Plants() {
+// House plants (metre-scale cluster). Cloned per instance so we can place more
+// than one (floor cluster + a small pot on the desk).
+function Plants({ position, scale = 1 }: { position: [number, number, number]; scale?: number }) {
   const { scene } = useGLTF('/assets/plants.glb', false, false, withMeshopt);
+  const obj = useMemo(() => scene.clone(true), [scene]);
   useEffect(() => {
-    scene.traverse((o) => { const m = o as Mesh; if (m.isMesh) { m.castShadow = true; m.receiveShadow = true; } });
-  }, [scene]);
-  return <primitive object={scene} scale={1} position={[-1.9, -0.6, -0.4]} />;
+    obj.traverse((o) => { const m = o as Mesh; if (m.isMesh) { m.castShadow = true; m.receiveShadow = true; } });
+  }, [obj]);
+  return <primitive object={obj} scale={scale} position={position} />;
 }
 useGLTF.preload('/assets/plants.glb', false, false, withMeshopt);
 
@@ -117,12 +119,25 @@ export default function RoomEnvironment() {
 
       {/* Warm modeling key (soft daylight) — gives the desk shape + warmth. */}
       <ambientLight intensity={0.2} color="#FFE7CC" />
-      <directionalLight castShadow position={[-2.5, 4, 3]} intensity={2.6} color="#FFE1B6"
-        shadow-mapSize={[2048, 2048]} shadow-bias={-0.0002} />
+      <directionalLight castShadow position={[-3, 3.6, 2.4]} intensity={3.0} color="#FFDCA8"
+        shadow-mapSize={[2048, 2048]} shadow-bias={-0.00018}
+        shadow-camera-near={0.1} shadow-camera-far={12}
+        shadow-camera-left={-4} shadow-camera-right={4} shadow-camera-top={4} shadow-camera-bottom={-4} />
       {/* Cool soft fill from the opposite side to open the shadows. */}
       <directionalLight position={[3, 2.2, 0.5]} intensity={0.5} color="#CFE0FF" />
       {/* Cozy desk-lamp glow pooling warm light on the phone/desk. */}
       <pointLight position={[0.02, 0.42, 0.12]} intensity={1.5} distance={1.8} decay={2} color="#FFC98A" />
+
+      {/* Window blinds off-frame to the left — the sun rakes through them and
+          throws warm striped light-rays (REAL shadows) across the back wall. */}
+      <group position={[-2.5, 1.3, 0.1]} rotation={[0, 0.6, 0]}>
+        {[0, 1, 2, 3, 4, 5, 6, 7].map((i) => (
+          <mesh key={i} position={[0, 0.85 - i * 0.2, 0]} castShadow>
+            <boxGeometry args={[2.2, 0.1, 0.02]} />
+            <meshStandardMaterial color="#241812" roughness={1} />
+          </mesh>
+        ))}
+      </group>
 
       {/* Sequence spotlights (kick in on later beats). */}
       <primitive object={returnTarget} position={[0, 0.95, 1.15]} />
@@ -134,14 +149,21 @@ export default function RoomEnvironment() {
       <spotLight ref={liftB} position={[2.4, 3.2, 0.4]} angle={0.6} penumbra={0.8} decay={1}
         color="#CBD5E1" target={liftTarget} />
 
-      {/* Warm dark backdrop behind the desk (mostly out of frame in the close-up). */}
-      <mesh position={[0, 0.7, -2.4]}>
-        <planeGeometry args={[16, 9]} />
-        <meshStandardMaterial color="#1C130F" roughness={1} metalness={0} />
-      </mesh>
+      {/* Warm coloured back wall the desk sits against + a floor. Both receive the
+          sun's shadows — the lamp casts onto the wall, the blinds cast the rays. */}
+      <mesh position={[0.1, 1.3, -0.55]} receiveShadow>
+        <planeGeometry args={[10, 6]} />
+        <meshStandardMaterial color="#6E4B44" roughness={0.95} />
+      </mesh>{/* back wall — warm muted maroon-clay */}
+      <mesh position={[0.1, -0.6, 0.4]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
+        <planeGeometry args={[10, 7]} />
+        <meshStandardMaterial color="#2A1D18" roughness={1} />
+      </mesh>{/* floor */}
 
       <DeskSetup />
-      <Plants />
+      <Plants position={[-1.9, -0.6, -0.4]} />
+      {/* a small plant on the desk itself (back-right corner) */}
+      <Plants position={[0.78, 0.2, 0.14]} scale={0.3} />
     </group>
   );
 }
