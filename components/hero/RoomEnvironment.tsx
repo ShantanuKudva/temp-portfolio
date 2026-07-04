@@ -1,18 +1,27 @@
-'use client';
-import { useEffect, useMemo, useRef } from 'react';
-import { useFrame } from '@react-three/fiber';
-import { Environment, useGLTF } from '@react-three/drei';
-import { Object3D, Box3, CanvasTexture, RepeatWrapping } from 'three';
-import type { SpotLight, Mesh, MeshStandardMaterial, DirectionalLight, AmbientLight, PointLight } from 'three';
-import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module.js';
-import { getP } from '@/lib/store';
-import { BEAT } from '@/lib/timeline';
-import { sampleNumber, type Keyframe } from '@/lib/track';
+"use client";
+import { useEffect, useMemo, useRef } from "react";
+import { useFrame } from "@react-three/fiber";
+import { Environment, useGLTF } from "@react-three/drei";
+import { Object3D, Box3, CanvasTexture, RepeatWrapping } from "three";
+import type {
+  SpotLight,
+  Mesh,
+  MeshStandardMaterial,
+  DirectionalLight,
+  AmbientLight,
+  PointLight,
+} from "three";
+import { MeshoptDecoder } from "three/examples/jsm/libs/meshopt_decoder.module.js";
+import { getP } from "@/lib/store";
+import { BEAT } from "@/lib/timeline";
+import { sampleNumber, type Keyframe } from "@/lib/track";
 
 // ORYZO DESK CLOSE-UP. Warm high-angle close-up of the creator's desk — the real
 // Sketchfab desk-setup + house plants ARE the environment, the iPhone the hero.
 
-const withMeshopt = (loader: Parameters<NonNullable<Parameters<typeof useGLTF>[3]>>[0]) => {
+const withMeshopt = (
+  loader: Parameters<NonNullable<Parameters<typeof useGLTF>[3]>>[0],
+) => {
   loader.setMeshoptDecoder(MeshoptDecoder);
 };
 
@@ -24,35 +33,52 @@ const withMeshopt = (loader: Parameters<NonNullable<Parameters<typeof useGLTF>[3
 // — a wooden desk, not white. Screens → dark. Then per-mesh overrides (names from
 // the desk-mesh inspector, scripts/inspect-desk.mjs) recolour the tech items.
 const DESK_MAT_COLORS: Record<string, string> = {
-  wire_088144225: '#CAA987', // bulk → warm wood tint (toned down the orange)
-  wire_204204204: '#0B0D12', // monitor screens → off/dark
+  wire_088144225: "#CAA987", // bulk → warm wood tint (toned down the orange)
+  wire_204204204: "#0B0D12", // monitor screens → off/dark
+  wire_086086086: "#CBCBD0", // game controllers → matte light grey (kill the metallic silver)
 };
 const DESK_MESH_COLORS: Record<string, string> = {
-  Object_15: '#33343A', Object_16: '#33343A', Object_33: '#33343A', Object_34: '#33343A', // chair → charcoal
-  Object_57: '#26262A', // keyboard → dark
-  Object_12: '#4C7A3C', Object_13: '#4C7A3C', // dried pampas in the vase → green
-  Object_31: '#1B1B1F', Object_32: '#1B1B1F', // monitor bodies → near-black
-  Object_58: '#6E5334', // pegboard → cork/wood
-  Object_17: '#2E2E33', Object_28: '#2E2E33', Object_50: '#2E2E33', // desk lamp → dark metal
-  Object_60: '#AAB0B6', // pen-cup contents (pens/scissors) → metal
-  Object_26: '#232327', // headphones (best-guess) → black
+  Object_15: "#33343A",
+  Object_16: "#33343A",
+  Object_33: "#33343A",
+  Object_34: "#33343A", // chair → charcoal
+  Object_57: "#26262A", // keyboard → dark
+  Object_12: "#4C7A3C",
+  Object_13: "#4C7A3C", // dried pampas in the vase → green
+  Object_31: "#1B1B1F",
+  Object_32: "#1B1B1F", // monitor bodies → near-black
+  Object_58: "#6E5334", // pegboard → cork/wood
+  Object_17: "#2E2E33",
+  Object_28: "#2E2E33",
+  Object_50: "#2E2E33", // desk lamp → dark metal
+  Object_60: "#AAB0B6", // pen-cup pens/scissors → metal
+  Object_26: "#232327", // headphones → black
+  Object_39: "#6E4E32", // desk apron/frame → solid wood (was reading dark)
 };
 const DESK_DEBUG = false; // rainbow-ID pass (scripts/inspect-desk.mjs reads window.__deskMeshes)
 
 // The gaming desk-setup: authored in mm (bbox ~2234×1915×1280) → ×0.001 to
 // metres; base at y=0 sits on the room floor at world y=-0.6. Faces +Z.
 function DeskSetup() {
-  const { scene } = useGLTF('/assets/desk-setup.glb', false, false, withMeshopt);
+  const { scene } = useGLTF(
+    "/assets/desk-setup.glb",
+    false,
+    false,
+    withMeshopt,
+  );
 
   // Procedural warm wood-grain for the desk/drawers/shelves ("wooden appearance").
   const woodTex = useMemo(() => {
-    if (typeof document === 'undefined') return null;
-    const cv = document.createElement('canvas');
+    if (typeof document === "undefined") return null;
+    const cv = document.createElement("canvas");
     cv.width = cv.height = 512;
-    const ctx = cv.getContext('2d');
+    const ctx = cv.getContext("2d");
     if (!ctx) return null;
     let s = 99;
-    const rnd = () => { s = (s * 1103515245 + 12345) & 0x7fffffff; return s / 0x7fffffff; };
+    const rnd = () => {
+      s = (s * 1103515245 + 12345) & 0x7fffffff;
+      return s / 0x7fffffff;
+    };
     const img = ctx.createImageData(512, 512);
     const d = img.data;
     for (let i = 0, p = 0; i < 512 * 512; i++, p += 4) {
@@ -90,9 +116,16 @@ function DeskSetup() {
         m.updateMatrixWorld(true);
         const b = new Box3().setFromObject(m);
         dump.push({
-          name: m.name, hue,
-          c: [(b.min.x + b.max.x) / 2, (b.min.y + b.max.y) / 2, (b.min.z + b.max.z) / 2].map((v) => +v.toFixed(2)),
-          s: [b.max.x - b.min.x, b.max.y - b.min.y, b.max.z - b.min.z].map((v) => +v.toFixed(2)),
+          name: m.name,
+          hue,
+          c: [
+            (b.min.x + b.max.x) / 2,
+            (b.min.y + b.max.y) / 2,
+            (b.min.z + b.max.z) / 2,
+          ].map((v) => +v.toFixed(2)),
+          s: [b.max.x - b.min.x, b.max.y - b.min.y, b.max.z - b.min.z].map(
+            (v) => +v.toFixed(2),
+          ),
         });
         i++;
         return;
@@ -103,70 +136,65 @@ function DeskSetup() {
         cloned.color.set(meshC);
         cloned.map = null; // solid colour, no texture
         m.material = cloned;
-      } else if (std.name === 'wire_088144225' && woodTex) {
+      } else if (std.name === "wire_088144225" && woodTex) {
         std.map = woodTex; // wooden desk / drawers / shelves
-        std.color.set('#ffffff');
+        std.color.set("#ffffff");
         std.needsUpdate = true;
       } else {
         const matC = DESK_MAT_COLORS[std.name];
         if (matC && std.color) std.color.set(matC);
       }
     });
-    if (DESK_DEBUG) (window as unknown as { __deskMeshes?: unknown }).__deskMeshes = dump;
+    if (DESK_DEBUG)
+      (window as unknown as { __deskMeshes?: unknown }).__deskMeshes = dump;
   }, [scene, woodTex]);
   return <primitive object={scene} scale={0.001} position={[0, -0.6, 0.3]} />;
 }
-useGLTF.preload('/assets/desk-setup.glb', false, false, withMeshopt);
+useGLTF.preload("/assets/desk-setup.glb", false, false, withMeshopt);
 
 // House plants (metre-scale cluster). Cloned per instance so we can place more
 // than one (floor cluster + a small pot on the desk).
-function Plants({ position, scale = 1 }: { position: [number, number, number]; scale?: number }) {
-  const { scene } = useGLTF('/assets/plants.glb', false, false, withMeshopt);
+function Plants({
+  position,
+  scale = 1,
+}: {
+  position: [number, number, number];
+  scale?: number;
+}) {
+  const { scene } = useGLTF("/assets/plants.glb", false, false, withMeshopt);
   const obj = useMemo(() => scene.clone(true), [scene]);
   useEffect(() => {
-    obj.traverse((o) => { const m = o as Mesh; if (m.isMesh) { m.castShadow = true; m.receiveShadow = true; } });
+    obj.traverse((o) => {
+      const m = o as Mesh;
+      if (m.isMesh) {
+        m.castShadow = true;
+        m.receiveShadow = true;
+      }
+    });
   }, [obj]);
   return <primitive object={obj} scale={scale} position={position} />;
 }
-useGLTF.preload('/assets/plants.glb', false, false, withMeshopt);
+useGLTF.preload("/assets/plants.glb", false, false, withMeshopt);
 
-// A couple of plants CUT from the cluster (selective — not the whole thing) to
-// sit on the desk near the monitor. Clone, then hide every mesh except the ones
-// at the right end of the cluster (world-X band), leaving one small grouping.
-function DeskPlant({ position, scale = 1 }: { position: [number, number, number]; scale?: number }) {
-  const { scene } = useGLTF('/assets/plants.glb', false, false, withMeshopt);
-  const obj = useMemo(() => {
-    const c = scene.clone(true);
-    c.updateMatrixWorld(true);
-    c.traverse((o) => {
-      const m = o as Mesh;
-      if (!m.isMesh) return;
-      m.castShadow = true;
-      m.receiveShadow = true;
-      const b = new Box3().setFromObject(m);
-      m.visible = (b.min.x + b.max.x) / 2 > 0.6; // keep only the right-end plant(s)
-    });
-    return c;
-  }, [scene]);
-  return <primitive object={obj} scale={scale} position={position} />;
-}
+// (DeskPlant selective-cut helper removed — desk plants now use small, centered
+// Plants clusters placed directly on each side of the desk.)
 
 // Return-beat spotlight: narrows onto the phone as it flows back.
 const SPOT_INTENSITY: Keyframe<number>[] = [
-  { at: BEAT.holdStart,   value: 0 },
-  { at: BEAT.returnStart, value: 9,   ease: 'outCubic' },
-  { at: BEAT.rotateStart, value: 3.5, ease: 'inQuad' },
+  { at: BEAT.holdStart, value: 0 },
+  { at: BEAT.returnStart, value: 9, ease: "outCubic" },
+  { at: BEAT.rotateStart, value: 3.5, ease: "inQuad" },
 ];
 // Lift/apps stage spotlights: ramp on as the phone lifts, hold through
 // burst→constellation, ease off into the return. Bright enough to carry the
 // phone once the room dims around it (see ENV_DIM).
 const LIFT_SPOT_INTENSITY: Keyframe<number>[] = [
   { at: BEAT.establishStart, value: 0 },
-  { at: BEAT.liftStart,      value: 0 },
-  { at: BEAT.burstStart,     value: 15, ease: 'outCubic' },
-  { at: BEAT.constellPeak,   value: 15 },
-  { at: BEAT.returnStart,    value: 6,  ease: 'inOutCubic' },
-  { at: BEAT.pushStart,      value: 0,  ease: 'inOutCubic' },
+  { at: BEAT.liftStart, value: 0 },
+  { at: BEAT.burstStart, value: 15, ease: "outCubic" },
+  { at: BEAT.constellPeak, value: 15 },
+  { at: BEAT.returnStart, value: 6, ease: "inOutCubic" },
+  { at: BEAT.pushStart, value: 0, ease: "inOutCubic" },
 ];
 // SPOTLIGHT EFFECT (user): as the phone lifts to hero, the whole ROOM dims so the
 // stage spotlights make the phone pop — "the rest of the things in the bg go a
@@ -174,11 +202,11 @@ const LIFT_SPOT_INTENSITY: Keyframe<number>[] = [
 // burst→constellation, eased partway back for the reveal.
 const ENV_DIM: Keyframe<number>[] = [
   { at: BEAT.establishStart, value: 1 },
-  { at: BEAT.liftStart,      value: 1 },
-  { at: BEAT.burstStart,     value: 0.22, ease: 'inOutCubic' },
-  { at: BEAT.constellPeak,   value: 0.22 },
-  { at: BEAT.returnStart,    value: 0.3,  ease: 'inOutCubic' },
-  { at: BEAT.revealStart,    value: 0.45, ease: 'inOutCubic' },
+  { at: BEAT.liftStart, value: 1 },
+  { at: BEAT.burstStart, value: 0.22, ease: "inOutCubic" },
+  { at: BEAT.constellPeak, value: 0.22 },
+  { at: BEAT.returnStart, value: 0.3, ease: "inOutCubic" },
+  { at: BEAT.revealStart, value: 0.45, ease: "inOutCubic" },
 ];
 const ENV_BASE = { key: 3.0, fill: 0.85, amb: 0.2, lamp: 1.5, hdri: 0.35 }; // fill up + cooler to fight the orange cast
 
@@ -196,14 +224,17 @@ export default function RoomEnvironment() {
 
   // Subtle plaster grain so the wall isn't a flat CG plane.
   const wallBump = useMemo(() => {
-    if (typeof document === 'undefined') return null;
-    const cv = document.createElement('canvas');
+    if (typeof document === "undefined") return null;
+    const cv = document.createElement("canvas");
     cv.width = cv.height = 256;
-    const ctx = cv.getContext('2d');
+    const ctx = cv.getContext("2d");
     if (!ctx) return null;
     let s = 1234;
-    const rnd = () => { s = (s * 1103515245 + 12345) & 0x7fffffff; return s / 0x7fffffff; };
-    ctx.fillStyle = '#808080';
+    const rnd = () => {
+      s = (s * 1103515245 + 12345) & 0x7fffffff;
+      return s / 0x7fffffff;
+    };
+    ctx.fillStyle = "#808080";
     ctx.fillRect(0, 0, 256, 256);
     for (let i = 0; i < 14000; i++) {
       const v = 96 + rnd() * 104;
@@ -220,7 +251,8 @@ export default function RoomEnvironment() {
     const p = getP();
     const lift = sampleNumber(LIFT_SPOT_INTENSITY, p);
     const dim = sampleNumber(ENV_DIM, p);
-    if (returnSpot.current) returnSpot.current.intensity = sampleNumber(SPOT_INTENSITY, p);
+    if (returnSpot.current)
+      returnSpot.current.intensity = sampleNumber(SPOT_INTENSITY, p);
     if (liftA.current) liftA.current.intensity = lift;
     if (liftB.current) liftB.current.intensity = lift * 0.6;
     if (keyRef.current) keyRef.current.intensity = ENV_BASE.key * dim;
@@ -240,18 +272,45 @@ export default function RoomEnvironment() {
   return (
     <group>
       {/* Low HDRI for soft realistic fill + reflections (not the whole light). */}
-      <Environment files="/assets/hdri/room.hdr" background={false} environmentIntensity={ENV_BASE.hdri} />
+      <Environment
+        files="/assets/hdri/room.hdr"
+        background={false}
+        environmentIntensity={ENV_BASE.hdri}
+      />
 
       {/* Warm modeling key (soft daylight) — gives the desk shape + warmth. */}
       <ambientLight ref={ambRef} intensity={ENV_BASE.amb} color="#FFF3E8" />
-      <directionalLight ref={keyRef} castShadow position={[-3, 3.6, 2.4]} intensity={ENV_BASE.key} color="#FFEAD2"
-        shadow-mapSize={[2048, 2048]} shadow-bias={-0.00018}
-        shadow-camera-near={0.1} shadow-camera-far={12}
-        shadow-camera-left={-4} shadow-camera-right={4} shadow-camera-top={4} shadow-camera-bottom={-4} />
+      <directionalLight
+        ref={keyRef}
+        castShadow
+        position={[-3, 3.6, 2.4]}
+        intensity={ENV_BASE.key}
+        color="#FFEAD2"
+        shadow-mapSize={[2048, 2048]}
+        shadow-bias={-0.00018}
+        shadow-camera-near={0.1}
+        shadow-camera-far={12}
+        shadow-camera-left={-4}
+        shadow-camera-right={4}
+        shadow-camera-top={4}
+        shadow-camera-bottom={-4}
+      />
       {/* Cool soft fill from the opposite side to open the shadows. */}
-      <directionalLight ref={fillRef} position={[3, 2.2, 0.5]} intensity={ENV_BASE.fill} color="#CFE0FF" />
+      <directionalLight
+        ref={fillRef}
+        position={[3, 2.2, 0.5]}
+        intensity={ENV_BASE.fill}
+        color="#CFE0FF"
+      />
       {/* Cozy desk-lamp glow pooling warm light on the phone/desk. */}
-      <pointLight ref={lampRef} position={[0.02, 0.42, 0.12]} intensity={ENV_BASE.lamp} distance={1.8} decay={2} color="#FFC98A" />
+      <pointLight
+        ref={lampRef}
+        position={[0.02, 0.42, 0.12]}
+        intensity={ENV_BASE.lamp}
+        distance={1.8}
+        decay={2}
+        color="#FFC98A"
+      />
 
       {/* Window blinds hung between the sun and the desk — the sun rakes through
           them and throws warm striped light-rays (REAL shadows) across the back
@@ -267,29 +326,62 @@ export default function RoomEnvironment() {
 
       {/* Stage spotlights that carry the phone as the room dims. */}
       <primitive object={returnTarget} position={[0, 0.95, 1.15]} />
-      <spotLight ref={returnSpot} position={[0, 3.5, 1.6]} angle={0.5} penumbra={0.9} decay={1}
-        color="#FFF0DC" target={returnTarget} />
+      <spotLight
+        ref={returnSpot}
+        position={[0, 3.5, 1.6]}
+        angle={0.5}
+        penumbra={0.9}
+        decay={1}
+        color="#FFF0DC"
+        target={returnTarget}
+      />
       <primitive object={liftTarget} position={[0, 1.15, 1.15]} />
-      <spotLight ref={liftA} position={[-2.4, 3.2, 2.2]} angle={0.6} penumbra={0.8} decay={1}
-        color="#FFD9A0" target={liftTarget} />
-      <spotLight ref={liftB} position={[2.4, 3.2, 0.4]} angle={0.6} penumbra={0.8} decay={1}
-        color="#CBD5E1" target={liftTarget} />
+      <spotLight
+        ref={liftA}
+        position={[-2.4, 3.2, 2.2]}
+        angle={0.6}
+        penumbra={0.8}
+        decay={1}
+        color="#FFD9A0"
+        target={liftTarget}
+      />
+      <spotLight
+        ref={liftB}
+        position={[2.4, 3.2, 0.4]}
+        angle={0.6}
+        penumbra={0.8}
+        decay={1}
+        color="#CBD5E1"
+        target={liftTarget}
+      />
 
       {/* Warm coloured back wall the desk sits against + a floor. Both receive the
           sun's shadows — the lamp casts onto the wall, the blinds cast the rays. */}
       <mesh position={[0.1, 1.3, -0.3]} receiveShadow>
         <planeGeometry args={[10, 6]} />
-        <meshStandardMaterial color="#4E332F" roughness={0.95} bumpMap={wallBump ?? undefined} bumpScale={2.5} />
-      </mesh>{/* back wall — deep warm clay, closer so it catches the desk's shadow */}
-      <mesh position={[0.1, -0.6, 0.4]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
+        <meshStandardMaterial
+          color="#4E332F"
+          roughness={0.95}
+          bumpMap={wallBump ?? undefined}
+          bumpScale={2.5}
+        />
+      </mesh>
+      {/* back wall — deep warm clay, closer so it catches the desk's shadow */}
+      <mesh
+        position={[0.1, -0.6, 0.4]}
+        rotation={[-Math.PI / 2, 0, 0]}
+        receiveShadow
+      >
         <planeGeometry args={[10, 7]} />
         <meshStandardMaterial color="#2A1D18" roughness={1} />
-      </mesh>{/* floor */}
+      </mesh>
+      {/* floor */}
 
       <DeskSetup />
       <Plants position={[-1.9, -0.6, -0.4]} />
       {/* a couple of plants cut from the cluster, on the RIGHT side of the desk */}
-      <DeskPlant position={[1.02, 0.2, 0.06]} scale={0.42} />
+      <Plants position={[-0.52, 0.2, 0.14]} scale={0.22} />
+      <Plants position={[0.9, 0.2, 0.12]} scale={0.22} />
     </group>
   );
 }
