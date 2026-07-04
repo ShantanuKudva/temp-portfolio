@@ -58,10 +58,6 @@ const DESK_MESH_COLORS: Record<string, string> = {
   // monitor bodies → near-black
   Object_31: "#1B1B1F",
   Object_32: "#1B1B1F",
-  // desk lamp → dark metal
-  Object_17: "#2E2E33",
-  Object_28: "#2E2E33",
-  Object_50: "#2E2E33",
   // pegboards (left + right) → cork/wood
   Object_18: "#6E5334",
   Object_11: "#6E5334",
@@ -91,6 +87,9 @@ const DESK_HIDE = new Set<string>(["Object_41", "Object_56"]);
 // Meshes to render as plain white glazed ceramic (white + smooth). Object_55 =
 // the propped-up plant pot next to the desk.
 const DESK_CERAMIC = new Set<string>(["Object_55"]);
+// Meshes to render as brushed metal (silver, high metalness, satin roughness so
+// the HDRI reads as a brushed sheen). Object_17/28/50 = the articulated desk lamp.
+const DESK_METAL = new Set<string>(["Object_17", "Object_28", "Object_50"]);
 const DESK_DEBUG = false; // rainbow-ID pass (scripts/inspect-desk.mjs reads window.__deskMeshes)
 
 // The gaming desk-setup: authored in mm (bbox ~2234×1915×1280) → ×0.001 to
@@ -173,6 +172,16 @@ function DeskSetup() {
         cer.roughness = 0.32;
         cer.metalness = 0;
         m.material = cer;
+        return;
+      }
+      if (DESK_METAL.has(m.name)) {
+        const met = std.clone(); // brushed metal
+        met.color.set("#C2C6CB");
+        met.map = null;
+        met.metalness = 1;
+        met.roughness = 0.4;
+        met.envMapIntensity = 1.2;
+        m.material = met;
         return;
       }
       const meshC = DESK_MESH_COLORS[m.name];
