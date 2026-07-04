@@ -12,13 +12,14 @@ export default function HookText() {
   const text = idx >= 0 ? HOOK_TEXT[idx] : '';
   if (!text) return null;
   return (
-    // Bottom-anchored caption band: a soft gradient scrim gives a consistent,
-    // legible zone for the line regardless of the busy 3D scene behind it,
-    // and separates it from the phone/desk instead of crowding that gap.
-    <div className="pointer-events-none fixed inset-x-0 bottom-0 z-40 flex justify-center bg-linear-to-t from-black/60 via-black/25 to-transparent px-6 pb-[8vh] pt-28">
+    // Lower-left editorial placement: the bold line lives in one fixed zone that
+    // stays clear of the centre phone across every beat. Legibility comes from a
+    // SOFT radial pool feathered right under the text (not a hard corner wash) plus
+    // the drop-shadow, and the whole caption fades in so it never snaps on.
+    <div className="pointer-events-none fixed inset-0 z-40 flex items-end bg-[radial-gradient(56%_46%_at_15%_86%,rgba(0,0,0,0.44),transparent_72%)] animate-in fade-in duration-700">
       <ScrambleLine
         text={text}
-        className="max-w-3xl text-center font-mono text-2xl font-semibold tracking-tight text-white drop-shadow-[0_2px_14px_rgba(0,0,0,0.65)] md:text-4xl"
+        className="mb-[9vh] ml-[6vw] max-w-lg font-mono text-4xl font-bold leading-[1.04] tracking-tight text-white [text-shadow:0_2px_20px_rgba(0,0,0,0.55),0_1px_3px_rgba(0,0,0,0.7)] md:text-6xl"
       />
     </div>
   );
