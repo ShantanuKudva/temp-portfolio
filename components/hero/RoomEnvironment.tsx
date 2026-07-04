@@ -88,6 +88,9 @@ const DESK_MESH_COLORS: Record<string, string> = {
 // Object_56 = the mouse the hero phone was resting on (freed the phone's spot
 // without shoving it to the desk edge).
 const DESK_HIDE = new Set<string>(["Object_41", "Object_56"]);
+// Meshes to render as plain white glazed ceramic (white + smooth). Object_55 =
+// the propped-up plant pot next to the desk.
+const DESK_CERAMIC = new Set<string>(["Object_55"]);
 const DESK_DEBUG = false; // rainbow-ID pass (scripts/inspect-desk.mjs reads window.__deskMeshes)
 
 // The gaming desk-setup: authored in mm (bbox ~2234×1915×1280) → ×0.001 to
@@ -163,6 +166,15 @@ function DeskSetup() {
         i++;
         return;
       }
+      if (DESK_CERAMIC.has(m.name)) {
+        const cer = std.clone(); // plain white glazed ceramic
+        cer.color.set("#F3F1EC");
+        cer.map = null;
+        cer.roughness = 0.32;
+        cer.metalness = 0;
+        m.material = cer;
+        return;
+      }
       const meshC = DESK_MESH_COLORS[m.name];
       if (meshC) {
         const cloned = std.clone(); // per-mesh override needs its own material
@@ -184,30 +196,6 @@ function DeskSetup() {
   return <primitive object={scene} scale={0.001} position={[0, -0.6, 0.3]} />;
 }
 useGLTF.preload("/assets/desk-setup.glb", false, false, withMeshopt);
-
-// House plants (metre-scale cluster). Cloned per instance so we can place more
-// than one (floor cluster + a small pot on the desk).
-function Plants({
-  position,
-  scale = 1,
-}: {
-  position: [number, number, number];
-  scale?: number;
-}) {
-  const { scene } = useGLTF("/assets/plants.glb", false, false, withMeshopt);
-  const obj = useMemo(() => scene.clone(true), [scene]);
-  useEffect(() => {
-    obj.traverse((o) => {
-      const m = o as Mesh;
-      if (m.isMesh) {
-        m.castShadow = true;
-        m.receiveShadow = true;
-      }
-    });
-  }, [obj]);
-  return <primitive object={obj} scale={scale} position={position} />;
-}
-useGLTF.preload("/assets/plants.glb", false, false, withMeshopt);
 
 // Return-beat spotlight: narrows onto the phone as it flows back.
 const SPOT_INTENSITY: Keyframe<number>[] = [
@@ -434,7 +422,8 @@ export default function RoomEnvironment() {
       {/* plank wood floor */}
 
       <DeskSetup />
-      <Plants position={[-1.9, -0.6, -0.4]} />
+      {/* The only plant is the desk-setup's own potted plant (white-ceramic pot);
+          the separate floor cluster was dropped ("delete the other one"). */}
     </group>
   );
 }

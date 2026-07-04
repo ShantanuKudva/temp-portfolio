@@ -50,7 +50,10 @@ const POINTS = {
     shelf_green: [1210, 550],
     shelf_support: [1215, 615],
     stapler: [990, 650],
-    vase_green: [175, 300],
+    vase_top: [205, 285],
+    vase_body: [205, 345],
+    vase_lower: [210, 400],
+    foliage: [220, 150],
   },
 };
 
