@@ -11,27 +11,13 @@ export default function Preloader() {
   const { progress, active } = useProgress();
   const setLocked = useScrollStore((s) => s.setLocked);
   const [done, setDone] = useState(false);
-  // ?p= is the debug/screenshot path (verify-scene.mjs) — it must see the scene,
-  // not this overlay, so bypass entirely and never touch the scroll lock. Derived
-  // from the URL at first render (not an effect) so it's stable.
-  const [bypass] = useState(
-    () =>
-      typeof window !== "undefined" &&
-      new URLSearchParams(window.location.search).has("p"),
-  );
   const pct = Math.min(100, Math.round(progress));
   // Idle at 100% → assets are in. (active flips false when the manager drains.)
   const ready = !active && progress >= 100;
 
-  // Freeze the scene at establish (p=0) until loaded.
-  useEffect(() => {
-    if (bypass) return;
-    setLocked(true);
-  }, [bypass, setLocked]);
-
   // Block scroll input while the gate is up so the scene can't advance behind it.
   useEffect(() => {
-    if (bypass || done) return;
+    if (done) return;
     const block = (e: Event) => e.preventDefault();
     window.addEventListener("wheel", block, { passive: false });
     window.addEventListener("touchmove", block, { passive: false });
@@ -39,21 +25,28 @@ export default function Preloader() {
       window.removeEventListener("wheel", block);
       window.removeEventListener("touchmove", block);
     };
-  }, [bypass, done]);
+  }, [done]);
 
-  // Reveal when ready (hold a beat so the 100% reads), plus a hard safety timeout
-  // so a stalled asset can never trap the user on the loader forever.
+  // Lock the scene at establish while loading, then reveal once ready (hold a beat
+  // so the 100% reads), with a hard safety timeout so a stalled asset can't trap
+  // the user. The ?p= debug/screenshot path (verify-scene.mjs) must see the scene,
+  // not the loader, so it skips the lock and reveals promptly. This lives in an
+  // effect (client-only) so it never diverges from SSR → no hydration mismatch.
   useEffect(() => {
-    if (bypass) return;
-    const reveal = () => {
-      setDone(true);
-      setLocked(false);
-    };
-    const t = setTimeout(reveal, ready ? 650 : 15000);
+    if (done) return;
+    const debug = new URLSearchParams(window.location.search).has("p");
+    if (!debug) setLocked(true);
+    const t = setTimeout(
+      () => {
+        setDone(true);
+        if (!debug) setLocked(false);
+      },
+      debug ? 300 : ready ? 750 : 15000,
+    );
     return () => clearTimeout(t);
-  }, [bypass, ready, setLocked]);
+  }, [done, ready, setLocked]);
 
-  if (bypass || done) return null;
+  if (done) return null;
 
   return (
     <div
