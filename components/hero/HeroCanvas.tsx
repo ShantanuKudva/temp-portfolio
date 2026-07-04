@@ -1,7 +1,7 @@
 'use client';
 import { Canvas } from '@react-three/fiber';
 import { ACESFilmicToneMapping } from 'three';
-import { EffectComposer, Bloom } from '@react-three/postprocessing';
+import { EffectComposer, Bloom, N8AO } from '@react-three/postprocessing';
 import RoomEnvironment from '@/components/hero/RoomEnvironment';
 import PhoneRig from '@/components/hero/PhoneRig';
 import CameraRig from '@/components/hero/CameraRig';
@@ -31,6 +31,9 @@ export default function HeroCanvas() {
       <PhoneRig />
       {/* EffectComposer must remain the LAST child; later rigs (Phone/Logo) mount ABOVE it. */}
       <EffectComposer>
+        {/* Ambient occlusion — soft contact shadows in every crevice + where the
+            pegboard/shelves/headphones meet the wall, so nothing reads pasted-on. */}
+        <N8AO aoRadius={0.35} intensity={1.9} distanceFalloff={1} color="black" halfRes />
         <Bloom intensity={0.5} luminanceThreshold={0.9} luminanceSmoothing={0.2} mipmapBlur />
       </EffectComposer>
     </Canvas>

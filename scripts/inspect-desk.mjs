@@ -19,13 +19,13 @@ await new Promise((r) => setTimeout(r, 4500));
 const meshes = await page.evaluate(() => window.__deskMeshes || []);
 await browser.close();
 
-meshes.sort((a, b) => b.s[0] * b.s[1] * b.s[2] - a.s[0] * a.s[1] * a.s[2]);
+meshes.sort((a, b) => (a.hue ?? 0) - (b.hue ?? 0));
 console.log('COUNT', meshes.length);
 console.log('axes: x=left(-)/right(+)  y=down(-)/up(+)  z=back(-)/front,camera(+)');
 for (const m of meshes) {
   console.log(
-    m.name.padEnd(12),
-    (m.mat || '').padEnd(16),
+    'hue' + String(m.hue ?? '').padStart(4),
+    m.name.padEnd(11),
     'c' + JSON.stringify(m.c).padEnd(22),
     's' + JSON.stringify(m.s),
   );
