@@ -248,3 +248,41 @@
   .preloader__ring--2 { transform: rotateY(68deg); }
   .preloader__ring--3 { transform: rotateX(58deg) rotateY(32deg); }
 }
+
+/* ── Scroll cue ────────────────────────────────────────────────────────────
+   Classic mouse-wheel hint: cream outline, antique-gold wheel drifting down. */
+.scroll-cue__label {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  text-transform: uppercase;
+  letter-spacing: 0.34em;
+  font-size: 0.66rem;
+  padding-left: 0.34em;
+  color: rgba(244, 235, 221, 0.62);
+  text-shadow: 0 1px 5px rgba(0, 0, 0, 0.55);
+}
+.scroll-cue__mouse {
+  display: flex;
+  justify-content: center;
+  width: 22px;
+  height: 34px;
+  padding-top: 6px;
+  border: 1.5px solid rgba(244, 235, 221, 0.5);
+  border-radius: 11px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.35);
+}
+.scroll-cue__wheel {
+  width: 3px;
+  height: 7px;
+  border-radius: 2px;
+  background: #b08d4c;
+  animation: scroll-cue-wheel 1.6s ease-in-out infinite;
+}
+@keyframes scroll-cue-wheel {
+  0% { transform: translateY(0); opacity: 0; }
+  20% { opacity: 1; }
+  70% { transform: translateY(9px); opacity: 0.25; }
+  100% { transform: translateY(11px); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scroll-cue__wheel { animation: none; }
+}
