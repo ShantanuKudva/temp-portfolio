@@ -17,7 +17,7 @@ export const REELS: Reel[] = [
 
 export const PILLARS = [
   { n: '01', title: 'Clarity', body: 'Complex product, one clean idea an audience actually remembers after they scroll.' },
-  { n: '02', title: 'Speed',   body: "The hook, the point, the verdict - before anyone's thumb decides to move on." },
+  { n: '02', title: 'Speed',   body: "The hook, the point, the verdict — before anyone's thumb decides to move on." },
   { n: '03', title: 'Taste',   body: 'It looks as good as your product. Never cheap, never clickbait, never off-brand.' },
 ] as const;
 
@@ -30,7 +30,7 @@ export const STATS = [
 export const MEET = {
   name: 'Varsheni',
   role: 'Tech UGC · App & product reviews',
-  bio: "I review apps and businesses the way people actually use them - no jargon, no 12-minute deep dives. Just the hook, the point, and the one reason it's worth your thumb stopping.",
+  bio: "I review apps and businesses the way people actually use them — no jargon, no 12-minute deep dives. Just the hook, the point, and the one reason it's worth your thumb stopping.",
 } as const;
 
 export const CHIPS = [
