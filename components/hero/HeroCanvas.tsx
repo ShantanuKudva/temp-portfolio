@@ -4,6 +4,7 @@ import { ACESFilmicToneMapping } from 'three';
 import { EffectComposer, Bloom, N8AO } from '@react-three/postprocessing';
 import RoomEnvironment from '@/components/hero/RoomEnvironment';
 import PhoneRig from '@/components/hero/PhoneRig';
+import LogoField from '@/components/hero/LogoField';
 import CameraRig from '@/components/hero/CameraRig';
 
 export default function HeroCanvas() {
@@ -29,6 +30,8 @@ export default function HeroCanvas() {
       <CameraRig />
       <RoomEnvironment />
       <PhoneRig />
+      {/* App icons erupt from the phone into a floating constellation. */}
+      <LogoField />
       {/* EffectComposer must remain the LAST child; later rigs (Phone/Logo) mount ABOVE it. */}
       <EffectComposer>
         {/* Ambient occlusion — soft contact shadows in every crevice + where the

@@ -15,9 +15,11 @@ import { BEAT } from '@/lib/timeline';
 export const CAM_POS: Keyframe<Tuple3>[] = [
   { at: BEAT.establishStart, value: [0.5, 0.95, 1.35] },                     // high-angle close-up, looking down at the phone on the desk
   { at: BEAT.liftStart,      value: [0.3, 1.02, 1.7], ease: 'inOutCubic' },  // rises + swings frontal as the phone lifts
-  { at: BEAT.burstStart,     value: [0, 1.05, 1.65], ease: 'inOutCubic' },   // frontal hero, ~0.5m off the phone
-  { at: BEAT.holdStart,      value: [0, 1.02, 1.6], ease: 'inOutCubic' },    // gentle creep (eased — no velocity jerk)
-  { at: BEAT.returnStart,    value: [0, 1.0, 1.55], ease: 'inOutCubic' },    // map flows back into the phone
+  { at: BEAT.burstStart,     value: [0, 1.05, 1.8], ease: 'inOutCubic' },    // pulls back as the icons erupt
+  { at: BEAT.constellStart,  value: [0, 1.14, 2.25], ease: 'inOutCubic' },   // pulled back to frame the whole constellation
+  { at: BEAT.constellPeak,   value: [0, 1.14, 2.3], ease: 'inOutCubic' },    // holds on the full network map
+  { at: BEAT.holdStart,      value: [0, 1.12, 2.25], ease: 'inOutCubic' },   // gentle creep
+  { at: BEAT.returnStart,    value: [0, 1.0, 1.55], ease: 'inOutCubic' },    // pushes back IN as the map flows into the phone
   { at: BEAT.rotateStart,    value: [0, 0.97, 1.5], ease: 'inOutCubic' },    // begins pushing in
   { at: BEAT.pushStart,      value: [0, 0.95, 1.46], ease: 'inOutCubic' },   // approaching the screen
   { at: BEAT.revealStart,    value: [0, 0.95, 1.4], ease: 'inCubic' },       // screen fills the frame (~0.15m off)
