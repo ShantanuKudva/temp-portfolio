@@ -16,7 +16,9 @@ export default function BeatShell({ children, className = '' }: { children: Reac
   }, []);
   return (
     <section ref={ref} className={`relative flex min-h-screen items-center px-[7vw] ${className}`}>
-      <div className={`max-w-[1000px] transition-all duration-700 ease-out ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-7'}`}>
+      {/* Pure fade in (no vertical slide) so beats read as fading into place,
+          not scrolling up — the phone→portfolio handoff is a crossfade. */}
+      <div className={`max-w-[1000px] transition-opacity duration-700 ease-out ${inView ? 'opacity-100' : 'opacity-0'}`}>
         {children}
       </div>
     </section>
