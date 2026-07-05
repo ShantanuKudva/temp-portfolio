@@ -23,23 +23,52 @@ function buildHomeScreen(): CanvasTexture | null {
   ctx.fillStyle = g;
   ctx.fillRect(0, 0, W, H);
 
-  // status bar
+  // status bar + Dynamic Island (kept visible by drawing the pill ourselves)
+  const sbY = 46;
   ctx.fillStyle = "#ffffff";
   ctx.textAlign = "left";
   ctx.textBaseline = "middle";
-  ctx.font = "600 34px system-ui, sans-serif";
-  ctx.fillText("9:41", 46, 52);
-  ctx.textAlign = "right";
-  ctx.font = "500 26px system-ui, sans-serif";
-  ctx.fillText("5G", W - 120, 52);
+  ctx.font = "600 33px system-ui, sans-serif";
+  ctx.fillText("9:41", 44, sbY);
+  // Dynamic Island
+  ctx.fillStyle = "#000000";
   ctx.beginPath();
-  ctx.roundRect(W - 92, 38, 46, 26, 7);
-  ctx.strokeStyle = "rgba(255,255,255,0.7)";
-  ctx.lineWidth = 3;
+  ctx.roundRect(W / 2 - 66, 26, 132, 39, 19.5);
+  ctx.fill();
+  // signal bars
+  ctx.fillStyle = "#ffffff";
+  for (let i = 0; i < 4; i++) {
+    const h = 9 + i * 5;
+    ctx.beginPath();
+    ctx.roundRect(W - 168 + i * 12, sbY + 9 - h, 7, h, 2);
+    ctx.fill();
+  }
+  // wifi arcs
+  ctx.strokeStyle = "#ffffff";
+  ctx.lineWidth = 4;
+  for (let i = 1; i <= 3; i++) {
+    ctx.beginPath();
+    ctx.arc(W - 104, sbY + 9, i * 7, Math.PI * 1.28, Math.PI * 1.72);
+    ctx.stroke();
+  }
+  ctx.beginPath();
+  ctx.arc(W - 104, sbY + 8, 3.2, 0, Math.PI * 2);
+  ctx.fill();
+  // battery
+  const bx = W - 78;
+  const by = sbY - 12;
+  ctx.strokeStyle = "rgba(255,255,255,0.6)";
+  ctx.lineWidth = 2.5;
+  ctx.beginPath();
+  ctx.roundRect(bx, by, 48, 25, 7);
   ctx.stroke();
+  ctx.fillStyle = "rgba(255,255,255,0.6)";
+  ctx.beginPath();
+  ctx.roundRect(bx + 51, by + 8, 4, 9, 2);
+  ctx.fill();
   ctx.fillStyle = "#ffffff";
   ctx.beginPath();
-  ctx.roundRect(W - 88, 42, 34, 18, 4);
+  ctx.roundRect(bx + 3, by + 3, 30, 19, 4);
   ctx.fill();
 
   // app grid — real brand logos
@@ -61,18 +90,23 @@ function buildHomeScreen(): CanvasTexture | null {
     ctx.fillText(brand.name, x + icon / 2, y + icon + 10);
   });
 
-  // dock — four more real brands
-  const dockH = 168;
-  const dockY = H - dockH - 26;
+  // dock — frosted-glass bar with everyday apps
+  const dockH = 176;
+  const dockY = H - dockH - 22;
+  ctx.save();
   ctx.beginPath();
-  ctx.roundRect(24, dockY, W - 48, dockH, 46);
-  ctx.fillStyle = "rgba(255,255,255,0.12)";
+  ctx.roundRect(20, dockY, W - 40, dockH, 48);
+  ctx.fillStyle = "rgba(72,66,88,0.4)";
   ctx.fill();
-  const dIcon = 108;
-  const dGap = (W - 48 - 4 * dIcon) / 5;
+  ctx.strokeStyle = "rgba(255,255,255,0.16)";
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
+  ctx.restore();
+  const dIcon = 112;
+  const dGap = (W - 40 - 4 * dIcon) / 5;
   DOCK_BRANDS.forEach((brand, i) => {
-    const x = 24 + dGap + i * (dIcon + dGap);
-    drawBrandTile(ctx, x, dockY + 30, dIcon, 26, brand);
+    const x = 20 + dGap + i * (dIcon + dGap);
+    drawBrandTile(ctx, x, dockY + (dockH - dIcon) / 2, dIcon, 27, brand);
   });
 
   const tex = new CanvasTexture(cv);

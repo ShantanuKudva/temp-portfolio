@@ -15,10 +15,10 @@ import {
   siHuggingface,
   siVercel,
   siDiscord,
-  siX,
-  siTiktok,
-  siReddit,
-  siTwitch,
+  siWhatsapp,
+  siGooglechrome,
+  siGmail,
+  siTelegram,
 } from "simple-icons";
 import { CanvasTexture, SRGBColorSpace } from "three";
 
@@ -54,10 +54,10 @@ export const BRANDS: Brand[] = [
 ];
 
 export const DOCK_BRANDS: Brand[] = [
-  b(siX, "X"),
-  b(siTiktok, "TikTok"),
-  b(siReddit),
-  b(siTwitch),
+  b(siWhatsapp, "WhatsApp"),
+  b(siGooglechrome, "Chrome"),
+  b(siGmail, "Gmail"),
+  b(siTelegram, "Telegram"),
 ];
 
 // relative luminance of a #rrggbb colour
