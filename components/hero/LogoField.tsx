@@ -15,22 +15,24 @@ import { BEAT } from "@/lib/timeline";
 import { BRANDS, buildIconTexture } from "@/lib/brandIcons";
 import { PHONE_HERO_POS } from "@/lib/phone";
 
-// Smooth ORBITAL FLOAT eruption: the tech-brand icons rise gently out of the phone
-// (fading in from its hero position) and drift into a calm floating constellation
-// threaded by soft lines, then flow back in before the push-through. Icons FADE
-// (opacity) rather than scale-pop, and the cloud drifts slowly — smooth, not wonky.
+// Smooth ORBITAL FLOAT eruption: the tech-brand icons rise out of the phone and
+// settle into an EVEN RING that faces the camera and floats IN FRONT of the phone
+// (so nothing sits on the phone or the desk, and the bounded radius keeps every icon
+// in frame). Phyllotaxis annulus for even spacing; icons fade + the ring drifts.
 const N = BRANDS.length;
-const CENTER = PHONE_HERO_POS; // [0, 0.95, 1.15]
-const ICON = 0.062;
-const EX = 0.62,
-  EY = 0.58,
-  EZ = 0.42; // ellipsoid cloud around the phone
+const PHONE = PHONE_HERO_POS; // [0, 0.95, 1.15] — icons emerge from here
+const CENTER: [number, number, number] = [0, 0.98, 1.24]; // ring centre, forward of the phone
+const ICON = 0.056;
+const R_IN = 0.28; // clear of the phone silhouette
+const R_OUT = 0.5; // bounded so nothing clips the frame
+const YFLAT = 0.72; // frame is shorter than wide → squash vertically
+const GOLD = Math.PI * (3 - Math.sqrt(5));
 
+// Even phyllotaxis annulus in the camera-facing (x/y) plane, small z jitter for depth.
 const OFFSETS: [number, number, number][] = BRANDS.map((_, i) => {
-  const y = 1 - (2 * (i + 0.5)) / N;
-  const rad = Math.sqrt(Math.max(0, 1 - y * y));
-  const theta = Math.PI * (1 + Math.sqrt(5)) * i;
-  return [Math.cos(theta) * rad * EX, y * EY, Math.sin(theta) * rad * EZ];
+  const r = R_IN + (R_OUT - R_IN) * Math.sqrt((i + 0.5) / N);
+  const th = i * GOLD;
+  return [Math.cos(th) * r, Math.sin(th) * r * YFLAT, Math.sin(i * 2.3) * 0.11];
 });
 
 const d2 = (a: number[], b: number[]) => {
@@ -81,7 +83,7 @@ export default function LogoField() {
     const p = getP();
     const t = state.clock.elapsedTime;
     const retract = smooth(BEAT.returnStart, BEAT.rotateStart, p);
-    const drift = t * 0.05; // slow cloud rotation
+    const drift = t * 0.06; // slow rotation of the ring in the screen plane
     const cs = Math.cos(drift),
       sn = Math.sin(drift);
     const wp: number[][] = [];
@@ -89,12 +91,17 @@ export default function LogoField() {
       const startP = BEAT.burstStart + (i / N) * 0.05; // gentle stagger
       const f = smooth(startP, startP + 0.2, p) * (1 - retract); // 0..1..0
       const [ox, oy, oz] = OFFSETS[i];
-      const rx = ox * cs - oz * sn;
-      const rz = ox * sn + oz * cs;
-      const bob = Math.sin(t * 0.55 + i * 0.9) * 0.012;
-      const x = CENTER[0] + rx * f;
-      const y = CENTER[1] + (oy + bob) * f;
-      const z = CENTER[2] + rz * f;
+      // rotate the offset around the camera axis (z) so the ring orbits the phone
+      const rx = ox * cs - oy * sn;
+      const ry = ox * sn + oy * cs;
+      const bob = Math.sin(t * 0.5 + i * 0.8) * 0.02;
+      // target = ring position; lerp from the phone → target by f (emerge/return)
+      const tx = CENTER[0] + rx;
+      const ty = CENTER[1] + ry;
+      const tz = CENTER[2] + oz + bob;
+      const x = PHONE[0] + (tx - PHONE[0]) * f;
+      const y = PHONE[1] + (ty - PHONE[1]) * f;
+      const z = PHONE[2] + (tz - PHONE[2]) * f;
       wp.push([x, y, z]);
       const g = groups.current[i];
       if (g) {
