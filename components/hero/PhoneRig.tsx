@@ -8,6 +8,7 @@ import { getP } from '@/lib/store';
 import { sampleTuple3 } from '@/lib/track';
 import { PHONE_POS, PHONE_ROT, PHONE_SCALE } from '@/lib/phone';
 import { withMeshopt } from '@/lib/gltfLoaders';
+import ScreenContent from '@/components/hero/ScreenContent';
 
 // `phone.glb` is the iPhone 14 Pro (Sketchfab), meshopt-compressed + webp-
 // textured via the same pipeline as `desk.glb` — loaded through the shared
@@ -73,6 +74,8 @@ export default function PhoneRig() {
   return (
     <group ref={g}>
       <PhoneModel />
+      {/* iOS home screen overlaid on the screen face (screen → +Z in this group). */}
+      <ScreenContent />
     </group>
   );
 }
