@@ -30,9 +30,10 @@ export default function ScreenContent() {
         out = t;
       }
     }
-    // sits just inside the bezel, a hair proud of the glass (must be in front of
-    // the body face to render — can't go behind it or it's occluded)
-    const planeW = 0.0712 * PHONE_SCALE;
+    // Fill the phone's screen exactly (NOT inset — insetting leaves the phone's own
+    // baked screen showing as a border around the image). Rounded corners (below)
+    // keep it from poking past the bezel.
+    const planeW = 0.0745 * PHONE_SCALE;
     return { tex: out, w: planeW, h: planeW * (ih / iw) };
   }, [raw]);
 
