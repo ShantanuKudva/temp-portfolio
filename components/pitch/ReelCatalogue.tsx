@@ -67,6 +67,9 @@ function ReelCard({ reel }: { reel: Reel }) {
 // AutoScroll) of reel cards that keeps moving and pauses on hover. The body of
 // work, distinct from the single hero reel the phone plays.
 export default function ReelCatalogue() {
+  // Repeat the set so the track is comfortably wider than the viewport — Embla's
+  // loop + AutoScroll need surplus content to cycle seamlessly.
+  const cards = [...CATALOGUE, ...CATALOGUE, ...CATALOGUE];
   return (
     <section className="relative flex min-h-screen flex-col justify-center overflow-hidden py-24">
       <div className="mb-10 px-[7vw]">
@@ -75,12 +78,12 @@ export default function ReelCatalogue() {
         <p className="mt-4 max-w-[46ch] text-[16px] leading-relaxed text-[#EADFCF]/55">Hover any one to watch it. Each is sixty seconds, made for the feed.</p>
       </div>
       <Carousel
-        opts={{ loop: true, dragFree: true, align: 'start' }}
-        plugins={[AutoScroll({ speed: 0.9, startDelay: 0, stopOnInteraction: false, stopOnMouseEnter: true })]}
+        opts={{ loop: true, dragFree: true, align: 'start', containScroll: false }}
+        plugins={[AutoScroll({ speed: 1, startDelay: 0, stopOnInteraction: false, stopOnMouseEnter: true, stopOnFocusIn: false })]}
         className="w-full [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]"
       >
         <CarouselContent className="py-10">
-          {CATALOGUE.map((reel, i) => (
+          {cards.map((reel, i) => (
             <CarouselItem key={`${reel.brand}-${i}`} className="basis-auto">
               <ReelCard reel={reel} />
             </CarouselItem>
