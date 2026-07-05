@@ -23,8 +23,8 @@ const PHONE = PHONE_HERO_POS; // [0, 0.95, 1.15] — icons emerge from here
 const CENTER: [number, number, number] = [0, 0.98, 1.24]; // ring centre, forward of the phone
 const ICON = 0.056;
 const ICON_MIN = 0.45; // start size (grows as it flies out; hidden behind the phone)
-const R_IN = 0.28; // clear of the phone silhouette
-const R_OUT = 0.5; // bounded so nothing clips the frame
+const R_IN = 0.25; // clear of the phone silhouette
+const R_OUT = 0.4; // bounded so the ring stays within the (vertical) frame + margin
 const YFLAT = 0.72; // frame is shorter than wide → squash vertically
 const GOLD = Math.PI * (3 - Math.sqrt(5));
 
