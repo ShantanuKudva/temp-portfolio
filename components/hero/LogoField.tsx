@@ -8,7 +8,6 @@ import {
   type Group,
   type LineSegments,
   type LineBasicMaterial,
-  type MeshBasicMaterial,
 } from "three";
 import { getP } from "@/lib/store";
 import { BEAT } from "@/lib/timeline";
@@ -23,6 +22,7 @@ const N = BRANDS.length;
 const PHONE = PHONE_HERO_POS; // [0, 0.95, 1.15] — icons emerge from here
 const CENTER: [number, number, number] = [0, 0.98, 1.24]; // ring centre, forward of the phone
 const ICON = 0.056;
+const ICON_MIN = 0.45; // start size (grows as it flies out; hidden behind the phone)
 const R_IN = 0.28; // clear of the phone silhouette
 const R_OUT = 0.5; // bounded so nothing clips the frame
 const YFLAT = 0.72; // frame is shorter than wide → squash vertically
@@ -68,7 +68,6 @@ const smooth = (a: number, b: number, x: number) => {
 export default function LogoField() {
   const texs = useMemo(() => BRANDS.map((b) => buildIconTexture(b)), []);
   const groups = useRef<(Group | null)[]>([]);
-  const mats = useRef<(MeshBasicMaterial | null)[]>([]);
   const lines = useRef<LineSegments>(null);
   const lineGeo = useMemo(() => {
     const g = new BufferGeometry();
@@ -106,11 +105,10 @@ export default function LogoField() {
       const g = groups.current[i];
       if (g) {
         g.position.set(x, y, z);
-        g.scale.setScalar(0.82 + 0.18 * f); // subtle grow, no scale-pop
-        g.visible = f > 0.003;
+        // grow OUT of the screen as solid objects (no opacity fade → no "bubble")
+        g.scale.setScalar(ICON_MIN + (1 - ICON_MIN) * f);
+        g.visible = f > 0.004;
       }
-      const m = mats.current[i];
-      if (m) m.opacity = Math.min(1, f * 1.7); // FADE in/out
     }
     const field = smooth(0.32, 0.46, p) * (1 - retract);
     if (lines.current) {
@@ -141,14 +139,10 @@ export default function LogoField() {
             <mesh>
               <planeGeometry args={[ICON, ICON]} />
               <meshBasicMaterial
-                ref={(el) => {
-                  mats.current[i] = el;
-                }}
                 map={texs[i] ?? undefined}
                 transparent
                 depthWrite={false}
                 toneMapped={false}
-                opacity={0}
               />
             </mesh>
           </Billboard>
