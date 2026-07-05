@@ -3,6 +3,7 @@ import HeroCanvas from '@/components/hero/HeroCanvas';
 import HookText from '@/components/overlay/HookText';
 import ScrollIndicator from '@/components/overlay/ScrollIndicator';
 import Preloader from '@/components/hero/Preloader';
+import PitchSection from '@/components/pitch/PitchSection';
 
 export default function Page() {
   return (
@@ -14,7 +15,7 @@ export default function Page() {
           <ScrollIndicator />
         </section>
       </ScrollProvider>
-      <section className="h-screen w-full" />{/* below-hero spacer; PortfolioHandoff replaces later */}
+      <PitchSection />
       {/* Gates the scene until every GLB + the HDRI have streamed in (100%). */}
       <Preloader />
     </main>
