@@ -11,8 +11,8 @@ import PitchOrbit from './PitchOrbit';
 
 // Camera framing for the pitch phone hero shot — tuned live so the phone
 // reads as a spotlit hero on a near-black ground.
-const PHONE_CAM_Y = 0.95; // aim at the phone hero height
-const PHONE_CAM_Z = 3.0; // pulled back so the right-docked phone + orbit fit
+const PHONE_CAM_Y = 1.12; // raised above the phone hero height so the tall phone drops into frame centre
+const PHONE_CAM_Z = 2.3; // close enough that the hero-scaled phone fills the frame
 
 // Rendered INSIDE <Canvas> so useFrame runs on the render loop; it mutates
 // the outer wrapper div's style via the ref every frame to fade the whole

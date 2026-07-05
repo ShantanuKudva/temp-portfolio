@@ -1,24 +1,26 @@
 'use client';
 import { useMemo, useRef } from 'react';
-import { useFrame, useThree } from '@react-three/fiber';
+import { useFrame } from '@react-three/fiber';
 import { Billboard } from '@react-three/drei';
 import type { Group } from 'three';
 import { BRANDS, buildIconTexture } from '@/lib/brandIcons';
 import { getQ } from '@/lib/store';
 import { sampleNumber } from '@/lib/track';
-import { PITCH_X, PITCH_SCALE, PITCH_ORB } from '@/lib/pitch';
+import { PITCH_X, PITCH_SCALE, PITCH_ORB, PITCH_HERO, PITCH_XSPREAD } from '@/lib/pitch';
 import { PHONE_HERO_POS } from '@/lib/phone';
 
 const N = BRANDS.length;
-const RADIUS = 0.9;      // ring radius around the phone (world units, pre-scale)
-const ICON = 0.14;
+// Radius/icon are in the ring's LOCAL space; the group is scaled by
+// sc*PITCH_HERO (same as the phone) so the ring tracks the phone's size. Kept
+// small so icons hug just outside the phone silhouette rather than filling the frame.
+const RADIUS = 0.16;
+const ICON = 0.06;
 const BASE = PHONE_HERO_POS; // ring centres on the phone hero position
 
 export default function PitchOrbit() {
   const texs = useMemo(() => BRANDS.map((b) => buildIconTexture(b)), []);
   const ring = useRef<Group>(null);
   const items = useRef<(Group | null)[]>([]);
-  const { viewport } = useThree();
 
   useFrame((state) => {
     const q = getQ();
@@ -28,9 +30,9 @@ export default function PitchOrbit() {
     const orb = sampleNumber(PITCH_ORB, q);
     const g = ring.current;
     if (!g) return;
-    // follow the phone: x-offset in world units = fraction * half viewport width
-    g.position.set(BASE[0] + xFrac * viewport.width * 0.5, BASE[1], BASE[2]);
-    g.scale.setScalar(sc);
+    // track the phone's position + size (same world mapping as PitchPhone)
+    g.position.set(BASE[0] + xFrac * PITCH_XSPREAD, BASE[1], BASE[2]);
+    g.scale.setScalar(sc * PITCH_HERO);
     g.rotation.z = t * 0.24; // slow spin
     for (let i = 0; i < N; i++) {
       const it = items.current[i];

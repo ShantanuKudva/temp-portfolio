@@ -1,13 +1,13 @@
 'use client';
 import { useMemo, useRef } from 'react';
-import { useFrame, useThree } from '@react-three/fiber';
+import { useFrame } from '@react-three/fiber';
 import { useGLTF } from '@react-three/drei';
 import { FrontSide } from 'three';
 import type { Group, Mesh, Material } from 'three';
 import { PHONE_SCALE, PHONE_HERO_POS } from '@/lib/phone';
 import { getQ } from '@/lib/store';
 import { sampleNumber } from '@/lib/track';
-import { PITCH_X, PITCH_SCALE, PITCH_OP } from '@/lib/pitch';
+import { PITCH_X, PITCH_SCALE, PITCH_OP, PITCH_HERO, PITCH_XSPREAD } from '@/lib/pitch';
 import { withMeshopt } from '@/lib/gltfLoaders';
 import ReelScreen from './ReelScreen';
 
@@ -51,7 +51,6 @@ export default function PitchPhone() {
   }, [scene]);
 
   const root = useRef<Group>(null);
-  const { viewport } = useThree();
 
   useFrame(() => {
     const g = root.current;
@@ -60,8 +59,8 @@ export default function PitchPhone() {
     const xFrac = sampleNumber(PITCH_X, q);
     const sc = sampleNumber(PITCH_SCALE, q);
     const op = sampleNumber(PITCH_OP, q);
-    g.position.set(PHONE_HERO_POS[0] + xFrac * viewport.width * 0.5, PHONE_HERO_POS[1], PHONE_HERO_POS[2]);
-    g.scale.setScalar(sc);
+    g.position.set(PHONE_HERO_POS[0] + xFrac * PITCH_XSPREAD, PHONE_HERO_POS[1], PHONE_HERO_POS[2]);
+    g.scale.setScalar(sc * PITCH_HERO);
     // Only transparent while actually dimming — fully opaque at op===1 so we
     // don't reintroduce the back-camera-ghost-through-screen the FrontSide
     // hardening above is meant to prevent.

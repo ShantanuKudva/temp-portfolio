@@ -15,6 +15,12 @@ export const PBEAT = {
 
 const E = 'inOutCubic' as const;
 
+// Framing constants for the 3D pitch phone/orbit. PITCH_SCALE/PITCH_X below are
+// authored 0..1 (from the CSS mock); these map them into world space so the
+// phone reads as a hero on reel beats and stays framed. Tune live.
+export const PITCH_HERO = 2.3;    // world-scale multiplier applied to PITCH_SCALE
+export const PITCH_XSPREAD = 0.9; // world x-offset per unit of PITCH_X (0 = centred)
+
 // Phone x-offset as a FRACTION of viewport width (0 = centred). The phone holds
 // its lane on the right and only scales; no vertical swing, no rotation.
 export const PITCH_X: Keyframe<number>[] = [
