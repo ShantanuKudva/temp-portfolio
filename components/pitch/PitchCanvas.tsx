@@ -32,7 +32,7 @@ function FadeIn({ wrapRef }: { wrapRef: RefObject<HTMLDivElement | null> }) {
 export default function PitchCanvas() {
   const wrap = useRef<HTMLDivElement>(null);
   return (
-    <div ref={wrap} className="fixed inset-0 -z-10 bg-[#0B0708]" style={{ opacity: 0 }}>
+    <div ref={wrap} className="pointer-events-none fixed inset-0 z-0 bg-[#0B0708]" style={{ opacity: 0 }}>
       <Canvas camera={{ position: [0, PHONE_CAM_Y, PHONE_CAM_Z], fov: 40 }} dpr={[1, 2]}>
         <ambientLight intensity={0.6} />
         <directionalLight position={[2, 4, 3]} intensity={2.2} />

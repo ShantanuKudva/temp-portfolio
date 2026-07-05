@@ -6,7 +6,10 @@ import PitchFooter from './PitchFooter';
 export default function PitchSection() {
   return (
     <PitchProvider>
-      <div className="relative w-full bg-[#0B0708]">
+      {/* No background here — the fixed PitchCanvas (z-0) IS the black ground +
+          phone; the beats (z-10, transparent) sit above it. An opaque bg here
+          would paint over the canvas and hide the phone. */}
+      <div className="relative w-full">
         <PitchCanvas />
         <PitchOverlay />
       </div>
