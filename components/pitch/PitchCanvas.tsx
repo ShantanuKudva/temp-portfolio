@@ -2,6 +2,7 @@
 import { useRef } from 'react';
 import type { RefObject } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
+import { Environment } from '@react-three/drei';
 import { getQ } from '@/lib/store';
 import { clamp01 } from '@/lib/track';
 import { PBEAT } from '@/lib/pitch';
@@ -34,9 +35,13 @@ export default function PitchCanvas() {
   return (
     <div ref={wrap} className="pointer-events-none fixed inset-0 z-0 bg-[#0B0708]" style={{ opacity: 0 }}>
       <Canvas camera={{ position: [0, PHONE_CAM_Y, PHONE_CAM_Z], fov: 40 }} dpr={[1, 2]}>
-        <ambientLight intensity={0.6} />
-        <directionalLight position={[2, 4, 3]} intensity={2.2} />
-        <spotLight position={[0, 3, 2.5]} angle={0.5} penumbra={0.8} intensity={12} color="#FFE7C4" />
+        {/* Same HDRI the landing uses so the iPhone 14 Pro's PBR metal/glass reads
+            identically (without an env map it renders flat + pale — looked like a
+            different asset). background stays off; this only lights reflections. */}
+        <Environment files="/assets/hdri/room.hdr" environmentIntensity={0.5} />
+        <ambientLight intensity={0.25} color="#FFF3E8" />
+        <directionalLight position={[2, 4, 3]} intensity={1.4} color="#FFE9CC" />
+        <spotLight position={[0, 3, 2.5]} angle={0.5} penumbra={0.8} intensity={14} color="#FFE7C4" />
         <PitchPhone />
         <PitchOrbit />
         <FadeIn wrapRef={wrap} />
