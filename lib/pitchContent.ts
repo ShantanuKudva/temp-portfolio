@@ -15,6 +15,18 @@ export const REELS: Reel[] = [
   { brand: 'Claude', gradient: ['#241b0a', '#B08D4C', '#1c1409'], caption: "okay, this\none's different.", sub: 'why it actually clicks' },
 ];
 
+// The horizontal "reel wall" — a fuller catalogue than the 3 the phone plays.
+// Each is a placeholder card (gradient) until a real vertical clip is dropped in
+// as `videoSrc` (/assets/reels/*.mp4), at which point it plays on hover.
+export const CATALOGUE: Reel[] = [
+  { brand: 'Linear',     gradient: ['#123', '#2F4A3A', '#0a1a12'], caption: 'this is how\nfast should feel.', sub: '60 sec review' },
+  { brand: 'Notion',     gradient: ['#3a1420', '#7B1E2B', '#2A1A1C'], caption: 'everything,\nin one place.', sub: 'the verdict in 6s' },
+  { brand: 'Claude',     gradient: ['#241b0a', '#B08D4C', '#1c1409'], caption: "okay, this\none's different.", sub: 'why it clicks' },
+  { brand: 'Figma',      gradient: ['#2a0f2e', '#8A3FFC', '#150a1a'], caption: 'design, but\nit ships.', sub: 'the 60s tour' },
+  { brand: 'Perplexity', gradient: ['#0a2a2e', '#20808D', '#08171a'], caption: 'answers, not\nten blue links.', sub: 'first impression' },
+  { brand: 'Spotify',    gradient: ['#0d2416', '#1DB954', '#07140c'], caption: 'the feature\nnobody noticed.', sub: 'hidden gem' },
+];
+
 export const PILLARS = [
   { n: '01', title: 'Clarity', body: 'Complex product, one clean idea an audience actually remembers after they scroll.' },
   { n: '02', title: 'Speed',   body: "The hook, the point, the verdict — before anyone's thumb decides to move on." },
