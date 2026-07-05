@@ -2,7 +2,7 @@ import BeatShell from '../BeatShell';
 import ScrambleLine from '@/components/overlay/ScrambleLine';
 import { Button } from '@/components/ui/button';
 import BookCallButton from '@/components/pitch/BookCallButton';
-import { HEADS, CONTACT } from '@/lib/pitchContent';
+import { HEADS, CONTACT, MEDIA_KIT_URL } from '@/lib/pitchContent';
 
 export default function TheAsk() {
   return (
@@ -14,7 +14,7 @@ export default function TheAsk() {
         <Button variant="outline" size="lg" className="rounded-full" render={<a href={`mailto:${CONTACT.email}`} />}>
           Work with me
         </Button>
-        <Button variant="ghost" size="lg" className="rounded-full" render={<a href="#" />}>
+        <Button variant="ghost" size="lg" className="rounded-full" render={<a href={MEDIA_KIT_URL} />}>
           Download media kit
         </Button>
       </div>
@@ -24,7 +24,7 @@ export default function TheAsk() {
           Free 15-min intro · pick a slot on <b className="font-bold text-white">Cal.com</b> — real availability, instant confirm.
         </p>
       </div>
-      <p className="mt-4 font-mono text-[13px] text-[#EADFCF]/45">{CONTACT.email} · {CONTACT.handle}  (placeholder — swap real)</p>
+      <p className="mt-4 font-mono text-[13px] text-[#EADFCF]/45">{CONTACT.email} · {CONTACT.handle} (placeholder — swap real)</p>
     </BeatShell>
   );
 }
