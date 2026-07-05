@@ -39,6 +39,13 @@ export default function ScreenContent() {
         ctx.roundRect(0, 0, iw, ih, iw * 0.086);
         ctx.clip();
         ctx.drawImage(img, 0, 0);
+        // Dynamic Island — the capture doesn't include it; draw the pill top-centre
+        const diW = iw * 0.26;
+        const diH = ih * 0.03;
+        ctx.fillStyle = "#000000";
+        ctx.beginPath();
+        ctx.roundRect((iw - diW) / 2, ih * 0.016, diW, diH, diH / 2);
+        ctx.fill();
         const t = new CanvasTexture(cv);
         t.colorSpace = SRGBColorSpace;
         t.anisotropy = 16;

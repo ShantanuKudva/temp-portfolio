@@ -214,7 +214,9 @@ useGLTF.preload("/assets/desk-setup.glb", false, false, withMeshopt);
 const SPOT_INTENSITY: Keyframe<number>[] = [
   { at: BEAT.holdStart, value: 0 },
   { at: BEAT.returnStart, value: 9, ease: "outCubic" },
-  { at: BEAT.rotateStart, value: 3.5, ease: "inQuad" },
+  { at: BEAT.rotateStart, value: 7, ease: "inOutCubic" },
+  { at: BEAT.pushStart, value: 13, ease: "inOutCubic" }, // strong spot as the room goes dark
+  { at: BEAT.revealStart, value: 15 },
 ];
 // Lift/apps stage spotlights: ramp on as the phone lifts, hold through
 // burst→constellation, ease off into the return. Bright enough to carry the
@@ -236,8 +238,10 @@ const ENV_DIM: Keyframe<number>[] = [
   { at: BEAT.liftStart, value: 1 },
   { at: BEAT.burstStart, value: 0.22, ease: "inOutCubic" },
   { at: BEAT.constellPeak, value: 0.22 },
-  { at: BEAT.returnStart, value: 0.3, ease: "inOutCubic" },
-  { at: BEAT.revealStart, value: 0.45, ease: "inOutCubic" },
+  { at: BEAT.returnStart, value: 0.28, ease: "inOutCubic" },
+  { at: BEAT.rotateStart, value: 0.2, ease: "inOutCubic" },
+  { at: BEAT.pushStart, value: 0.04, ease: "inOutCubic" }, // room goes dark as the screen takes over
+  { at: BEAT.revealStart, value: 0 }, // fully dark — just the phone under the spotlight
 ];
 const ENV_BASE = { key: 3.0, fill: 0.85, amb: 0.2, lamp: 1.5, hdri: 0.35 }; // fill up + cooler to fight the orange cast
 const WALL_LAMP_BASE = 2.6; // warm glow spilling from the wall-mounted pendant lamp
