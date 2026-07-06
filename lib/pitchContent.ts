@@ -45,6 +45,22 @@ export const MEET = {
   bio: "I review apps and businesses the way people actually use them — no jargon, no 12-minute deep dives. Just the hook, the point, and the one reason it's worth your thumb stopping.",
 } as const;
 
+// Personal "about" block for the portfolio page. Derived from her positioning
+// (safe placeholders — swap for real bio facts when they exist).
+export const ABOUT = {
+  eyebrow: "Who's behind the lens",
+  lead: 'Hi, I’m Varsheni.',
+  body: "I got tired of watching genuinely good products get explained badly — so I started explaining them the way a friend would. Short, honest, and only the part that actually matters. No sponsored-read energy, no filler, no pretending everything is a 10.",
+  kicker: 'If it doesn’t earn the thumb-stop, it doesn’t ship.',
+} as const;
+
+export const ABOUT_FACTS = [
+  { k: 'Focus',      v: 'Apps, SaaS & tech products' },
+  { k: 'Format',     v: 'Vertical short-form reviews' },
+  { k: 'Voice',      v: 'Plain-spoken, never clickbait' },
+  { k: 'Turnaround', v: 'Seven days, start to post' },
+] as const;
+
 export const CHIPS = [
   { pre: '1×', text: 'vertical review reel' },
   { pre: '7-day', text: 'turnaround' },
@@ -85,3 +101,43 @@ export const FOOTER_LINKS = {
     { label: 'Content & Disclosure', href: '/disclosure' },
   ],
 } as const;
+
+// ── Editorial redesign content (2026-07-06) ────────────────────────────────
+// All PLACEHOLDER where marked — swaps to real copy with no component change.
+
+export const PROCESS_STEPS = [
+  { n: '01', title: 'Brief',  body: 'You send the product and the one thing you wish people understood. We find the hook worth sixty seconds.' },
+  { n: '02', title: 'Script', body: 'A tight script — the hook, the point, the verdict. Written the way a friend talks, not a sponsored read.' },
+  { n: '03', title: 'Shoot',  body: 'Shot and cut for the feed: vertical, captioned, thumb-stopping from the very first frame.' },
+  { n: '04', title: 'Ship',   body: 'Posted to her audience within seven days — with full usage rights to run it anywhere you like.' },
+] as const;
+
+export const CASE_STUDY = {
+  eyebrow: 'The brief · Linear',
+  brand: 'Linear',
+  brief: 'Linear is fast — but "fast" is invisible in a screenshot. They needed people to feel it, not read about it.',
+  quote: "So we didn't say fast. We showed the half-second between click and done.",
+  metrics: [
+    { value: '1.3M', label: 'views' },
+    { value: '24k',  label: 'saves' },
+    { value: '3.1k', label: 'comments' },
+  ],
+  note: 'Placeholder numbers — real case metrics on request.',
+} as const;
+
+export const PRICING_TIERS = [
+  { name: 'Single',   tag: 'One review',    price: '$—', unit: '/ reel',  featured: false,
+    features: ['1× 60-second vertical reel', '7-day turnaround', 'One revision round', 'Full usage rights'] },
+  { name: 'Bundle',   tag: 'Three reviews', price: '$—', unit: '/ three', featured: true, ribbon: 'Most booked',
+    features: ['3× reels, your cadence', 'Priority turnaround', 'Bundle saving', 'Full usage rights'] },
+  { name: 'Retainer', tag: 'Monthly',       price: '$—', unit: '/ month', featured: false,
+    features: ['4 reels every month', 'First pick of drops', 'Ongoing, cancel anytime', 'Full usage rights'] },
+] as const;
+
+export const FAQ = [
+  { q: 'Who writes the script?', a: 'She does, from your brief — and you approve it before anything gets shot.' },
+  { q: 'How many revisions?',    a: 'One round is included. Approving the script up front keeps it tight and on-message.' },
+  { q: 'Do I own the reel?',     a: 'Yes — full usage rights to run it on your channels, ads, and site, for good.' },
+  { q: 'Will you post it too?',  a: 'Yes, to her audience. That reach is part of the deal, not an add-on.' },
+  { q: 'How fast is it?',        a: 'Seven days from brief to posted — faster on a bundle or retainer.' },
+] as const;
