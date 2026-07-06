@@ -1,0 +1,55 @@
+import Image from 'next/image';
+import Reveal from '../Reveal';
+import { MEET, ABOUT, ABOUT_FACTS, PORTRAIT_SRC } from '@/lib/pitchContent';
+
+// Post-scroll "personal info" section — the face and voice behind the reels.
+// Portrait on the left (a designed placeholder frame until a real photo lands
+// at PORTRAIT_SRC), story + quick facts on the right. Simple, revealed on scroll.
+export default function About() {
+  return (
+    <section className="flex min-h-screen items-center px-[7vw] py-28">
+      <div className="mx-auto grid w-full max-w-[1100px] grid-cols-1 items-center gap-12 md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:gap-16">
+        {/* Portrait */}
+        <Reveal>
+          <div className="relative mx-auto aspect-[4/5] w-full max-w-[380px] overflow-hidden rounded-[28px] ring-1 ring-[#B08D4C]/40 shadow-[0_40px_100px_-40px_rgba(0,0,0,0.9)]">
+            {PORTRAIT_SRC ? (
+              <Image src={PORTRAIT_SRC} alt={MEET.name} fill sizes="380px" className="object-cover" />
+            ) : (
+              <div className="flex h-full w-full items-center justify-center bg-[linear-gradient(150deg,#7B1E2B,#571620_55%,#2A1A1C)]">
+                <span className="font-extrabold leading-none text-white/90 text-[clamp(90px,16vw,150px)]">V</span>
+                <span className="absolute bottom-4 left-5 font-mono text-[11px] uppercase tracking-[0.24em] text-[#EADFCF]/45">portrait — placeholder</span>
+              </div>
+            )}
+          </div>
+        </Reveal>
+
+        {/* Story + facts */}
+        <div>
+          <Reveal>
+            <p className="mb-6 font-mono text-[13px] uppercase tracking-[0.32em] text-[#B08D4C]">{ABOUT.eyebrow}</p>
+          </Reveal>
+          <Reveal delay={80}>
+            <h2 className="text-white font-extrabold leading-[1.02] tracking-[-0.02em] text-[clamp(32px,4.6vw,54px)]">{ABOUT.lead}</h2>
+          </Reveal>
+          <Reveal delay={140}>
+            <p className="mt-6 max-w-[54ch] text-[17px] leading-relaxed text-[#EADFCF]/70">{ABOUT.body}</p>
+          </Reveal>
+          <Reveal delay={180}>
+            <p className="mt-6 max-w-[46ch] text-[18px] font-semibold italic leading-snug text-white/90">“{ABOUT.kicker}”</p>
+          </Reveal>
+
+          <div className="mt-10 grid grid-cols-2 gap-x-8 gap-y-6 border-t border-[#B08D4C]/20 pt-8">
+            {ABOUT_FACTS.map((f, i) => (
+              <Reveal key={f.k} delay={120 + i * 60}>
+                <div>
+                  <div className="font-mono text-[11px] uppercase tracking-[0.22em] text-[#B08D4C]">{f.k}</div>
+                  <div className="mt-1.5 text-[16px] leading-snug text-[#EADFCF]/85">{f.v}</div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}

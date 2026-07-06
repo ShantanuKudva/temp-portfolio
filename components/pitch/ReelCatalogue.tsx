@@ -1,106 +1,166 @@
 'use client';
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Play } from 'lucide-react';
-import AutoScroll from 'embla-carousel-auto-scroll';
-import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
+import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from '@/components/ui/carousel';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import Reveal from './Reveal';
+import InstagramReelUI from './InstagramReelUI';
+import { cn } from '@/lib/utils';
 import { CATALOGUE, type Reel } from '@/lib/pitchContent';
 
-// Deterministic per-position variance so the wall reads as a natural scatter,
-// not a ruled row: staggered widths, vertical offsets, and a slight tilt.
-const WIDTHS = [224, 204, 240, 212, 232, 208];
-const OFFY = [0, 22, -12, 16, -20, 8];
-const ROT = [-1.4, 1.0, -0.7, 1.5, -1.1, 0.6];
+// A reel is shown on a phone screen, so the frame uses the source screenshot's
+// phone aspect (736×1624 ≈ 9:19.9), not the 9:16 of the raw video — this is what
+// gives the Instagram chrome (status bar → tall content → caption + nav) its
+// correct proportions. Featured reel + thumbnails share it so heights stay consistent.
+const REEL_AR = 736 / 1624;
 
-// One reel card. Composed from shadcn primitives (Card / AspectRatio / Badge /
-// Button). The organic placement lives on the OUTER wrapper (inline transform);
-// the hover pop lives on the INNER wrapper (transform via classes) so they don't
-// fight. On hover the card pops + plays its video; siblings desaturate because
-// the whole wall is a `group/wall` and only the hovered card overrides it back.
-function ReelCard({ reel, i }: { reel: Reel; i: number }) {
+// The big featured reel (9:16), dressed as a live Instagram reel (InstagramReelUI
+// overlays the chrome). Autoplays its clip while it's the active slide; pauses
+// otherwise. Until a real /assets/reels/*.mp4 lands it's just the gradient. The
+// Card is a container so the overlay's cqw units scale with the reel.
+function FeaturedReel({ reel, index, active }: { reel: Reel; index: number; active: boolean }) {
   const vid = useRef<HTMLVideoElement>(null);
-  const play = () => { const v = vid.current; if (v) { v.currentTime = 0; v.play().catch(() => {}); } };
-  const stop = () => { const v = vid.current; if (v) v.pause(); };
-  const k = i % WIDTHS.length;
+  const [paused, setPaused] = useState(false);
+
+  // Play only while this reel is the active slide AND not paused.
+  useEffect(() => {
+    const v = vid.current;
+    if (!v) return;
+    if (active && !paused) v.play().catch(() => {}); else v.pause();
+  }, [active, paused]);
+
+  // Swiping to a reel restarts it playing (Instagram behaviour).
+  useEffect(() => {
+    if (!active) return;
+    setPaused(false);
+    const v = vid.current;
+    if (v) v.currentTime = 0;
+  }, [active]);
 
   return (
-    <div style={{ transform: `translateY(${OFFY[k]}px) rotate(${ROT[k]}deg)`, width: `${WIDTHS[k]}px` }}>
+    <Card
+      className="relative h-full w-full overflow-hidden rounded-[20px] border-0 bg-transparent p-0 shadow-[0_40px_100px_-40px_rgba(0,0,0,0.9)] ring-0"
+      style={{ containerType: 'inline-size' }}
+    >
       <div
-        onMouseEnter={play}
-        onMouseLeave={stop}
-        className="group/card transition-all duration-300 ease-out group-hover/wall:opacity-40 group-hover/wall:saturate-[0.35] hover:z-20 hover:!scale-[1.12] hover:!opacity-100 hover:-translate-y-3 hover:!saturate-100"
+        className="absolute inset-0"
+        style={{ background: `linear-gradient(160deg, ${reel.gradient[0]}, ${reel.gradient[1]} 55%, ${reel.gradient[2]})` }}
+      />
+      {reel.videoSrc && (
+        <video
+          ref={vid}
+          muted
+          loop
+          playsInline
+          preload="none"
+          src={reel.videoSrc}
+          className={cn('absolute inset-0 h-full w-full object-cover transition-opacity duration-500', active ? 'opacity-100' : 'opacity-0')}
+        />
+      )}
+      <InstagramReelUI reel={reel} index={index} />
+      {/* Tap anywhere to pause/play; the play glyph shows only while paused. Sits
+          above the chrome (z-30) so a tap toggles playback like a real reel. */}
+      <button
+        type="button"
+        onClick={() => setPaused((p) => !p)}
+        aria-label={paused ? 'Play reel' : 'Pause reel'}
+        className="absolute inset-0 z-30 flex items-center justify-center outline-none"
       >
-        <AspectRatio ratio={9 / 16}>
-          <Card className="relative h-full w-full overflow-hidden rounded-2xl border-white/10 p-0 shadow-2xl transition-shadow duration-300 group-hover/card:shadow-[0_30px_80px_-20px_rgba(0,0,0,0.9)]">
-            <div
-              className="absolute inset-0 transition-transform duration-[6000ms] ease-out group-hover/card:scale-110"
-              style={{ background: `linear-gradient(160deg, ${reel.gradient[0]}, ${reel.gradient[1]} 55%, ${reel.gradient[2]})` }}
-            />
-            {reel.videoSrc && (
-              <video
-                ref={vid}
-                muted
-                loop
-                playsInline
-                preload="none"
-                src={reel.videoSrc}
-                className="absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-300 group-hover/card:opacity-100"
-              />
-            )}
-            <Badge variant="secondary" className="absolute left-3 top-3 z-10 font-mono text-[10px] uppercase tracking-[0.14em]">
-              {reel.brand}
-            </Badge>
-            <Button
-              size="icon"
-              variant="secondary"
-              onClick={play}
-              aria-label={`Play ${reel.brand} reel`}
-              className="absolute left-1/2 top-1/2 z-10 size-12 -translate-x-1/2 -translate-y-1/2 rounded-full opacity-0 transition-opacity duration-300 group-hover/card:opacity-100"
-            >
-              <Play className="size-5" />
-            </Button>
-            <div className="absolute inset-x-0 bottom-0 z-10 p-4">
-              <p className="whitespace-pre-line text-[19px] font-extrabold leading-[1.04] tracking-[-0.01em] text-white drop-shadow">{reel.caption}</p>
-              <p className="mt-2 font-mono text-[11px] text-white/75">{reel.sub}</p>
-            </div>
-          </Card>
-        </AspectRatio>
-      </div>
-    </div>
+        <Play
+          className={cn(
+            'size-[17cqw] fill-white text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.6)] transition-opacity duration-200',
+            paused ? 'opacity-95' : 'opacity-0',
+          )}
+        />
+      </button>
+    </Card>
   );
 }
 
-// The "reel wall": a full-bleed horizontal marquee (shadcn Carousel + Embla
-// AutoScroll) that keeps moving, pauses on hover, and spotlights the hovered
-// card (it pops; the rest desaturate). The body of work, distinct from the
-// single hero reel the phone plays.
+// The "reel wall", reimagined as a HERO CAROUSEL: one featured vertical reel with
+// a shadcn thumbnail carousel to switch, and — on the left — a description that
+// tracks the reel you're currently on. Selecting a thumbnail (or dragging the
+// reel) updates both the featured player and the left-hand copy.
 export default function ReelCatalogue() {
-  // Repeat the set so the track is comfortably wider than the viewport — Embla's
-  // loop + AutoScroll need surplus content to cycle seamlessly.
-  const cards = [...CATALOGUE, ...CATALOGUE, ...CATALOGUE];
+  const [api, setApi] = useState<CarouselApi>();
+  const [current, setCurrent] = useState(0);
+
+  useEffect(() => {
+    if (!api) return;
+    setCurrent(api.selectedScrollSnap());
+    const onSelect = () => setCurrent(api.selectedScrollSnap());
+    api.on('select', onSelect);
+    return () => { api.off('select', onSelect); };
+  }, [api]);
+
+  const activeReel = CATALOGUE[current] ?? CATALOGUE[0];
+
   return (
-    <section className="relative flex min-h-screen flex-col justify-center overflow-hidden py-24">
-      <div className="mb-10 px-[7vw]">
-        <p className="mb-6 font-mono text-[13px] uppercase tracking-[0.32em] text-[#B08D4C]">The work</p>
-        <h2 className="max-w-[16ch] text-white font-extrabold leading-[0.98] tracking-[-0.02em] text-[clamp(34px,5vw,64px)]">A reel for every product.</h2>
-        <p className="mt-4 max-w-[46ch] text-[16px] leading-relaxed text-[#EADFCF]/55">Hover any one to watch it. Each is sixty seconds, made for the feed.</p>
+    <section className="flex min-h-screen items-center px-[7vw] py-28">
+      <div className="mx-auto grid w-full max-w-[1150px] grid-cols-1 items-center gap-14 md:grid-cols-[minmax(0,1fr)_minmax(0,0.95fr)] md:gap-20">
+        {/* LEFT — section intro + the currently-featured reel's description */}
+        <div>
+          <Reveal>
+            <p className="mb-6 font-mono text-[13px] uppercase tracking-[0.32em] text-[#B08D4C]">The work</p>
+          </Reveal>
+          <Reveal delay={80}>
+            <h2 className="text-white font-extrabold leading-[0.98] tracking-[-0.02em] text-[clamp(34px,5vw,60px)]">A reel for every product.</h2>
+          </Reveal>
+
+          {/* This block swaps with the active reel */}
+          <Reveal delay={140}>
+            <div className="mt-9 border-t border-[#B08D4C]/20 pt-8">
+              <Badge variant="secondary" className="font-mono text-[10px] uppercase tracking-[0.16em]">{activeReel.brand}</Badge>
+              <p className="mt-4 min-h-[2.2em] whitespace-pre-line text-white font-bold leading-[1.06] text-[clamp(24px,3.2vw,38px)]">{activeReel.caption}</p>
+              <p className="mt-3 font-mono text-[13px] uppercase tracking-[0.18em] text-[#EADFCF]/55">{activeReel.sub}</p>
+            </div>
+          </Reveal>
+          <Reveal delay={200}>
+            <p className="mt-7 max-w-[42ch] text-[15px] leading-relaxed text-[#EADFCF]/55">
+              Sixty seconds each, made for the feed. Tap a thumbnail to switch — {current + 1} / {CATALOGUE.length}.
+            </p>
+          </Reveal>
+        </div>
+
+        {/* RIGHT — featured reel carousel + thumbnail carousel */}
+        <Reveal delay={120}>
+          <div className="mx-auto w-full max-w-[340px]">
+            <Carousel setApi={setApi} opts={{ loop: true, align: 'center' }}>
+              <CarouselContent>
+                {CATALOGUE.map((reel, i) => (
+                  <CarouselItem key={reel.brand}>
+                    <AspectRatio ratio={REEL_AR}>
+                      <FeaturedReel reel={reel} index={i} active={i === current} />
+                    </AspectRatio>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+            </Carousel>
+
+            {/* Thumbnails — shadcn carousel; the active one is simply brighter. */}
+            <Carousel opts={{ dragFree: true, containScroll: 'keepSnaps' }} className="mt-4">
+              <CarouselContent className="my-1">
+                {CATALOGUE.map((reel, i) => (
+                  <CarouselItem
+                    key={reel.brand}
+                    onClick={() => api?.scrollTo(i)}
+                    className={cn('basis-1/4 cursor-pointer transition-opacity', i === current ? 'opacity-100' : 'opacity-40 hover:opacity-75')}
+                  >
+                    <AspectRatio ratio={REEL_AR}>
+                      <div
+                        className="h-full w-full overflow-hidden rounded-md"
+                        style={{ background: `linear-gradient(160deg, ${reel.gradient[0]}, ${reel.gradient[1]} 55%, ${reel.gradient[2]})` }}
+                      />
+                    </AspectRatio>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+            </Carousel>
+          </div>
+        </Reveal>
       </div>
-      <Carousel
-        opts={{ loop: true, dragFree: true, align: 'start', containScroll: false }}
-        plugins={[AutoScroll({ speed: 1, startDelay: 0, stopOnInteraction: false, stopOnMouseEnter: true, stopOnFocusIn: false })]}
-        className="group/wall w-full [mask-image:linear-gradient(to_right,transparent,black_5%,black_95%,transparent)]"
-      >
-        <CarouselContent className="items-center py-20">
-          {cards.map((reel, i) => (
-            <CarouselItem key={`${reel.brand}-${i}`} className="basis-auto">
-              <ReelCard reel={reel} i={i} />
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-      </Carousel>
     </section>
   );
 }

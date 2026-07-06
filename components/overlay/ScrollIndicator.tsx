@@ -31,7 +31,9 @@ export default function ScrollIndicator() {
   }, []);
 
   const atStart = p < 0.02;
-  const midSequence = p >= 0.02 && p < 0.9;
+  // Landing caps at p≈0.8; hide the cue before then so "Keep scrolling" never
+  // lingers over the portfolio (which begins once p is maxed).
+  const midSequence = p >= 0.02 && p < 0.68;
   const show = atStart || (idle && midSequence);
 
   return (

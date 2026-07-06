@@ -18,6 +18,7 @@ export default function BookCallButton() {
 
   return (
     <Button
+      nativeButton={false}
       render={
         <a
           href={`https://cal.com/${CAL_LINK}`}

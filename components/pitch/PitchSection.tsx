@@ -1,19 +1,17 @@
-import PitchProvider from '@/components/scroll/PitchProvider';
-import PitchCanvas from './PitchCanvas';
-import PitchOverlay from './PitchOverlay';
+import PortfolioReveal from './PortfolioReveal';
+import PortfolioPage from './PortfolioPage';
 import PitchFooter from './PitchFooter';
 
+// The whole post-landing half. The landing's 3D phone sequence (in the parent
+// page) ends with its push-through to black; from there the portfolio simply
+// crossfades in on scroll. There is no second phone-review section anymore.
 export default function PitchSection() {
   return (
-    <PitchProvider>
-      {/* No background here — the fixed PitchCanvas (z-0) IS the black ground +
-          phone; the beats (z-10, transparent) sit above it. An opaque bg here
-          would paint over the canvas and hide the phone. */}
-      <div className="relative w-full">
-        <PitchCanvas />
-        <PitchOverlay />
-      </div>
+    <>
+      <PortfolioReveal>
+        <PortfolioPage />
+      </PortfolioReveal>
       <PitchFooter />
-    </PitchProvider>
+    </>
   );
 }
