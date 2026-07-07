@@ -37,7 +37,7 @@ export default function HeroCanvas() {
         {/* Ambient occlusion — soft contact shadows in every crevice + where the
             pegboard/shelves/headphones meet the wall, so nothing reads pasted-on. */}
         <N8AO aoRadius={0.35} intensity={1.9} distanceFalloff={1} color="black" halfRes />
-        <Bloom intensity={0.5} luminanceThreshold={0.9} luminanceSmoothing={0.2} mipmapBlur />
+        <Bloom intensity={0.32} luminanceThreshold={0.95} luminanceSmoothing={0.25} mipmapBlur />
       </EffectComposer>
     </Canvas>
   );

@@ -35,25 +35,34 @@ export default function ScreenContent() {
       cv.height = ih;
       const ctx = cv.getContext("2d");
       if (ctx) {
+        const R = iw * 0.14; // match the iPhone 14 Pro display corner radius (~55pt / 393pt ≈ 0.14 of width). 0.185 over-carved icons; 0.092 was too square.
         ctx.beginPath();
-        ctx.roundRect(0, 0, iw, ih, iw * 0.086);
+        ctx.roundRect(0, 0, iw, ih, R);
         ctx.clip();
         ctx.drawImage(img, 0, 0);
-        // Dynamic Island — the capture doesn't include it; draw the pill top-centre
-        const diW = iw * 0.26;
-        const diH = ih * 0.03;
-        ctx.fillStyle = "#000000";
+        // (The wallpaper capture already includes the Dynamic Island, so we no
+        // longer draw our own pill — that would double it.)
+        // Bake a thin dark display border INTO the texture so the bright
+        // wallpaper edge can't bleed onto the bezel (survives bloom too). The
+        // stroke is clipped to the rounded rect, so only its inner half shows.
         ctx.beginPath();
-        ctx.roundRect((iw - diW) / 2, ih * 0.016, diW, diH, diH / 2);
-        ctx.fill();
+        ctx.roundRect(0, 0, iw, ih, R);
+        ctx.lineWidth = iw * 0.013;
+        ctx.strokeStyle = "rgba(8,6,7,0.9)";
+        ctx.stroke();
         const t = new CanvasTexture(cv);
         t.colorSpace = SRGBColorSpace;
         t.anisotropy = 16;
         out = t;
       }
     }
-    const planeW = 0.0745 * PHONE_SCALE;
-    return { tex: out, w: planeW, h: planeW * (ih / iw) };
+    // Width AND height are INDEPENDENT knobs (not tied to the image aspect) so
+    // the overlay matches the glass rectangle. This size covers the glass right
+    // at every angle; the only remaining issue was the corner CURVE (see R
+    // below), not the overall size.
+    const planeW = 0.0770 * PHONE_SCALE;
+    const planeH = 0.1665 * PHONE_SCALE;
+    return { tex: out, w: planeW, h: planeH };
   }, [raw]);
 
   useFrame(() => {
@@ -64,8 +73,13 @@ export default function ScreenContent() {
   });
 
   const faceZ = (0.0131 / 2) * PHONE_SCALE + 0.0002;
+  // Vertical registration of the overlay on the glass. The previous +0.0013 up-bias
+  // (tuned for the old phone/image) now rides too HIGH — it left black glass at the
+  // bottom chin. Centred for the current iPhone 14 Pro + home-screen capture; tune in
+  // small steps if the top/bottom margins look uneven.
+  const yOffset = 0.0 * PHONE_SCALE;
   return (
-    <mesh position={[0, 0, faceZ]}>
+    <mesh position={[0, yOffset, faceZ]}>
       <planeGeometry args={[w, h]} />
       <meshBasicMaterial ref={matRef} map={tex} transparent toneMapped={false} />
     </mesh>

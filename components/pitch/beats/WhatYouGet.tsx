@@ -1,5 +1,5 @@
 import Reveal from '../Reveal';
-import AppLogos from '../AppLogos';
+import SectionHead from '../SectionHead';
 import { CHIPS, STATS } from '@/lib/pitchContent';
 import { Card, CardContent } from '@/components/ui/card';
 
@@ -10,17 +10,14 @@ export default function WhatYouGet() {
   return (
     <section className="flex min-h-screen flex-col justify-center px-[7vw] py-28">
       <div className="mx-auto w-full max-w-[1100px]">
-        <Reveal>
-          <p className="mb-6 font-mono text-[13px] uppercase tracking-[0.32em] text-[#B08D4C]">What you get</p>
-        </Reveal>
-        <Reveal delay={80}>
-          <h2 className="text-white font-extrabold leading-[1.03] tracking-[-0.02em] text-[clamp(34px,5.6vw,64px)]">
-            One 60-second review.{' '}
-            <span className="text-[#EADFCF]/[0.42]">Yours to run anywhere.</span>
-          </h2>
-        </Reveal>
+        <SectionHead
+          index="N° 06"
+          title={<>One 60-second review. <span className="text-[#EADFCF]/[0.42]">Yours to run anywhere.</span></>}
+          kicker="What you get"
+          ghost="06"
+        />
 
-        <div className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-14 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {CHIPS.map((c, i) => (
             <Reveal key={c.text} delay={120 + i * 60}>
               <Card className="h-full border-none bg-white/[0.03] py-5 ring-1 ring-[#B08D4C]/20">
@@ -42,18 +39,6 @@ export default function WhatYouGet() {
               </div>
             ))}
           </div>
-        </Reveal>
-      </div>
-
-      {/* Full-width logo wall — the apps & tools she reviews. */}
-      <div className="mt-20 w-full">
-        <Reveal>
-          <p className="mb-8 px-[7vw] text-center font-mono text-[13px] uppercase tracking-[0.32em] text-[#B08D4C]">
-            The apps &amp; tools she reviews
-          </p>
-        </Reveal>
-        <Reveal delay={100}>
-          <AppLogos />
         </Reveal>
       </div>
     </section>

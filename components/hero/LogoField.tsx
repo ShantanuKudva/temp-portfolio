@@ -5,31 +5,38 @@ import { Billboard } from "@react-three/drei";
 import {
   BufferGeometry,
   Float32BufferAttribute,
+  CanvasTexture,
+  SRGBColorSpace,
+  type Texture,
   type Group,
   type LineSegments,
   type LineBasicMaterial,
 } from "three";
 import { getP } from "@/lib/store";
 import { BEAT } from "@/lib/timeline";
-import { BRANDS, buildIconTexture } from "@/lib/brandIcons";
+import { APP_LOGOS } from "@/lib/appLogos";
 import { PHONE_HERO_POS } from "@/lib/phone";
+
+// The constellation uses the SAME apps she reviews as the portfolio logo wall
+// (real brand marks from /public/assets/logos), so the two halves rhyme.
+const LOGOS = APP_LOGOS.slice(0, 15);
 
 // Smooth ORBITAL FLOAT eruption: the tech-brand icons rise out of the phone and
 // settle into an EVEN RING that faces the camera and floats IN FRONT of the phone
 // (so nothing sits on the phone or the desk, and the bounded radius keeps every icon
 // in frame). Phyllotaxis annulus for even spacing; icons fade + the ring drifts.
-const N = BRANDS.length;
+const N = LOGOS.length;
 const PHONE = PHONE_HERO_POS; // [0, 0.95, 1.15] — icons emerge from here
 const CENTER: [number, number, number] = [0, 0.98, 1.24]; // ring centre, forward of the phone
 const ICON = 0.056;
 const ICON_MIN = 0.45; // start size (grows as it flies out; hidden behind the phone)
-const R_IN = 0.25; // clear of the phone silhouette
-const R_OUT = 0.4; // bounded so the ring stays within the (vertical) frame + margin
+const R_IN = 0.36; // pushed out so no icon sits over the phone screen in the held ring
+const R_OUT = 0.52; // bounded so the ring stays within the (vertical) frame + margin
 const YFLAT = 0.72; // frame is shorter than wide → squash vertically
 const GOLD = Math.PI * (3 - Math.sqrt(5));
 
 // Even phyllotaxis annulus in the camera-facing (x/y) plane, small z jitter for depth.
-const OFFSETS: [number, number, number][] = BRANDS.map((_, i) => {
+const OFFSETS: [number, number, number][] = LOGOS.map((_, i) => {
   const r = R_IN + (R_OUT - R_IN) * Math.sqrt((i + 0.5) / N);
   const th = i * GOLD;
   return [Math.cos(th) * r, Math.sin(th) * r * YFLAT, Math.sin(i * 2.3) * 0.11];
@@ -65,8 +72,44 @@ const smooth = (a: number, b: number, x: number) => {
   return t * t * (3 - 2 * t);
 };
 
+// A favicon PNG → a uniform rounded app-icon CanvasTexture: white rounded base
+// with the mark drawn edge-to-edge. The texture starts blank and fills once the
+// image loads.
+function roundedTexture(url: string): Texture | null {
+  if (typeof document === "undefined") return null;
+  const S = 128;
+  const cv = document.createElement("canvas");
+  cv.width = cv.height = S;
+  const ctx = cv.getContext("2d");
+  if (!ctx) return null;
+  const tex = new CanvasTexture(cv);
+  tex.colorSpace = SRGBColorSpace;
+  tex.anisotropy = 16;
+  const img = new Image();
+  img.onload = () => {
+    ctx.clearRect(0, 0, S, S);
+    ctx.save();
+    ctx.beginPath();
+    ctx.roundRect(0, 0, S, S, S * 0.22);
+    ctx.clip();
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, S, S);
+    ctx.drawImage(img, 0, 0, S, S);
+    ctx.restore();
+    tex.needsUpdate = true;
+  };
+  img.src = url;
+  return tex;
+}
+
 export default function LogoField() {
-  const texs = useMemo(() => BRANDS.map((b) => buildIconTexture(b)), []);
+  // Normalise every brand mark into a UNIFORM rounded app-icon tile so the
+  // constellation reads as one cohesive set instead of a mishmash of white
+  // squares, black squares and bare marks. White base → transparent marks stay
+  // legible; edge-to-edge draw → full-bleed coloured icons keep their colour.
+  // Canvas populates a frame or two after the image loads (fine behind the
+  // preloader); guarded for SSR.
+  const texs = useMemo(() => LOGOS.map((l) => roundedTexture(`/assets/logos/${l.slug}.png`)), []);
   const groups = useRef<(Group | null)[]>([]);
   const lines = useRef<LineSegments>(null);
   const lineGeo = useMemo(() => {
@@ -127,9 +170,9 @@ export default function LogoField() {
 
   return (
     <group>
-      {BRANDS.map((brand, i) => (
+      {LOGOS.map((logo, i) => (
         <group
-          key={brand.name}
+          key={logo.slug}
           ref={(el) => {
             groups.current[i] = el;
           }}

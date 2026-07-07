@@ -362,7 +362,7 @@ git commit -m "feat(portfolio): add editorial content (process, case study, pric
 - Create: `tests/editorial.test.ts`
 
 **Interfaces:**
-- Produces: `clamp01(x:number):number`; `smoothstep(e0:number,e1:number,x:number):number` (0 below `e0`, 1 above `e1`, smooth between); `parallaxY(top:number, vh:number, strength:number):number` (0 when the element's top sits at viewport centre, negative above, positive below).
+- Produces: `clamp01(x:number):number`; `smoothstep(e0:number,e1:number,x:number):number` (0 below `e0`, 1 above `e1`, smooth between); `parallaxY(top:number, vh:number, strength:number):number` (0 when the element's top sits at viewport centre, positive above, negative below — matches the code comment + test).
 
 - [ ] **Step 1: Write the failing test**
 

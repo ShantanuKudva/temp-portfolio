@@ -6,6 +6,7 @@ import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import Reveal from './Reveal';
+import SectionHead from './SectionHead';
 import InstagramReelUI from './InstagramReelUI';
 import { cn } from '@/lib/utils';
 import { CATALOGUE, type Reel } from '@/lib/pitchContent';
@@ -98,20 +99,15 @@ export default function ReelCatalogue() {
   const activeReel = CATALOGUE[current] ?? CATALOGUE[0];
 
   return (
-    <section className="flex min-h-screen items-center px-[7vw] py-28">
-      <div className="mx-auto grid w-full max-w-[1150px] grid-cols-1 items-center gap-14 md:grid-cols-[minmax(0,1fr)_minmax(0,0.95fr)] md:gap-20">
-        {/* LEFT — section intro + the currently-featured reel's description */}
+    <section className="flex min-h-screen flex-col justify-center px-[7vw] py-28">
+      <div className="mx-auto w-full max-w-[1150px]">
+        <SectionHead index="N° 02" title="A reel for every product." kicker="The work" ghost="02" />
+        <div className="mt-14 grid grid-cols-1 items-center gap-14 md:grid-cols-[minmax(0,1fr)_minmax(0,0.95fr)] md:gap-20">
+        {/* LEFT — the currently-featured reel's description */}
         <div>
-          <Reveal>
-            <p className="mb-6 font-mono text-[13px] uppercase tracking-[0.32em] text-[#B08D4C]">The work</p>
-          </Reveal>
-          <Reveal delay={80}>
-            <h2 className="text-white font-extrabold leading-[0.98] tracking-[-0.02em] text-[clamp(34px,5vw,60px)]">A reel for every product.</h2>
-          </Reveal>
-
           {/* This block swaps with the active reel */}
           <Reveal delay={140}>
-            <div className="mt-9 border-t border-[#B08D4C]/20 pt-8">
+            <div className="border-t border-[#B08D4C]/20 pt-8">
               <Badge variant="secondary" className="font-mono text-[10px] uppercase tracking-[0.16em]">{activeReel.brand}</Badge>
               <p className="mt-4 min-h-[2.2em] whitespace-pre-line text-white font-bold leading-[1.06] text-[clamp(24px,3.2vw,38px)]">{activeReel.caption}</p>
               <p className="mt-3 font-mono text-[13px] uppercase tracking-[0.18em] text-[#EADFCF]/55">{activeReel.sub}</p>
@@ -160,6 +156,7 @@ export default function ReelCatalogue() {
             </Carousel>
           </div>
         </Reveal>
+        </div>
       </div>
     </section>
   );

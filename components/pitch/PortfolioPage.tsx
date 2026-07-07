@@ -1,20 +1,32 @@
-import ReelCatalogue from './ReelCatalogue';
+import EditorialBackdrop from './EditorialBackdrop';
 import About from './beats/About';
+import ReelCatalogue from './ReelCatalogue';
+import CaseStudy from './beats/CaseStudy';
+import Process from './beats/Process';
+import Reviewed from './beats/Reviewed';
 import WhatYouGet from './beats/WhatYouGet';
+import Pricing from './beats/Pricing';
+import Faq from './beats/Faq';
 import TheAsk from './beats/TheAsk';
 
-// The "post-scroll" portfolio — a normal-flow page that begins once the 3D
-// phone has faded out. It is NOT inside the phone-scroll q region, so sections
-// can be added/reordered here without affecting the phone choreography above.
-//
-// Its opaque warm ground covers the fixed black phone canvas (z-0) as it
-// scrolls up; the top gradient softens the black-cinema → warm-portfolio seam.
+// The "post-scroll" portfolio — an editorial, magazine-numbered page that begins
+// once the 3D phone has faded out. EditorialBackdrop (-z-10 within this z-10
+// stacking context) is the warm ground + glows + grain that covers the fixed 3D
+// canvas; every section paints above it. Sections are ordered as a contents page:
+//   01 Meet · 02 Work · 03 Case study · 04 Process · 05 Reviewed
+//   06 What you get · 07 Pricing · 08 FAQ · then the closing ask.
 export default function PortfolioPage() {
   return (
-    <div className="relative z-10 bg-[#160C0E]">
+    <div className="relative z-10">
+      <EditorialBackdrop />
       <About />
       <ReelCatalogue />
+      <CaseStudy />
+      <Process />
+      <Reviewed />
       <WhatYouGet />
+      <Pricing />
+      <Faq />
       <TheAsk />
     </div>
   );

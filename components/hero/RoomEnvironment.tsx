@@ -257,7 +257,6 @@ export default function RoomEnvironment() {
   const wallLampRef = useRef<PointLight>(null);
   const returnTarget = useMemo(() => new Object3D(), []);
   const liftTarget = useMemo(() => new Object3D(), []);
-  const shadowFrames = useRef(0);
 
   // DEBUG: expose a raycast picker so scripts/pick-desk.mjs can turn a screen point
   // into the exact mesh name it hits (reliable per-item ID, no hue-matching).
@@ -324,13 +323,11 @@ export default function RoomEnvironment() {
     if (wallLampRef.current)
       wallLampRef.current.intensity = WALL_LAMP_BASE * dim;
     state.scene.environmentIntensity = ENV_BASE.hdri * dim; // dims the HDRI fill too
-    // Perf (lossless): the desk is static, so CACHE its 2048 shadow map instead of
-    // re-rasterising ~1M verts every frame. Suspense means frame 1 already has the
-    // loaded desk in the map; update for a short warm-up, then freeze auto-update.
-    if (keyRef.current && shadowFrames.current < 60) {
-      shadowFrames.current += 1;
-      if (shadowFrames.current === 60) keyRef.current.shadow.autoUpdate = false;
-    }
+    // NOTE: the shadow map auto-updates every frame. A previous "freeze after 60
+    // frames" cache made shadows randomly disappear — if the map was captured
+    // before the desk finished streaming, or the WebGL context was lost/restored,
+    // the frozen map went stale/blank and never recovered. Correctness > the perf
+    // win of caching one static shadow map.
   });
 
   return (
@@ -449,11 +446,7 @@ export default function RoomEnvironment() {
         receiveShadow
       >
         <planeGeometry args={[10, 7]} />
-        <meshStandardMaterial
-          color="#9C8468"
-          map={floorTex}
-          roughness={0.85}
-        />
+        <meshStandardMaterial color="#9C8468" map={floorTex} roughness={0.85} />
       </mesh>
       {/* plank wood floor */}
 
