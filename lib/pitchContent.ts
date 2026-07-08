@@ -79,14 +79,12 @@ export const HEADS = {
 export const PORTRAIT_SRC = '/assets/varsheni.jpg'; // her profile photo
 export const CONTACT = { email: 'hello@varsheni.co', handle: '@varsheni' }; // PLACEHOLDER
 export const CAL_LINK = 'varsheni/15min';       // PLACEHOLDER Cal.com link
-export const MEDIA_KIT_URL = '#';               // PLACEHOLDER
 
 export const FOOTER_LINKS = {
   explore: [
     { label: 'Reviews', href: '/#work' },
     { label: 'About', href: '/#about' },
     { label: 'Work with me', href: '/#contact' },
-    { label: 'Media kit', href: MEDIA_KIT_URL },
   ],
   connect: [
     { label: 'Instagram', href: '#' },

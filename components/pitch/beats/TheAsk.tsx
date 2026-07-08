@@ -2,7 +2,7 @@ import Reveal from '../Reveal';
 import ScrambleLine from '@/components/overlay/ScrambleLine';
 import { Button } from '@/components/ui/button';
 import BookCallButton from '@/components/pitch/BookCallButton';
-import { HEADS, CONTACT, MEDIA_KIT_URL } from '@/lib/pitchContent';
+import { HEADS, CONTACT } from '@/lib/pitchContent';
 
 // Post-scroll portfolio CTA. The one place the cherry-maroon goes loud: a
 // panel that reads as the destination of the whole page. Everything above it
@@ -21,10 +21,7 @@ export default function TheAsk() {
           <div className="mt-10 flex flex-wrap gap-4">
             <BookCallButton />
             <Button variant="outline" size="lg" nativeButton={false} className="rounded-full border-white/30 bg-transparent text-white hover:bg-white/10" render={<a href={`mailto:${CONTACT.email}`} />}>
-              Work with me
-            </Button>
-            <Button variant="ghost" size="lg" nativeButton={false} className="rounded-full text-white/80 hover:bg-white/10 hover:text-white" render={<a href={MEDIA_KIT_URL} />}>
-              Download media kit
+              Email me
             </Button>
           </div>
 
