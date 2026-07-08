@@ -61,6 +61,8 @@ export const ABOUT_FACTS = [
   { k: 'Turnaround', v: 'Seven days, start to post' },
 ] as const;
 
+export const LANGUAGES = ['Hindi', 'English', 'Kannada', 'Tamil'] as const;
+
 export const CHIPS = [
   { pre: '1×', text: 'vertical review reel' },
   { pre: '7-day', text: 'turnaround' },

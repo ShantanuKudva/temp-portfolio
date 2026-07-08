@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Reveal from '../Reveal';
 import Parallax from '../Parallax';
 import SectionHead from '../SectionHead';
-import { MEET, ABOUT, ABOUT_FACTS, PORTRAIT_SRC } from '@/lib/pitchContent';
+import { MEET, ABOUT, ABOUT_FACTS, LANGUAGES, PORTRAIT_SRC } from '@/lib/pitchContent';
 
 // Post-scroll "personal info" section — the face and voice behind the reels.
 // Portrait on the left (a designed placeholder frame until a real photo lands
@@ -51,6 +51,22 @@ export default function About() {
               </Reveal>
             ))}
           </div>
+
+          <Reveal delay={200}>
+            <div className="mt-8 border-t border-[#B08D4C]/20 pt-8">
+              <div className="font-mono text-[11px] uppercase tracking-[0.22em] text-[#B08D4C]">Languages</div>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {LANGUAGES.map((l) => (
+                  <span
+                    key={l}
+                    className="rounded-full border border-[#B08D4C]/30 bg-white/[0.03] px-3.5 py-1.5 text-[14px] text-[#EADFCF]/85"
+                  >
+                    {l}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </Reveal>
         </div>
         </div>
       </div>

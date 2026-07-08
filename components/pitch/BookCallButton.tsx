@@ -2,9 +2,10 @@
 import { useEffect } from 'react';
 import { getCalApi } from '@calcom/embed-react';
 import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 import { CAL_LINK } from '@/lib/pitchContent';
 
-export default function BookCallButton() {
+export default function BookCallButton({ className }: { className?: string }) {
   useEffect(() => {
     (async () => {
       try {
@@ -27,7 +28,7 @@ export default function BookCallButton() {
         />
       }
       size="lg"
-      className="rounded-full"
+      className={cn('rounded-full', className)}
     >
       Book a call →
     </Button>
