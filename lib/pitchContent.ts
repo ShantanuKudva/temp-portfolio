@@ -76,7 +76,7 @@ export const HEADS = {
   ask:     "Let's make your\ntech click.",
 } as const;
 
-export const PORTRAIT_SRC = '';                 // PLACEHOLDER: '/assets/varsheni.jpg' when it exists
+export const PORTRAIT_SRC = '/assets/varsheni.jpg'; // her profile photo
 export const CONTACT = { email: 'hello@varsheni.co', handle: '@varsheni' }; // PLACEHOLDER
 export const CAL_LINK = 'varsheni/15min';       // PLACEHOLDER Cal.com link
 export const MEDIA_KIT_URL = '#';               // PLACEHOLDER
@@ -126,11 +126,11 @@ export const CASE_STUDY = {
 } as const;
 
 export const PRICING_TIERS = [
-  { name: 'Single',   tag: 'One review',    price: '$—', unit: '/ reel',  featured: false,
+  { name: 'Single',   tag: 'One review',    price: '₹—', unit: '/ reel',  featured: false,
     features: ['1× 60-second vertical reel', '7-day turnaround', 'One revision round', 'Full usage rights'] },
-  { name: 'Bundle',   tag: 'Three reviews', price: '$—', unit: '/ three', featured: true, ribbon: 'Most booked',
+  { name: 'Bundle',   tag: 'Three reviews', price: '₹—', unit: '/ three', featured: true, ribbon: 'Most booked',
     features: ['3× reels, your cadence', 'Priority turnaround', 'Bundle saving', 'Full usage rights'] },
-  { name: 'Retainer', tag: 'Monthly',       price: '$—', unit: '/ month', featured: false,
+  { name: 'Retainer', tag: 'Monthly',       price: '₹—', unit: '/ month', featured: false,
     features: ['4 reels every month', 'First pick of drops', 'Ongoing, cancel anytime', 'Full usage rights'] },
 ] as const;
 
