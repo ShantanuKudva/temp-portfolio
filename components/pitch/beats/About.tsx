@@ -15,7 +15,7 @@ export default function About() {
         <div className="mt-14 grid grid-cols-1 items-center gap-12 md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:gap-16">
         {/* Portrait — drifts slower than the story beside it (parallax). */}
         <Reveal>
-          <Parallax strength={0.12}>
+          <Parallax strength={0.12} minWidth={768}>
             <div className="relative mx-auto aspect-[4/5] w-full max-w-[380px] overflow-hidden rounded-[28px] ring-1 ring-[#B08D4C]/40 shadow-[0_40px_100px_-40px_rgba(0,0,0,0.9)]">
               {PORTRAIT_SRC ? (
                 <Image src={PORTRAIT_SRC} alt={MEET.name} fill sizes="380px" className="object-cover" />
