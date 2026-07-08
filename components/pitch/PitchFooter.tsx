@@ -30,6 +30,12 @@ export default function PitchFooter() {
           <span>© 2026 Varsheni. All rights reserved.</span>
           <span className="font-mono">Made with clarity, not fluff.</span>
         </div>
+        <div className="mt-4 font-mono text-[11px] tracking-[0.04em] text-[#EADFCF]/30">
+          Made by Shantanu ·{' '}
+          <a href="mailto:kudvashantanu2002@gmail.com" className="transition-colors hover:text-[#B08D4C]">
+            kudvashantanu2002@gmail.com
+          </a>
+        </div>
       </div>
     </footer>
   );
