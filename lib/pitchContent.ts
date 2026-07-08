@@ -83,9 +83,9 @@ export const MEDIA_KIT_URL = '#';               // PLACEHOLDER
 
 export const FOOTER_LINKS = {
   explore: [
-    { label: 'Reviews', href: '#' },
-    { label: 'About', href: '#' },
-    { label: 'Work with me', href: '#' },
+    { label: 'Reviews', href: '/#work' },
+    { label: 'About', href: '/#about' },
+    { label: 'Work with me', href: '/#contact' },
     { label: 'Media kit', href: MEDIA_KIT_URL },
   ],
   connect: [

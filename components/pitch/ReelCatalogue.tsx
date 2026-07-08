@@ -99,7 +99,7 @@ export default function ReelCatalogue() {
   const activeReel = CATALOGUE[current] ?? CATALOGUE[0];
 
   return (
-    <section className="flex min-h-screen flex-col justify-center px-[7vw] py-28">
+    <section id="work" className="flex min-h-screen flex-col justify-center px-[7vw] py-28 scroll-mt-24">
       <div className="mx-auto w-full max-w-[1150px]">
         <SectionHead index="N° 02" title="A reel for every product." kicker="The work" ghost="02" />
         <div className="mt-14 grid grid-cols-1 items-center gap-14 md:grid-cols-[minmax(0,1fr)_minmax(0,0.95fr)] md:gap-20">

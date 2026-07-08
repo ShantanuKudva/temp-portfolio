@@ -9,7 +9,7 @@ import { MEET, ABOUT, ABOUT_FACTS, PORTRAIT_SRC } from '@/lib/pitchContent';
 // at PORTRAIT_SRC), story + quick facts on the right. Simple, revealed on scroll.
 export default function About() {
   return (
-    <section className="flex min-h-screen flex-col justify-center px-[7vw] py-28">
+    <section id="about" className="flex min-h-screen flex-col justify-center px-[7vw] py-28 scroll-mt-24">
       <div className="mx-auto w-full max-w-[1100px]">
         <SectionHead index="N° 01" title="Meet Varsheni." kicker={ABOUT.eyebrow} ghost="01" />
         <div className="mt-14 grid grid-cols-1 items-center gap-12 md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:gap-16">

@@ -9,7 +9,7 @@ import { HEADS, CONTACT, MEDIA_KIT_URL } from '@/lib/pitchContent';
 // is dark and quiet so this pops.
 export default function TheAsk() {
   return (
-    <section className="flex min-h-screen items-center px-[7vw] py-28">
+    <section id="contact" className="flex min-h-screen items-center px-[7vw] py-28 scroll-mt-24">
       <Reveal className="w-full">
         <div className="mx-auto max-w-[1000px] overflow-hidden rounded-[32px] bg-[#571620] px-[8%] py-16 ring-1 ring-[#B08D4C]/40 shadow-[0_40px_120px_-40px_rgba(0,0,0,0.9)] sm:py-20">
           <p className="mb-6 font-mono text-[13px] uppercase tracking-[0.32em] text-[#E8C9C4]">Let&apos;s talk</p>
