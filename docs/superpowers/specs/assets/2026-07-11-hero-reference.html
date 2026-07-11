@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Varsheni — Hero (clean)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;0,900;1,500;1,600&family=Montserrat:wght@300;400;500;600&family=Great+Vibes&family=Alex+Brush&family=Dancing+Script:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--wine:#5B0F1A;--esp:#3B2A24;--mocha:#6B4E42;--taupe:#B79E8C;--cream:#F7F3EE}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#1a0a0d}
+
+  .hero{position:relative;width:100%;min-height:100vh;overflow:hidden;display:flex;flex-direction:column;
+    background:
+      radial-gradient(80% 60% at 28% 22%, rgba(122,34,48,.28), transparent 60%),
+      radial-gradient(70% 60% at 78% 78%, rgba(52,12,22,.4), transparent 62%),
+      radial-gradient(120% 92% at 50% 12%, #6a1622 0%, #5B0F1A 46%, #3c1218 100%);}
+  /* velvet / suede wall in wine */
+  .wall{position:absolute;inset:0;z-index:0;pointer-events:none;
+    background:
+      radial-gradient(78% 64% at 50% 30%, rgba(236,182,152,.13), transparent 66%),
+      radial-gradient(120% 80% at 50% 120%, rgba(30,6,12,.5), transparent 60%);}
+  .wall::before{content:"";position:absolute;inset:0;opacity:.6;mix-blend-mode:soft-light;
+    background-image:repeating-linear-gradient(94deg, rgba(255,255,255,.055) 0 1px, transparent 1px 4px);}
+  .wall::after{content:"";position:absolute;inset:0;opacity:.08;mix-blend-mode:overlay;background-size:200px 200px;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");}
+  /* satin sheen + fabric folds */
+  .satin-vid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;pointer-events:none}
+  .satin{position:absolute;inset:0;z-index:0;pointer-events:none;
+    background:linear-gradient(158deg, rgba(46,12,20,.26) 0%, rgba(74,18,30,.10) 38%, rgba(26,13,12,.52) 100%);}
+
+  /* crème next section — the arch is the doorway into it */
+  .next{position:relative;background:linear-gradient(180deg,#EFE4D3 0%,#F7F3EE 42%);padding:80px 60px 120px;color:var(--esp)}
+  .next .kick{font-family:'Montserrat',sans-serif;font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--mocha);display:flex;align-items:center;gap:10px}
+  .next h2{font-family:'Playfair Display',serif;font-weight:600;font-size:clamp(30px,4vw,52px);margin:14px 0 10px;color:var(--wine)}
+  .next p{font-family:'Montserrat',sans-serif;font-weight:300;font-size:15px;line-height:1.7;max-width:44ch;color:var(--esp)}
+  .next .script{font-family:'Alex Brush',cursive;font-size:34px;color:var(--mocha);margin-top:16px}
+
+  /* minimal nav */
+  .nav{position:relative;z-index:9;display:flex;align-items:center;justify-content:space-between;padding:28px 48px}
+  .nav .brand{font-family:'Playfair Display',serif;font-style:italic;font-weight:600;font-size:20px;color:var(--cream)}
+  .nav .links{display:flex;gap:34px;font-family:'Montserrat',sans-serif;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--cream);opacity:.9}
+  .nav .links a{color:inherit;text-decoration:none;opacity:.82}
+  .nav .links a.cta{opacity:1;border:1px solid #B79E8C55;border-radius:40px;padding:7px 15px}
+
+  /* stage — centered composition */
+  .stage{position:relative;flex:1;display:flex;align-items:flex-end;justify-content:center}
+
+  .wordmark{position:absolute;left:50%;top:40%;transform:translate(-50%,-50%);z-index:1;
+    --glow:0 0 26px rgba(247,240,227,.55), 0 0 60px rgba(236,182,152,.35), 0 0 120px rgba(236,182,152,.22);
+    --glow-sm:0 0 14px rgba(247,240,227,.4);
+    font-family:'Alex Brush',cursive;font-weight:400;font-size:clamp(140px,26vw,400px);line-height:.8;
+    color:var(--cream);white-space:nowrap;user-select:none;letter-spacing:.01em;
+    text-shadow:var(--glow);animation:neonOn 2.7s linear .3s both}
+  @keyframes neonOn{
+    0%{opacity:.12;text-shadow:none}
+    6%{opacity:.12;text-shadow:none}
+    7%{opacity:.85;text-shadow:var(--glow-sm)}
+    9%{opacity:.15;text-shadow:none}
+    12%{opacity:.9;text-shadow:var(--glow)}
+    14%{opacity:.2;text-shadow:none}
+    16%{opacity:1;text-shadow:var(--glow)}
+    19%{opacity:.35;text-shadow:var(--glow-sm)}
+    21%{opacity:1;text-shadow:var(--glow)}
+    26%{opacity:.55;text-shadow:var(--glow-sm)}
+    29%{opacity:1;text-shadow:var(--glow)}
+    35%{opacity:.9;text-shadow:var(--glow)}
+    37%{opacity:1;text-shadow:var(--glow)}
+    100%{opacity:1;text-shadow:var(--glow)}
+  }
+  @media (prefers-reduced-motion:reduce){.wordmark{animation:none}}
+
+  /* faint crème back-glow behind her */
+  .backglow{position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);z-index:2;pointer-events:none;
+    width:min(46vh,490px);height:min(70vh,690px);border-radius:50%;filter:blur(14px);
+    background:radial-gradient(circle,rgba(248,240,227,.34) 0%,rgba(248,240,227,.14) 44%,transparent 72%)}
+
+  .subject{position:relative;z-index:3;height:60vh;max-height:660px;width:auto;object-fit:contain;object-position:bottom;
+    filter:drop-shadow(0 18px 38px rgba(0,0,0,.32))}
+  .subject.rough{-webkit-mask-image:radial-gradient(ellipse 38% 56% at 50% 40%,#000 66%,transparent 80%);
+    mask-image:radial-gradient(ellipse 38% 56% at 50% 40%,#000 66%,transparent 80%)}
+
+  /* tagline — right side over wine (AURORA-style) */
+  .tagline{position:absolute;right:60px;top:31%;z-index:7;text-align:right;max-width:210px}
+  .tagline .eyebrow{font-family:'Montserrat',sans-serif;font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--taupe);margin-bottom:14px}
+  .tagline .line{font-family:'Playfair Display',serif;font-style:italic;font-weight:500;font-size:clamp(24px,2.5vw,32px);line-height:1.06;color:var(--cream)}
+  .tagline .sub{font-family:'Montserrat',sans-serif;font-weight:300;font-size:12px;line-height:1.6;color:#e8d6cb;margin-top:14px}
+  .tagline .cta{display:inline-block;margin-top:18px;color:var(--cream);border-bottom:1px solid #B79E8C88;padding-bottom:3px;
+    font-family:'Montserrat',sans-serif;font-weight:500;font-size:11px;letter-spacing:.16em;text-transform:uppercase;text-decoration:none}
+
+  /* bottom-edge gradient to seat the figure */
+  .floor{position:absolute;left:0;right:0;bottom:0;height:30%;z-index:1;pointer-events:none;
+    background:linear-gradient(to top,#2a0912 0%,rgba(42,9,18,0) 100%)}
+
+  /* circular rotating CTA seal */
+  .seal{position:absolute;right:64px;bottom:118px;z-index:7;width:132px;height:132px;text-decoration:none;
+    display:flex;align-items:center;justify-content:center}
+  .seal .ring{position:absolute;inset:0;animation:spin 22s linear infinite}
+  .seal .ring text{fill:var(--taupe);font-family:'Montserrat',sans-serif;font-size:9px;letter-spacing:3px;text-transform:uppercase}
+  .seal .core{width:52px;height:52px;border-radius:50%;background:var(--cream);color:var(--esp);
+    display:flex;align-items:center;justify-content:center;font-size:20px;transition:transform .3s}
+  .seal:hover .core{transform:scale(1.08)}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  /* availability pill */
+  .avail{position:absolute;left:64px;bottom:130px;z-index:7;display:inline-flex;align-items:center;gap:9px;
+    border:1px solid #B79E8C55;border-radius:40px;padding:10px 18px;
+    font-family:'Montserrat',sans-serif;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--cream)}
+  .avail .dot{width:7px;height:7px;border-radius:50%;background:#D9A05B;box-shadow:0 0 0 3px #D9A05B33}
+
+  /* sparkles + sprig accents */
+  .spark{position:absolute;z-index:6;color:var(--taupe);user-select:none;pointer-events:none}
+  .spark.s1{top:120px;left:150px;font-size:22px;opacity:.85}
+  .spark.s2{top:250px;right:150px;font-size:16px;opacity:.7}
+  .spark.s3{bottom:210px;left:340px;font-size:13px;opacity:.6}
+  /* vertical side text (replaces the sprigs) */
+  .vtext{position:absolute;top:50%;z-index:6;writing-mode:vertical-rl;white-space:nowrap;
+    font-family:'Montserrat',sans-serif;font-size:11px;letter-spacing:.34em;text-transform:uppercase;color:var(--taupe);opacity:.85}
+  .vtext.vl{left:26px;transform:translateY(-50%) rotate(180deg)}
+  .vtext.vr{right:26px;transform:translateY(-50%)}
+  /* corner registration ticks */
+  .tick{position:absolute;z-index:6;width:14px;height:14px;border-color:#B79E8C55;border-style:solid;border-width:0}
+  .tick.tl{top:96px;left:48px;border-left-width:1px;border-top-width:1px}
+  .tick.tr{top:96px;right:48px;border-right-width:1px;border-top-width:1px}
+
+  @media(max-width:720px){
+    .nav{padding:18px 22px}.nav .links{gap:16px}.nav .links a:not(.cta){display:none}
+    .subject{height:64vh}.wordmark{font-size:24vw}.caption{bottom:24px}
+  }
+</style>
+</head>
+<body>
+  <section class="hero">
+    <div class="wall"></div>
+    <nav class="nav">
+      <span class="brand">Varsheni</span>
+      <span class="links"><a href="#">Work</a><a href="#">About</a><a href="#">Reels</a><a class="cta" href="#">Inquire ↗</a></span>
+    </nav>
+
+    <div class="stage">
+      <div class="wordmark">Varsheni</div>
+      <img class="subject" id="subj" src="/files/varsheni-2-cut-v3.png" alt="Varsheni"
+           onerror="this.onerror=null;this.src='/files/varsheni-2.png';this.classList.add('rough')">
+
+      <span class="tick tl"></span><span class="tick tr"></span>
+      <span class="spark s1">✦</span><span class="spark s2">✦</span><span class="spark s3">✦</span>
+      <div class="vtext vl">Apps · Businesses · Honest reviews</div>
+      <div class="vtext vr">Est. 2026 — Made in India</div>
+
+      <div class="avail"><span class="dot"></span>Available for brand deals</div>
+
+      <a class="seal" href="#" aria-label="Work with me">
+        <svg class="ring" viewBox="0 0 132 132"><defs><path id="ringpath" d="M66,66 m-50,0 a50,50 0 1,1 100,0 a50,50 0 1,1 -100,0"/></defs>
+          <text><textPath href="#ringpath" startOffset="0%">· WORK WITH ME · TECH UGC · HONEST REVIEWS </textPath></text></svg>
+        <span class="core">↗</span>
+      </a>
+
+    </div>
+  </section>
+
+  <section class="next">
+    <div class="kick">✦ Introduction</div>
+    <h2>Hi, I'm Varsheni.</h2>
+    <p>I'm a tech UGC creator. I test the apps and businesses people actually use, then make honest, watchable reviews — helping brands earn trust and helping people decide what's worth their tap.</p>
+    <div class="script">Reviews worth trusting.</div>
+  </section>
+</body>
+</html>
