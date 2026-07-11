@@ -9,8 +9,6 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-  --font-serif: var(--font-fraunces);
-  --font-heading: var(--font-geist-sans);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -40,40 +38,37 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
-  --radius-sm: calc(var(--radius) * 0.6);
-  --radius-md: calc(var(--radius) * 0.8);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) * 1.4);
-  --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
+  --radius-xl: calc(var(--radius) + 4px);
 }
 
 :root {
-  --background: #F4EBDD;      /* warm cream */
-  --foreground: #2A1A1C;      /* wine ink */
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: #7B1E2B;         /* cherry maroon */
-  --primary-foreground: #F4EBDD;
-  --secondary: #8A7268;       /* taupe */
-  --secondary-foreground: #F4EBDD;
-  --muted: #EADFCF;           /* warm sand */
-  --muted-foreground: #571620;
-  --accent: #B08D4C;          /* antique gold */
-  --accent-foreground: #2A1A1C;
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: #B08D4C;
+  --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
-  --ring: #7B1E2B;
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
   --sidebar-primary: oklch(0.205 0 0);
@@ -83,8 +78,6 @@
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
 }
-
-.dark, :root { color-scheme: dark; }
 
 .dark {
   --background: oklch(0.145 0 0);
@@ -105,11 +98,11 @@
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
   --sidebar: oklch(0.205 0 0);
   --sidebar-foreground: oklch(0.985 0 0);
   --sidebar-primary: oklch(0.488 0.243 264.376);
@@ -119,6 +112,9 @@
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
 }
+
+:root { color-scheme: light; }
+.dark { color-scheme: dark; }
 
 @layer base {
   * {
@@ -130,177 +126,4 @@
   html {
     @apply font-sans;
   }
-}
-
-/* ── Preloader ─────────────────────────────────────────────────────────────
-   Full-screen gate over the hero canvas: a 3D gyroscope spinner counting to
-   100%. Warm-dark ground (matches the scene bg #130D0A) so the reveal is a
-   fade, not a cut. Cherry-maroon / antique-gold / dusty-blush rings. */
-.preloader {
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 2.25rem;
-  background: radial-gradient(120% 120% at 50% 32%, #1c120e 0%, #130d0a 58%, #0c0705 100%);
-  opacity: 1;
-  transition: opacity 0.7s ease;
-  will-change: opacity;
-}
-.preloader[data-ready="1"] {
-  opacity: 0;
-}
-.preloader__eyebrow {
-  font-family: var(--font-mono, ui-monospace, monospace);
-  text-transform: uppercase;
-  letter-spacing: 0.55em;
-  font-size: 0.72rem;
-  padding-left: 0.55em;
-  color: #b08d4c;
-}
-.preloader__spinner {
-  position: relative;
-  width: 176px;
-  height: 176px;
-  transform-style: preserve-3d;
-  perspective: 760px;
-}
-.preloader__ring {
-  position: absolute;
-  border-radius: 50%;
-  border: 2px solid transparent;
-}
-.preloader__ring--1 {
-  inset: 0;
-  border-top-color: #b08d4c;
-  border-bottom-color: #b08d4c;
-  animation: pl-spin-1 2.2s linear infinite;
-}
-.preloader__ring--2 {
-  inset: 22px;
-  border-left-color: #7b1e2b;
-  border-right-color: #7b1e2b;
-  animation: pl-spin-2 1.7s linear infinite;
-}
-.preloader__ring--3 {
-  inset: 44px;
-  border-top-color: #e8c9c4;
-  border-bottom-color: #e8c9c4;
-  animation: pl-spin-3 1.35s linear infinite;
-}
-.preloader__count {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-mono, ui-monospace, monospace);
-  font-size: 2.3rem;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  color: #f4ebdd;
-  font-variant-numeric: tabular-nums;
-}
-.preloader__count i {
-  font-style: normal;
-  font-size: 1rem;
-  opacity: 0.55;
-  align-self: flex-start;
-  margin: 0.55rem 0 0 0.1rem;
-}
-.preloader__bar {
-  width: 176px;
-  height: 2px;
-  background: rgba(176, 141, 76, 0.16);
-  overflow: hidden;
-  border-radius: 2px;
-}
-.preloader__bar > span {
-  display: block;
-  height: 100%;
-  background: linear-gradient(90deg, #7b1e2b, #b08d4c);
-  transition: width 0.3s ease;
-}
-.preloader__label {
-  font-family: var(--font-mono, ui-monospace, monospace);
-  font-size: 0.72rem;
-  letter-spacing: 0.18em;
-  color: rgba(244, 235, 221, 0.5);
-}
-/* rings tilt into 3D, then spin in their own tilted plane → gyroscope */
-@keyframes pl-spin-1 {
-  from { transform: rotateX(66deg) rotateZ(0deg); }
-  to   { transform: rotateX(66deg) rotateZ(360deg); }
-}
-@keyframes pl-spin-2 {
-  from { transform: rotateY(68deg) rotateZ(0deg); }
-  to   { transform: rotateY(68deg) rotateZ(-360deg); }
-}
-@keyframes pl-spin-3 {
-  from { transform: rotateX(58deg) rotateY(32deg) rotateZ(0deg); }
-  to   { transform: rotateX(58deg) rotateY(32deg) rotateZ(360deg); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .preloader__ring { animation: none; }
-  .preloader__ring--1 { transform: rotateX(66deg); }
-  .preloader__ring--2 { transform: rotateY(68deg); }
-  .preloader__ring--3 { transform: rotateX(58deg) rotateY(32deg); }
-}
-
-/* ── Scroll cue ────────────────────────────────────────────────────────────
-   Classic mouse-wheel hint: cream outline, antique-gold wheel drifting down. */
-.scroll-cue__label {
-  font-family: var(--font-mono, ui-monospace, monospace);
-  text-transform: uppercase;
-  letter-spacing: 0.34em;
-  font-size: 0.66rem;
-  padding-left: 0.34em;
-  color: rgba(244, 235, 221, 0.62);
-  text-shadow: 0 1px 5px rgba(0, 0, 0, 0.55);
-}
-.scroll-cue__mouse {
-  display: flex;
-  justify-content: center;
-  width: 22px;
-  height: 34px;
-  padding-top: 6px;
-  border: 1.5px solid rgba(244, 235, 221, 0.5);
-  border-radius: 11px;
-  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.35);
-}
-.scroll-cue__wheel {
-  width: 3px;
-  height: 7px;
-  border-radius: 2px;
-  background: #b08d4c;
-  animation: scroll-cue-wheel 1.6s ease-in-out infinite;
-}
-@keyframes scroll-cue-wheel {
-  0% { transform: translateY(0); opacity: 0; }
-  20% { opacity: 1; }
-  70% { transform: translateY(9px); opacity: 0.25; }
-  100% { transform: translateY(11px); opacity: 0; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .scroll-cue__wheel { animation: none; }
-}
-
-/* ── Editorial ─────────────────────────────────────────────────────────────
-   Drop-cap for the lead paragraph of the masthead / case study. Fraunces,
-   antique-gold, floated so body text wraps around it. */
-.drop-cap::first-letter {
-  float: left;
-  font-family: var(--font-fraunces), Georgia, serif;
-  font-weight: 600;
-  font-size: 3.4em;
-  line-height: 0.78;
-  padding: 0.05em 0.14em 0 0;
-  color: #b08d4c;
-}
-@media (prefers-reduced-motion: reduce) {
-  /* settle + parallax are disabled in JS; nothing needed here, but keep the
-     drop-cap static (it already is). */
 }

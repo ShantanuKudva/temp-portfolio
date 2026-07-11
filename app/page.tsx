@@ -1,33 +1,27 @@
-import ScrollProvider from '@/components/scroll/ScrollProvider';
-import HeroCanvas from '@/components/hero/HeroCanvas';
-import HookText from '@/components/overlay/HookText';
-import ScrollIndicator from '@/components/overlay/ScrollIndicator';
-import LandingCurtain from '@/components/overlay/LandingCurtain';
-import Preloader from '@/components/hero/Preloader';
-import PitchSection from '@/components/pitch/PitchSection';
+import { Button } from "@/components/ui/button";
 
+// v2 — clean slate. The 3D landing has been retired; this is the starting point
+// for the next build. Uses the retained shadcn/ui + Tailwind design system so the
+// foundation is ready to build on.
 export default function Page() {
   return (
-    <main className="relative w-full bg-[#0B0708]">
-      {/* The 3D scene + overlays are FIXED to the viewport and live OUTSIDE the
-          scroll track. Previously they sat inside a GSAP-pinned wrapper, but pinning
-          applies a `transform` to that wrapper, and a transformed ancestor makes a
-          `position: fixed` child resolve against it instead of the viewport — so on
-          pin-release the whole scene slid up into black. Kept out here, the canvas
-          stays locked to the viewport through the portfolio handoff. */}
-      <HeroCanvas />
-      <HookText />
-      <ScrollIndicator />
-      {/* Closes the last of the push-through to a fully black frame (the 3D framing
-          leaves lit desk edges) so the portfolio fades in over black, not a half-lit
-          desk. Above the canvas, below the portfolio. */}
-      <LandingCurtain />
-      {/* Invisible tall spacer that provides the landing's scroll distance and
-          drives progress `p` (no pin — see ScrollProvider). */}
-      <ScrollProvider />
-      <PitchSection />
-      {/* Gates the scene until every GLB + the HDRI have streamed in (100%). */}
-      <Preloader />
+    <main className="flex flex-1 flex-col items-center justify-center gap-8 px-6 py-24 text-center">
+      <span className="font-mono text-xs uppercase tracking-[0.28em] text-muted-foreground">
+        Varsheni · v2
+      </span>
+      <h1 className="max-w-[16ch] text-balance text-4xl font-semibold tracking-tight sm:text-6xl">
+        Clean slate.
+      </h1>
+      <p className="max-w-[46ch] text-pretty text-base leading-relaxed text-muted-foreground">
+        The starting point for v2. Same toolchain — Next.js, Tailwind, and the
+        shadcn/ui component library — with the 3D landing removed.
+      </p>
+      <div className="flex flex-wrap items-center justify-center gap-3">
+        <Button size="lg">Get started</Button>
+        <Button size="lg" variant="outline">
+          Learn more
+        </Button>
+      </div>
     </main>
   );
 }
