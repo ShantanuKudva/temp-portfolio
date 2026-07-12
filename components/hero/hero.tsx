@@ -1,4 +1,3 @@
-import { SiteNav } from "@/components/site-nav";
 import { GradualBlur } from "@/components/effects/gradual-blur";
 import { NeonName } from "./neon-name";
 import { WaxSeal } from "./wax-seal";
@@ -13,7 +12,6 @@ export function Hero() {
       className="relative flex min-h-screen flex-col overflow-hidden"
     >
       <div className={styles.wall} aria-hidden />
-      <SiteNav />
 
       <div className="relative flex flex-1 items-end justify-center">
         <NeonName>Varsheni</NeonName>
