@@ -11,14 +11,24 @@ import { ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useIntro } from "@/components/hero/intro-store";
 import { useCurtain } from "@/components/transition/curtain-store";
+import { NavCardBg } from "@/components/nav-card-bg";
 
 type NavLink = { label: string; href: string; ariaLabel?: string };
-type NavItem = { label: string; bg: string; links: NavLink[] };
+type Effect = "prism" | "strands" | "silk";
+type NavItem = {
+  label: string;
+  effect: Effect;
+  color: string; // base hex (for the Silk shader / accents)
+  grad: string; // the card's colour gradient
+  links: NavLink[];
+};
 
 const ITEMS: NavItem[] = [
   {
     label: "Work",
-    bg: "var(--color-wine)",
+    effect: "prism",
+    color: "#5b0f1a",
+    grad: "linear-gradient(150deg, #5b0f1a 0%, #380710 100%)",
     links: [
       { label: "Reels", href: "#reels", ariaLabel: "Watch the reels" },
       { label: "Reviews", href: "#work", ariaLabel: "See the reviews" },
@@ -26,7 +36,9 @@ const ITEMS: NavItem[] = [
   },
   {
     label: "About",
-    bg: "var(--color-espresso)",
+    effect: "strands",
+    color: "#3b2a24",
+    grad: "linear-gradient(150deg, #3b2a24 0%, #221812 100%)",
     links: [
       { label: "Her story", href: "#about", ariaLabel: "About Varsheni" },
       { label: "Values", href: "#about", ariaLabel: "Her values" },
@@ -34,7 +46,9 @@ const ITEMS: NavItem[] = [
   },
   {
     label: "Connect",
-    bg: "var(--color-mocha)",
+    effect: "silk",
+    color: "#6b4e42",
+    grad: "linear-gradient(150deg, #6b4e42 0%, #3f2d25 100%)",
     links: [
       { label: "Inquire", href: "#contact", ariaLabel: "Work with me" },
       { label: "Instagram", href: "#", ariaLabel: "Instagram" },
@@ -156,11 +170,19 @@ export function CardNav() {
                   ? { duration: 0 }
                   : { duration: 0.4, ease: EASE, delay: open ? i * 0.06 : 0 }
               }
-              className="flex min-h-[120px] flex-1 flex-col rounded-xl p-4 sm:min-h-0"
-              style={{ backgroundColor: item.bg, color: "var(--color-creme)" }}
+              className="relative flex min-h-[120px] flex-1 flex-col overflow-hidden rounded-xl p-4 sm:min-h-0"
+              style={{ color: "var(--color-creme)" }}
             >
-              <div className="font-display text-2xl">{item.label}</div>
-              <div className="mt-auto flex flex-col gap-1 pt-4">
+              <NavCardBg
+                effect={item.effect}
+                color={item.color}
+                grad={item.grad}
+                active={open}
+              />
+              <div className="relative z-10 font-display text-2xl">
+                {item.label}
+              </div>
+              <div className="relative z-10 mt-auto flex flex-col gap-1 pt-4">
                 {item.links.map((l) => (
                   <a
                     key={l.label}
