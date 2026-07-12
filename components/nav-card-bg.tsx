@@ -67,7 +67,7 @@ export function NavCardBg({
 
       {active && effect === "aurora" && (
         <div className="absolute inset-0">
-          <Aurora colorStops={colors} blend={0.6} amplitude={1} speed={0.5} />
+          <Aurora colorStops={colors} blend={0.4} amplitude={1.4} speed={0.6} />
         </div>
       )}
 
