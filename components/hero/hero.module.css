@@ -104,7 +104,7 @@
 .pill {
   position: absolute;
   left: 64px;
-  bottom: 130px;
+  bottom: 188px;
   z-index: 7;
   display: inline-flex;
   align-items: center;
@@ -151,7 +151,7 @@
 .seal {
   position: absolute;
   right: 64px;
-  bottom: 118px;
+  bottom: 176px;
   z-index: 7;
   width: 132px;
   height: 132px;
