@@ -6,7 +6,7 @@ import { GradualBlur } from "@/components/effects/gradual-blur";
 import { ContactAurora } from "./contact-aurora";
 import { RateCard } from "./rate-card";
 import { Booking } from "./booking";
-import { PrismaticClose } from "./prismatic-close";
+import { CurvedClose } from "./curved-close";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -71,8 +71,8 @@ export function ContactPage() {
         {/* ═══ Book & reach me ═══ */}
         <Booking />
 
-        {/* ═══ Close — "no hard sell" with a prismatic burst ═══ */}
-        <PrismaticClose />
+        {/* ═══ Close — "no hard sell" as a curved marquee ═══ */}
+        <CurvedClose />
       </ContactAurora>
 
       {/* Bottom gradual blur, pinned across the page. */}
