@@ -24,6 +24,7 @@ type NavLink = { label: string; href: string; ariaLabel?: string };
 type Effect = "colorbends" | "strands" | "aurora";
 type NavItem = {
   label: string;
+  home: string; // base route — clicking the card lands at the top of the page
   effect: Effect;
   colors: string[]; // palette (ColorBends / Strands / Aurora colorStops)
   grad: string; // the card's colour gradient
@@ -33,6 +34,7 @@ type NavItem = {
 const ITEMS: NavItem[] = [
   {
     label: "Work",
+    home: "/work",
     effect: "colorbends",
     colors: ["#9a1a2c", "#5b0f1a", "#38070f"],
     grad: "linear-gradient(150deg, #5b0f1a 0%, #380710 100%)",
@@ -43,6 +45,7 @@ const ITEMS: NavItem[] = [
   },
   {
     label: "About",
+    home: "/about",
     effect: "strands",
     colors: ["#b79e8c", "#6b4e42", "#3b2a24"],
     grad: "linear-gradient(150deg, #3b2a24 0%, #221812 100%)",
@@ -54,6 +57,7 @@ const ITEMS: NavItem[] = [
   },
   {
     label: "Connect",
+    home: "/contact",
     effect: "aurora",
     // Midnight-indigo base with a gold aurora glow (matches the /contact page).
     colors: ["#f3e6cf", "#d9a05b", "#3a3f6b"],
@@ -177,7 +181,7 @@ export function CardNav() {
           <a
             href="/"
             onClick={go("/")}
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-display text-xl italic font-semibold"
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-script text-3xl leading-none"
           >
             Varsheni
           </a>
@@ -205,7 +209,17 @@ export function CardNav() {
                   ? { duration: 0 }
                   : { duration: 0.4, ease: EASE, delay: open ? i * 0.06 : 0 }
               }
-              className="relative flex min-h-[120px] flex-1 flex-col overflow-hidden rounded-3xl p-4 sm:min-h-0"
+              role="link"
+              tabIndex={open ? 0 : -1}
+              aria-label={`Go to ${item.label}`}
+              onClick={go(item.home)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  startTransition(item.home);
+                }
+              }}
+              className="group/card relative flex min-h-[120px] flex-1 cursor-pointer flex-col overflow-hidden rounded-3xl p-4 outline-none focus-visible:ring-2 focus-visible:ring-creme/60 sm:min-h-0"
               style={{ color: "var(--color-creme)" }}
             >
               <NavCardBg
@@ -222,7 +236,10 @@ export function CardNav() {
                   <a
                     key={l.label}
                     href={l.href}
-                    onClick={go(l.href)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      go(l.href)(e);
+                    }}
                     aria-label={l.ariaLabel ?? l.label}
                     className="inline-flex items-center gap-1.5 text-sm text-creme/85 transition-opacity hover:opacity-70"
                   >
