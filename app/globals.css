@@ -7,8 +7,18 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* Brand type */
+  --font-display: var(--font-playfair);
+  --font-sans: var(--font-montserrat);
+  --font-script: var(--font-alex-brush);
+  --font-mono: var(--font-montserrat);
+  /* Brand palette */
+  --color-wine: #5b0f1a;
+  --color-espresso: #3b2a24;
+  --color-mocha: #6b4e42;
+  --color-taupe: #b79e8c;
+  --color-creme: #f7f3ee;
+  --color-amber-dot: #d9a05b;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -121,7 +131,9 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    background-color: var(--color-wine);
+    color: var(--color-creme);
+    font-family: var(--font-sans);
   }
   html {
     @apply font-sans;
