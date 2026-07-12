@@ -31,6 +31,37 @@ if (typeof globalThis.ResizeObserver === "undefined") {
     ResizeObserverStub as unknown as typeof ResizeObserver;
 }
 
+// jsdom does not implement media playback; the reel lightbox calls play/pause
+// and reads/writes volume. Minimal stubs so those components mount and run.
+if (typeof HTMLMediaElement !== "undefined") {
+  const proto = HTMLMediaElement.prototype as unknown as Record<string, unknown>;
+  if (!proto.__mediaStubbed) {
+    proto.play = () => Promise.resolve();
+    proto.pause = () => {};
+    let vol = 1;
+    let muted = false;
+    Object.defineProperty(HTMLMediaElement.prototype, "volume", {
+      configurable: true,
+      get() {
+        return vol;
+      },
+      set(v: number) {
+        vol = v;
+      },
+    });
+    Object.defineProperty(HTMLMediaElement.prototype, "muted", {
+      configurable: true,
+      get() {
+        return muted;
+      },
+      set(v: boolean) {
+        muted = v;
+      },
+    });
+    proto.__mediaStubbed = true;
+  }
+}
+
 afterEach(() => {
   cleanup();
 });
