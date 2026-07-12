@@ -14,7 +14,7 @@ function Sparkle({ className, size = 16, delay = 0 }: { className: string; size?
   return (
     <motion.span
       aria-hidden
-      className={`pointer-events-none absolute font-script text-amber-dot ${className}`}
+      className={`pointer-events-none absolute font-script text-moonlight ${className}`}
       style={{ fontSize: size }}
       initial={{ opacity: 0.25 }}
       animate={reduce ? { opacity: 0.4 } : { opacity: [0.25, 0.8, 0.25] }}
@@ -44,20 +44,20 @@ export function ContactPage() {
           <Sparkle className="left-[30%] top-[60%]" size={12} delay={2.8} />
 
           <Reveal className="mx-auto max-w-2xl">
-            <p className="mb-4 font-sans text-xs font-medium uppercase tracking-[0.34em] text-amber-dot">
+            <p className="mb-4 font-sans text-xs font-medium uppercase tracking-[0.34em] text-moonlight">
               <span>✦</span>&nbsp;&nbsp;Connect
             </p>
-            <p className="mb-2 font-script text-5xl text-amber-dot sm:text-6xl">let&apos;s talk</p>
+            <p className="mb-2 font-script text-5xl text-moonlight sm:text-6xl">let&apos;s talk</p>
             <h1 className="mb-6 font-display text-4xl leading-[1.08] sm:text-6xl">
               Have an app or business worth an honest look?
             </h1>
             <p className="mx-auto mb-8 max-w-md font-sans text-base leading-relaxed text-creme/70">
               Brand deals, honest reviews, and collaborations — here&apos;s where we start.
             </p>
-            <span className="inline-flex items-center gap-2 rounded-full border border-amber-dot/40 bg-amber-dot/10 px-4 py-1.5 font-sans text-[11px] font-medium uppercase tracking-[0.18em] text-amber-dot">
+            <span className="inline-flex items-center gap-2 rounded-full border border-moonlight/40 bg-moonlight/10 px-4 py-1.5 font-sans text-[11px] font-medium uppercase tracking-[0.18em] text-moonlight">
               <span className="relative flex h-1.5 w-1.5">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-dot opacity-70" />
-                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-amber-dot" />
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-moonlight opacity-70" />
+                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-moonlight" />
               </span>
               Booking new collabs
             </span>
@@ -75,7 +75,7 @@ export function ContactPage() {
           <Reveal className="mx-auto max-w-xl">
             <p className="font-display text-2xl leading-snug text-creme/90 sm:text-3xl">
               No hard sell, no fluff — just an{" "}
-              <span className="font-script text-amber-dot">honest</span> conversation.
+              <span className="font-script text-moonlight">honest</span> conversation.
             </p>
           </Reveal>
         </section>

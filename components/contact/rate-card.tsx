@@ -8,8 +8,8 @@ function Tile({ pkg, delay }: { pkg: Package; delay: number }) {
   return (
     <Reveal delay={delay} className="h-full">
       <SpotlightCard
-        spotlightColor="rgba(217, 160, 91, 0.16)"
-        className="h-full rounded-3xl border border-creme/12 bg-gradient-to-br from-[#232647]/90 via-[#161832]/85 to-[#0b0c1a]/92 p-7 backdrop-blur-md transition-colors duration-300 hover:border-amber-dot/50 sm:p-8"
+        spotlightColor="rgba(174, 178, 230, 0.18)"
+        className="h-full rounded-3xl border border-creme/12 bg-gradient-to-br from-[#232647]/90 via-[#161832]/85 to-[#0b0c1a]/92 p-7 backdrop-blur-md transition-colors duration-300 hover:border-moonlight/50 sm:p-8"
       >
         <div className="relative z-10 flex h-full flex-col">
           <h3 className="font-display text-2xl sm:text-[1.7rem]">{pkg.name}</h3>
@@ -19,12 +19,12 @@ function Tile({ pkg, delay }: { pkg: Package; delay: number }) {
           <ul className="mt-6 flex-1 space-y-2.5">
             {pkg.deliverables.map((d) => (
               <li key={d} className="flex items-start gap-2.5 font-sans text-[14px] text-creme/75">
-                <span aria-hidden className="mt-2 h-1 w-1 shrink-0 rounded-full bg-clay" />
+                <span aria-hidden className="mt-2 h-1 w-1 shrink-0 rounded-full bg-moonlight" />
                 {d}
               </li>
             ))}
           </ul>
-          <p className="mt-7 font-display text-xl text-amber-dot">{pkg.priceFrom}</p>
+          <p className="mt-7 font-display text-xl text-moonlight">{pkg.priceFrom}</p>
         </div>
       </SpotlightCard>
     </Reveal>
@@ -40,7 +40,7 @@ export function RateCard() {
     <section id="packages" className="relative scroll-mt-24 py-20 sm:py-28">
       <div className="mx-auto max-w-6xl px-6 sm:px-10">
         <Reveal>
-          <p className="mb-3 font-sans text-xs font-medium uppercase tracking-[0.3em] text-amber-dot">
+          <p className="mb-3 font-sans text-xs font-medium uppercase tracking-[0.3em] text-moonlight">
             <span>✦</span>&nbsp;&nbsp;Rate card
           </p>
         </Reveal>
@@ -59,7 +59,7 @@ export function RateCard() {
         <Reveal delay={0.12}>
           <a
             href={CONTACT.rateCardPdf}
-            className="mt-8 inline-flex items-center gap-2 rounded-full border border-creme/25 px-6 py-3 font-sans text-sm font-semibold uppercase tracking-[0.14em] text-creme transition-colors hover:border-amber-dot/60 hover:text-amber-dot"
+            className="mt-8 inline-flex items-center gap-2 rounded-full border border-creme/25 px-6 py-3 font-sans text-sm font-semibold uppercase tracking-[0.14em] text-creme transition-colors hover:border-moonlight/60 hover:text-moonlight"
             download
           >
             ↓ Download rate card (PDF)

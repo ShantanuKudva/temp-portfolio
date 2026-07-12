@@ -17,7 +17,7 @@ export function ContactRail() {
   return (
     <Reveal className="flex flex-col justify-center gap-6">
       <div>
-        <p className="font-sans text-xs font-medium uppercase tracking-[0.3em] text-amber-dot">
+        <p className="font-sans text-xs font-medium uppercase tracking-[0.3em] text-moonlight">
           <span>✦</span>&nbsp;&nbsp;Or reach me directly
         </p>
         <p className="mt-3 max-w-xs font-sans text-[15px] leading-relaxed text-creme/70">
@@ -31,9 +31,9 @@ export function ContactRail() {
             <a
               href={c.href}
               {...(c.external ? { target: "_blank", rel: "noreferrer" } : {})}
-              className="group flex items-baseline gap-3 font-sans text-creme/85 transition-colors hover:text-amber-dot"
+              className="group flex items-baseline gap-3 font-sans text-creme/85 transition-colors hover:text-moonlight"
             >
-              <span className="w-24 shrink-0 text-xs uppercase tracking-[0.2em] text-creme/45 group-hover:text-amber-dot/70">
+              <span className="w-24 shrink-0 text-xs uppercase tracking-[0.2em] text-creme/45 group-hover:text-moonlight/70">
                 {c.label}
               </span>
               <span className="text-[15px]">{c.value}</span>

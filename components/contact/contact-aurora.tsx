@@ -48,7 +48,7 @@ export function ContactAurora({ children }: { children: React.ReactNode }) {
         className="pointer-events-none absolute inset-0"
         style={{
           backgroundImage:
-            "linear-gradient(to right, rgba(217,160,91,0.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(217,160,91,0.04) 1px, transparent 1px)",
+            "linear-gradient(to right, rgba(174,178,230,0.045) 1px, transparent 1px), linear-gradient(to bottom, rgba(174,178,230,0.045) 1px, transparent 1px)",
           backgroundSize: "13px 13px",
           WebkitMaskImage:
             "radial-gradient(120% 85% at 50% 25%, #000 35%, transparent 85%)",
