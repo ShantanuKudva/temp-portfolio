@@ -82,7 +82,7 @@ These reuse the locked tokens, type, and motifs; detailed visual comps happen in
 
 **Shipped in hero:** neon flicker-on of the name; rotating wax-seal; resting glow.
 
-**Language for the rest:** restrained editorial reveals on scroll (mask-wipe headlines, soft settle on images) via **GSAP + Lenis** (already installed). Playful kinetic touches (drifting marquee) reserved for section seams only. No heavy 3D/WebGL as the core (v1's retired mistake).
+**Language for the rest:** restrained editorial reveals on scroll (mask-wipe headlines, soft settle on images) via **Framer Motion (`motion/react`) + Lenis** — the locked animation stack (see CLAUDE.md). **GSAP is a scoped escape hatch**, used only where a beat needs true scroll-*scrubbing*/pinning that's awkward in Motion (e.g. a cinematic hero scrub). Playful kinetic touches (drifting marquee) reserved for section seams only. No heavy 3D/WebGL as the core (v1's retired mistake).
 
 **Global edge FX — GradualBlur (ship):** a **progressive bottom-edge blur** applied across scroll sections so content dissolves softly as it leaves the viewport (React Bits `GradualBlur` pattern — stacked `backdrop-filter` layers with progressive `mask` gradients; `divCount ~6`, exponential, `to bottom`). **Suppressed on the section that contains the footer** — the footer/contact info renders crisp with no blur overlay (conditional prop, e.g. `hasFooter`). Pure CSS; the listed `mathjs` dependency is **not** needed. Respect the no-`backdrop-filter` fallback.
 
@@ -107,7 +107,8 @@ All motion must respect `prefers-reduced-motion` and never block content.
 - **Next.js 16** App Router + Turbopack, **React 19**, **TypeScript** (existing toolchain).
 - **Tailwind v4** CSS-first `@theme inline` in `app/globals.css`; add the wine/espresso/mocha/taupe/crème tokens + font-family vars. Extend the existing neutral shadcn theme; keep light/dark tokens sane but the site is intentionally wine/crème.
 - **shadcn/ui** primitives in `components/ui/` for all DOM UI (buttons, cards, carousel). No hand-rolled primitives. `cn()` from `lib/utils.ts`.
-- **GSAP + Lenis** for scroll motion; **embla-carousel** for the reel gallery; **@calcom/embed-react** for booking.
+- **Framer Motion** (installed as `motion`, import from `motion/react`) + **Lenis** for motion/scroll — the default. **GSAP** stays as a scoped escape hatch for scroll-scrubbing/pinning only. **embla-carousel** for the reel gallery; **@calcom/embed-react** for booking.
+- **React Bits / 21st.dev are idea sources, not dependencies** (per CLAUDE.md): lift the layout/motion idea, re-skin to the wine/crème tokens, build on shadcn / `@base-ui`. GradualBlur is re-implemented as our own pure-CSS `backdrop-filter` component; `ogl`/Side Rays/Aurora are **not** added (background WebGL deferred to None).
 - **React Compiler safe:** no synchronous setState in effects (use rAF/imperative refs); no `Math.random`/`Date.now` in render.
 - Component boundaries: `Hero`, `HeroWall`, `NeonName`, `SubjectCutout`, `WaxSeal`, `About`, `ReelGallery`, `ReelCard`, `Offer`, `Contact`, `SiteNav`. Each focused and independently understandable.
 
