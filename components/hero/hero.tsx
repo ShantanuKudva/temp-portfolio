@@ -5,6 +5,7 @@ import { SubjectCutout } from "./subject-cutout";
 import { Silk } from "./silk";
 import { LoaderCurtain } from "./loader-curtain";
 import { BackGlow } from "./back-glow";
+import { NeonWash } from "./neon-wash";
 import { HeroChromeReveal } from "./hero-chrome-reveal";
 import { PointerParallax } from "./pointer-parallax";
 import styles from "./hero.module.css";
@@ -23,6 +24,7 @@ export function Hero() {
       </div>
       <div className={styles.wall} aria-hidden />
       <BackGlow />
+      <NeonWash />
 
       <LoaderCurtain />
       <PointerParallax />

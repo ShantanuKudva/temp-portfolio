@@ -4,8 +4,64 @@
   inset: 0;
   z-index: 2;
   overflow: hidden;
-  /* Darker wine than the hero so the loader reads as its own quiet moment. */
-  background: #180409;
+  /* Darker wine + vignette so the loader reads as its own quiet, dim room. */
+  background:
+    radial-gradient(125% 100% at 50% 42%, transparent 42%, rgba(0, 0, 0, 0.5) 100%),
+    #180409;
+}
+/* Drifting crème embers/motes. */
+.embers {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+}
+.ember {
+  position: absolute;
+  bottom: -6px;
+  border-radius: 50%;
+  background: var(--color-creme);
+  filter: blur(0.5px);
+  opacity: 0;
+  animation-name: emberRise;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  will-change: transform, opacity;
+}
+@keyframes emberRise {
+  0% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0;
+  }
+  12% {
+    opacity: var(--ember-op, 0.5);
+  }
+  85% {
+    opacity: var(--ember-op, 0.5);
+  }
+  100% {
+    transform: translate3d(var(--drift, 12px), -92vh, 0);
+    opacity: 0;
+  }
+}
+/* Animated film grain over the loader. */
+.grain {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0.07;
+  mix-blend-mode: overlay;
+  background-size: 180px 180px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grainShift 0.6s steps(3) infinite;
+}
+@keyframes grainShift {
+  0% { background-position: 0 0; }
+  33% { background-position: -60px 40px; }
+  66% { background-position: 50px -50px; }
+  100% { background-position: 0 0; }
 }
 /* Soft, slow aurora drifting behind the loader — CSS, no extra WebGL. */
 .aurora {
@@ -130,6 +186,43 @@
     rgba(248, 240, 227, 0.12) 46%,
     transparent 72%
   );
+}
+
+/* ---- Neon spill onto the silk wall ---- */
+.neonWash {
+  position: absolute;
+  left: 50%;
+  top: 40%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: min(84vw, 1200px);
+  height: 56vh;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(80px);
+  background: radial-gradient(
+    circle,
+    rgba(247, 240, 227, 0.24),
+    rgba(236, 182, 152, 0.1) 46%,
+    transparent 70%
+  );
+}
+.neonWashSteady {
+  opacity: 0.5;
+}
+.neonWashOn {
+  opacity: 0.5;
+  animation: neonWashOn 1.2s ease-out forwards;
+}
+@keyframes neonWashOn {
+  0% { opacity: 0; }
+  8% { opacity: 0.75; }
+  14% { opacity: 0.12; }
+  22% { opacity: 0.9; }
+  30% { opacity: 0.32; }
+  40% { opacity: 0.8; }
+  62% { opacity: 0.6; }
+  100% { opacity: 0.5; }
 }
 
 /* ---- Neon cursive wordmark ----
@@ -293,6 +386,9 @@
   .wordmark { animation: none; opacity: 1; text-shadow: var(--glow); }
   .wordmarkOn { animation: none; }
   .aurora { animation: none; }
+  .ember { animation: none; opacity: 0; }
+  .grain { animation: none; }
+  .neonWashOn { animation: none; }
   .sealRing { animation: none; }
 }
 
