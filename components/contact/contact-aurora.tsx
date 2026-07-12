@@ -30,8 +30,6 @@ const LAYERS: Layer[] = [
   { colorStops: ["#3a3f6b", "#d9a05b", "#f3e6cf"], amplitude: 0.8, speed: 0.3, blend: 0.4, opacity: 1 },
   // Warm mid-glow — gold forward, faster, screened for luminosity.
   { colorStops: ["#d9a05b", "#aeb2e6", "#f3e6cf"], amplitude: 1.25, speed: 0.52, blend: 0.6, opacity: 0.55, mix: "screen" },
-  // Cool underlight — moonlight/indigo, flipped so it rises from the bottom.
-  { colorStops: ["#aeb2e6", "#3a3f6b", "#d9a05b"], amplitude: 1.0, speed: 0.42, blend: 0.5, opacity: 0.4, mix: "screen", flip: true },
 ];
 
 /**
@@ -70,6 +68,14 @@ export function ContactAurora({ children }: { children: React.ReactNode }) {
           initial={{ opacity: 0 }}
           animate={{ opacity: reduce ? 0.42 : 0.72 }}
           transition={{ duration: 1.2, ease: EASE }}
+          style={{
+            // Fade the glow out toward the bottom of the viewport so it dissolves
+            // into the indigo — no hard bottom edge / seam.
+            WebkitMaskImage:
+              "linear-gradient(to bottom, #000 0%, #000 32%, transparent 78%)",
+            maskImage:
+              "linear-gradient(to bottom, #000 0%, #000 32%, transparent 78%)",
+          }}
         >
           {LAYERS.map((l, i) => (
             <div
