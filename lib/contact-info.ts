@@ -6,6 +6,13 @@ export type Package = {
   priceFrom: string;
 };
 
+export type MailTemplate = {
+  key: string;
+  label: string;
+  subject: string;
+  body: string;
+};
+
 export type ContactInfo = {
   email: string;
   calLink: string;
@@ -51,3 +58,35 @@ export const CONTACT: ContactInfo = {
   rateCardPdf: "/rate-card.pdf", // TODO(real): drop the PDF into /public
   responseTime: "Usually replies within 48h",
 };
+
+/**
+ * Pre-written email starters for the "write to me" carousel. Each opens the
+ * visitor's mail app via mailto: with the subject + body prefilled (still fully
+ * editable before they send). Copy is placeholder — tune to Varsheni's voice.
+ */
+export const MAIL_TEMPLATES: MailTemplate[] = [
+  {
+    key: "collab",
+    label: "Brand collaboration",
+    subject: "Brand collaboration with Varsheni",
+    body: "Hi Varsheni,\n\nWe're [brand] and we'd love to work with you on [product / campaign]. A quick sense of what we have in mind:\n\n- \n- \n\nTimeline: \nBudget range: \n\nLooking forward to hearing from you!",
+  },
+  {
+    key: "review",
+    label: "Product review",
+    subject: "Review request: [product]",
+    body: "Hi Varsheni,\n\nWe'd love an honest review of [product] — a [category] app/product we think your audience would find useful.\n\nWhat it does: \nWhat we'd love you to cover: \n\nHappy to send access or a sample. Thanks!",
+  },
+  {
+    key: "retainer",
+    label: "Ongoing partnership",
+    subject: "Ongoing collaboration with Varsheni",
+    body: "Hi Varsheni,\n\nWe're exploring a longer-term partnership (monthly content / retainer). Rough thinking:\n\nDeliverables: \nCadence: \nBudget: \n\nWould love to set up a call.",
+  },
+  {
+    key: "hi",
+    label: "Just saying hi",
+    subject: "Hello, Varsheni!",
+    body: "Hi Varsheni,\n\nNo pitch — just wanted to say I love your work. [your note here]\n\nCheers!",
+  },
+];

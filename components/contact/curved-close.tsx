@@ -16,7 +16,7 @@ export function CurvedClose() {
     <section className="relative overflow-hidden py-16 sm:py-24">
       <CurvedLoop
         marqueeText="No hard sell ✦ No fluff ✦ Just an honest conversation "
-        speed={1.4}
+        speed={2.4}
         curveAmount={160}
         direction="left"
         interactive

@@ -1,4 +1,4 @@
-import { CONTACT, PACKAGES } from "@/lib/contact-info";
+import { CONTACT, MAIL_TEMPLATES, PACKAGES } from "@/lib/contact-info";
 
 test("PACKAGES has three tiers, each with a 'from ₹' price and deliverables", () => {
   expect(PACKAGES).toHaveLength(3);
@@ -9,6 +9,16 @@ test("PACKAGES has three tiers, each with a 'from ₹' price and deliverables", 
   }
   // keys are unique (used as React keys)
   expect(new Set(PACKAGES.map((p) => p.key)).size).toBe(3);
+});
+
+test("MAIL_TEMPLATES each have a label, subject, and body", () => {
+  expect(MAIL_TEMPLATES.length).toBeGreaterThan(0);
+  for (const t of MAIL_TEMPLATES) {
+    expect(t.label.length).toBeGreaterThan(0);
+    expect(t.subject.length).toBeGreaterThan(0);
+    expect(t.body.length).toBeGreaterThan(0);
+  }
+  expect(new Set(MAIL_TEMPLATES.map((t) => t.key)).size).toBe(MAIL_TEMPLATES.length);
 });
 
 test("CONTACT exposes an email, cal link, and both socials", () => {
