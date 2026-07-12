@@ -299,7 +299,33 @@
   width: auto;
   object-fit: contain;
   object-position: bottom;
-  filter: drop-shadow(0 18px 38px rgba(0, 0, 0, 0.32));
+  --dof: 0px;
+  filter: drop-shadow(0 18px 38px rgba(0, 0, 0, 0.32)) blur(var(--dof));
+  transition: filter 0.45s ease;
+}
+/* Shallow depth-of-field: body blurs while the face patch stays sharp. */
+.subjectImgBlur {
+  --dof: 7px;
+}
+.subjectFocusPatch {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+  object-position: bottom;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.45s ease;
+  /* Feathered ellipse over her face — only the face shows through, sharp. */
+  --face-mask: radial-gradient(30% 26% at 49% 22%, #000 52%, transparent 82%);
+  -webkit-mask-image: var(--face-mask);
+  mask-image: var(--face-mask);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+.subjectFocusPatchOn {
+  opacity: 1;
 }
 
 /* ---- Autofocus reticle over her face ---- */

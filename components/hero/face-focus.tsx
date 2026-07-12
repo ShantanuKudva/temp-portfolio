@@ -13,14 +13,23 @@ const EASE = [0.16, 1, 0.3, 1] as const;
  * — hunt in from oversize, then lock — with a faint crème glow + "In focus"
  * readout, like a lens finding focus on her face.
  */
-export function FaceFocus() {
+export function FaceFocus({
+  onFocusChange,
+}: {
+  onFocusChange?: (focused: boolean) => void;
+}) {
   const [on, setOn] = useState(false);
+
+  const set = (v: boolean) => {
+    setOn(v);
+    onFocusChange?.(v);
+  };
 
   return (
     <div
       className={styles.faceTarget}
-      onPointerEnter={() => setOn(true)}
-      onPointerLeave={() => setOn(false)}
+      onPointerEnter={() => set(true)}
+      onPointerLeave={() => set(false)}
       aria-hidden
     >
       <AnimatePresence>
