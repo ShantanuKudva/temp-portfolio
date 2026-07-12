@@ -55,9 +55,9 @@ const ITEMS: NavItem[] = [
   {
     label: "Connect",
     effect: "aurora",
-    // Bright warm stops so the aurora actually glows over the dark base.
-    colors: ["#f3e6cf", "#d9a05b", "#a8674a"],
-    grad: "linear-gradient(150deg, #3f2d25 0%, #201410 100%)",
+    // Midnight-indigo base with a gold aurora glow (matches the /contact page).
+    colors: ["#f3e6cf", "#d9a05b", "#3a3f6b"],
+    grad: "linear-gradient(150deg, #191b33 0%, #0b0c1a 100%)",
     links: [
       { label: "Inquire", href: "/contact", ariaLabel: "Work with me" },
       { label: "Instagram", href: "#", ariaLabel: "Instagram" },

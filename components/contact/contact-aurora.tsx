@@ -27,7 +27,7 @@ export function ContactAurora({ children }: { children: React.ReactNode }) {
           transition={{ duration: 1.2, ease: EASE }}
         >
           <Aurora
-            colorStops={["#f3e6cf", "#d9a05b", "#a8674a"]}
+            colorStops={["#3a3f6b", "#d9a05b", "#f3e6cf"]}
             blend={0.4}
             amplitude={0.9}
             speed={0.35}
@@ -39,7 +39,7 @@ export function ContactAurora({ children }: { children: React.ReactNode }) {
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            "radial-gradient(120% 60% at 50% 30%, transparent 25%, rgba(20,13,9,0.6) 100%)",
+            "radial-gradient(120% 60% at 50% 30%, transparent 25%, rgba(11,12,26,0.6) 100%)",
         }}
       />
       {/* Subtle crème grid, edge-faded so it stays a quiet texture. */}

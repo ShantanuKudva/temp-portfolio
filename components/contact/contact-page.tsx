@@ -34,7 +34,7 @@ export function ContactPage() {
   return (
     <main
       className="relative flex-1 text-creme"
-      style={{ background: "linear-gradient(165deg, #3f2d25 0%, #201410 45%)" }}
+      style={{ background: "linear-gradient(165deg, #191b33 0%, #0b0c1a 45%)" }}
     >
       <ContactAurora>
         {/* ═══ Hero ═══ */}

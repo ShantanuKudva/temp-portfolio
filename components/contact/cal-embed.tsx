@@ -31,7 +31,7 @@ export function CalEmbed() {
   }, []);
 
   return (
-    <div className="relative overflow-hidden rounded-3xl border border-amber-dot/25 bg-[#140d09]/70 p-1.5 shadow-[0_40px_100px_-50px_rgba(0,0,0,0.9)] backdrop-blur-md">
+    <div className="relative overflow-hidden rounded-3xl border border-amber-dot/25 bg-[#0b0c1a]/70 p-1.5 shadow-[0_40px_100px_-50px_rgba(0,0,0,0.9)] backdrop-blur-md">
       {/* Top hairline sheen. */}
       <div
         aria-hidden

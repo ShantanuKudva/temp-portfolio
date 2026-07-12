@@ -9,7 +9,7 @@ function Tile({ pkg, delay }: { pkg: Package; delay: number }) {
     <Reveal delay={delay} className="h-full">
       <SpotlightCard
         spotlightColor="rgba(217, 160, 91, 0.16)"
-        className="h-full rounded-3xl border border-creme/12 bg-gradient-to-br from-[#3f2d25]/90 via-[#2a1c14]/85 to-[#140d09]/92 p-7 backdrop-blur-md transition-colors duration-300 hover:border-amber-dot/50 sm:p-8"
+        className="h-full rounded-3xl border border-creme/12 bg-gradient-to-br from-[#232647]/90 via-[#161832]/85 to-[#0b0c1a]/92 p-7 backdrop-blur-md transition-colors duration-300 hover:border-amber-dot/50 sm:p-8"
       >
         <div className="relative z-10 flex h-full flex-col">
           <h3 className="font-display text-2xl sm:text-[1.7rem]">{pkg.name}</h3>
