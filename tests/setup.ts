@@ -20,6 +20,17 @@ if (typeof globalThis.IntersectionObserver === "undefined") {
     IntersectionObserverStub as unknown as typeof IntersectionObserver;
 }
 
+// jsdom also has no ResizeObserver; CardNav / Hero measure with it.
+class ResizeObserverStub {
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+}
+if (typeof globalThis.ResizeObserver === "undefined") {
+  globalThis.ResizeObserver =
+    ResizeObserverStub as unknown as typeof ResizeObserver;
+}
+
 afterEach(() => {
   cleanup();
 });
