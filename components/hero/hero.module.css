@@ -302,6 +302,48 @@
   filter: drop-shadow(0 18px 38px rgba(0, 0, 0, 0.32));
 }
 
+/* ---- Autofocus reticle over her face ---- */
+.faceTarget {
+  position: absolute;
+  left: 49%;
+  top: 10%;
+  width: 25%;
+  height: 25%;
+  transform: translateX(-50%);
+  z-index: 4;
+  cursor: crosshair;
+  pointer-events: auto;
+}
+.focusFrame {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.focusCorner {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--color-creme);
+  border-radius: 2px;
+  filter: drop-shadow(0 0 5px rgba(247, 240, 227, 0.65));
+}
+.fcTL { top: -7px; left: -7px; border-right: none; border-bottom: none; }
+.fcTR { top: -7px; right: -7px; border-left: none; border-bottom: none; }
+.fcBL { bottom: -7px; left: -7px; border-right: none; border-top: none; }
+.fcBR { bottom: -7px; right: -7px; border-left: none; border-top: none; }
+.focusLabel {
+  position: absolute;
+  left: 50%;
+  bottom: -26px;
+  transform: translateX(-50%);
+  font-size: 9px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--color-creme);
+  text-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
+}
+
 /* ---- Availability pill ---- */
 .pill {
   position: absolute;

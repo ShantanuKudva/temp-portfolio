@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { motion, useReducedMotion } from "motion/react";
 import { useIntro } from "./intro-store";
+import { FaceFocus } from "./face-focus";
 import styles from "./hero.module.css";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -41,6 +42,7 @@ export function SubjectCutout() {
         priority
         className={styles.subjectImg}
       />
+      <FaceFocus />
     </motion.div>
   );
 }
