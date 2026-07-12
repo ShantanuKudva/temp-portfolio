@@ -6,7 +6,6 @@ import { GradualBlur } from "@/components/effects/gradual-blur";
 import { ContactAurora } from "./contact-aurora";
 import { RateCard } from "./rate-card";
 import { Booking } from "./booking";
-import { MailCarousel } from "./mail-carousel";
 import { CurvedClose } from "./curved-close";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -71,9 +70,6 @@ export function ContactPage() {
 
         {/* ═══ Book & reach me ═══ */}
         <Booking />
-
-        {/* ═══ Write to me — email starters carousel ═══ */}
-        <MailCarousel />
 
         {/* ═══ Close — "no hard sell" as a curved marquee ═══ */}
         <CurvedClose />
