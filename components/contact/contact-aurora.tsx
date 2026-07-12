@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "motion/react";
+import type { CSSProperties } from "react";
 import AuroraBase from "@/components/Aurora";
 
 // JS-interop component — flexible props (its .jsx infers strict types from defaults).
@@ -9,10 +10,35 @@ const Aurora = AuroraBase as unknown as React.ComponentType<Record<string, unkno
 const EASE = [0.16, 1, 0.3, 1] as const;
 
 /**
- * Connect's signature backdrop: a gold/terracotta Aurora spanning the whole
- * page beneath the espresso base. Sticky + viewport-sized so it glows behind
- * whichever section is in view. It fades in over ~1.2s on mount — long enough to
- * hide the WebGL first-frame flash — then holds at a steady, visible glow.
+ * Stacked aurora layers — each a full-screen shader with its own colour ramp,
+ * amplitude and speed (one flipped to hang from the bottom) so they drift out of
+ * phase and read as depth rather than one flat sheet. Gold lives here (and only
+ * here); the cooler layers carry indigo + moonlight.
+ */
+type Layer = {
+  colorStops: string[];
+  amplitude: number;
+  speed: number;
+  blend: number;
+  opacity: number;
+  mix?: CSSProperties["mixBlendMode"];
+  flip?: boolean;
+};
+
+const LAYERS: Layer[] = [
+  // Base sheet — indigo → gold → crème, slow and wide.
+  { colorStops: ["#3a3f6b", "#d9a05b", "#f3e6cf"], amplitude: 0.8, speed: 0.3, blend: 0.4, opacity: 1 },
+  // Warm mid-glow — gold forward, faster, screened for luminosity.
+  { colorStops: ["#d9a05b", "#aeb2e6", "#f3e6cf"], amplitude: 1.25, speed: 0.52, blend: 0.6, opacity: 0.55, mix: "screen" },
+  // Cool underlight — moonlight/indigo, flipped so it rises from the bottom.
+  { colorStops: ["#aeb2e6", "#3a3f6b", "#d9a05b"], amplitude: 1.0, speed: 0.42, blend: 0.5, opacity: 0.4, mix: "screen", flip: true },
+];
+
+/**
+ * Connect's signature backdrop: layered gold/indigo/moonlight auroras spanning
+ * the whole page beneath the midnight base. Sticky + viewport-sized so they glow
+ * behind whichever section is in view; the group fades in over ~1.2s on mount
+ * (hiding the WebGL first-frame flash) and holds at a steady glow.
  */
 export function ContactAurora({ children }: { children: React.ReactNode }) {
   const reduce = useReducedMotion();
@@ -23,15 +49,27 @@ export function ContactAurora({ children }: { children: React.ReactNode }) {
         <motion.div
           className="sticky top-0 h-screen w-full"
           initial={{ opacity: 0 }}
-          animate={{ opacity: reduce ? 0.42 : 0.6 }}
+          animate={{ opacity: reduce ? 0.42 : 0.72 }}
           transition={{ duration: 1.2, ease: EASE }}
         >
-          <Aurora
-            colorStops={["#3a3f6b", "#d9a05b", "#f3e6cf"]}
-            blend={0.4}
-            amplitude={0.9}
-            speed={0.35}
-          />
+          {LAYERS.map((l, i) => (
+            <div
+              key={i}
+              className="absolute inset-0"
+              style={{
+                opacity: l.opacity,
+                mixBlendMode: l.mix,
+                transform: l.flip ? "scaleY(-1)" : undefined,
+              }}
+            >
+              <Aurora
+                colorStops={l.colorStops}
+                blend={l.blend}
+                amplitude={l.amplitude}
+                speed={l.speed}
+              />
+            </div>
+          ))}
         </motion.div>
       </div>
       {/* Soft floor so content keeps contrast over the aurora. */}
@@ -42,7 +80,7 @@ export function ContactAurora({ children }: { children: React.ReactNode }) {
             "radial-gradient(120% 60% at 50% 30%, transparent 25%, rgba(11,12,26,0.6) 100%)",
         }}
       />
-      {/* Subtle crème grid, edge-faded so it stays a quiet texture. */}
+      {/* Subtle moonlight grid, edge-faded so it stays a quiet texture. */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0"
