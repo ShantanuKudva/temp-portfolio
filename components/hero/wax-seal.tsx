@@ -2,7 +2,7 @@ import styles from "./hero.module.css";
 
 export function WaxSeal() {
   return (
-    <a href="#contact" aria-label="Work with me" className={styles.seal}>
+    <a href="/contact" aria-label="Work with me" className={styles.seal}>
       <svg className={styles.sealRing} viewBox="0 0 132 132" aria-hidden>
         <defs>
           <path

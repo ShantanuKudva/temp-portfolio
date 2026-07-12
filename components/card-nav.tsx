@@ -12,6 +12,7 @@ import { ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useIntro } from "@/components/hero/intro-store";
 import { useCurtain } from "@/components/transition/curtain-store";
+import { CONTACT } from "@/lib/contact-info";
 import { NavCardBg } from "@/components/nav-card-bg";
 import GlassSurfaceBase from "@/components/GlassSurface";
 
@@ -59,9 +60,9 @@ const ITEMS: NavItem[] = [
     colors: ["#f3e6cf", "#d9a05b", "#3a3f6b"],
     grad: "linear-gradient(150deg, #191b33 0%, #0b0c1a 100%)",
     links: [
-      { label: "Inquire", href: "/contact", ariaLabel: "Work with me" },
-      { label: "Instagram", href: "#", ariaLabel: "Instagram" },
-      { label: "YouTube", href: "#", ariaLabel: "YouTube" },
+      { label: "Inquire", href: "/contact#book", ariaLabel: "Work with me" },
+      { label: "Instagram", href: CONTACT.instagram, ariaLabel: "Instagram" },
+      { label: "YouTube", href: CONTACT.youtube, ariaLabel: "YouTube" },
     ],
   },
 ];
