@@ -82,7 +82,11 @@ These reuse the locked tokens, type, and motifs; detailed visual comps happen in
 
 **Shipped in hero:** neon flicker-on of the name; rotating wax-seal; resting glow.
 
-**Language for the rest:** restrained editorial reveals on scroll (mask-wipe headlines, soft settle on images) via **GSAP + Lenis** (already installed). Playful kinetic touches (drifting marquee) reserved for section seams only. No heavy 3D/WebGL (v1's retired mistake).
+**Language for the rest:** restrained editorial reveals on scroll (mask-wipe headlines, soft settle on images) via **GSAP + Lenis** (already installed). Playful kinetic touches (drifting marquee) reserved for section seams only. No heavy 3D/WebGL as the core (v1's retired mistake).
+
+**Global edge FX — GradualBlur (ship):** a **progressive bottom-edge blur** applied across scroll sections so content dissolves softly as it leaves the viewport (React Bits `GradualBlur` pattern — stacked `backdrop-filter` layers with progressive `mask` gradients; `divCount ~6`, exponential, `to bottom`). **Suppressed on the section that contains the footer** — the footer/contact info renders crisp with no blur overlay (conditional prop, e.g. `hasFooter`). Pure CSS; the listed `mathjs` dependency is **not** needed. Respect the no-`backdrop-filter` fallback.
+
+**Background WebGL — deferred (None for now):** Side Rays and Aurora (React Bits, `ogl`) were both prototyped over the velvet. **Decision: ship with no background WebGL effect.** If revisited, **Side Rays recolored warm** (gold `#EAB308` + crème rays, `origin: top-right`) is the on-palette option; Aurora's cool-cosmic character fights the wine and is not recommended.
 
 **Planned enhancements for the build phase** (owner: Varsheni, layered in during implementation):
 - Particle animation around the name letters.
