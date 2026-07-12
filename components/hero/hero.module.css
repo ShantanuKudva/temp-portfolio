@@ -1,0 +1,194 @@
+/* ---- Velvet/suede wine wall ---- */
+.wall {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(78% 64% at 50% 30%, rgba(236, 182, 152, 0.13), transparent 66%),
+    radial-gradient(120% 80% at 50% 120%, rgba(30, 6, 12, 0.5), transparent 60%);
+}
+.wall::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.6;
+  mix-blend-mode: soft-light;
+  background-image: repeating-linear-gradient(
+    94deg,
+    rgba(255, 255, 255, 0.055) 0 1px,
+    transparent 1px 4px
+  );
+}
+.wall::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.08;
+  mix-blend-mode: overlay;
+  background-size: 200px 200px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+}
+
+/* ---- Faint crème back-glow behind the subject ---- */
+.backglow {
+  position: absolute;
+  left: 50%;
+  top: 44%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  pointer-events: none;
+  width: min(46vh, 490px);
+  height: min(70vh, 690px);
+  border-radius: 50%;
+  filter: blur(14px);
+  background: radial-gradient(
+    circle,
+    rgba(248, 240, 227, 0.34) 0%,
+    rgba(248, 240, 227, 0.14) 44%,
+    transparent 72%
+  );
+}
+
+/* ---- Neon cursive wordmark ---- */
+.wordmark {
+  position: absolute;
+  left: 50%;
+  top: 40%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  --glow: 0 0 26px rgba(247, 240, 227, 0.55), 0 0 60px rgba(236, 182, 152, 0.35),
+    0 0 120px rgba(236, 182, 152, 0.22);
+  --glow-sm: 0 0 14px rgba(247, 240, 227, 0.4);
+  font-family: var(--font-script), cursive;
+  font-weight: 400;
+  font-size: clamp(140px, 26vw, 400px);
+  line-height: 0.8;
+  color: var(--color-creme);
+  white-space: nowrap;
+  user-select: none;
+  letter-spacing: 0.01em;
+  text-shadow: var(--glow);
+  animation: neonOn 2.7s linear 0.3s both;
+}
+@keyframes neonOn {
+  0% { opacity: 0.12; text-shadow: none; }
+  6% { opacity: 0.12; text-shadow: none; }
+  7% { opacity: 0.85; text-shadow: var(--glow-sm); }
+  9% { opacity: 0.15; text-shadow: none; }
+  12% { opacity: 0.9; text-shadow: var(--glow); }
+  14% { opacity: 0.2; text-shadow: none; }
+  16% { opacity: 1; text-shadow: var(--glow); }
+  19% { opacity: 0.35; text-shadow: var(--glow-sm); }
+  21% { opacity: 1; text-shadow: var(--glow); }
+  26% { opacity: 0.55; text-shadow: var(--glow-sm); }
+  29% { opacity: 1; text-shadow: var(--glow); }
+  35% { opacity: 0.9; text-shadow: var(--glow); }
+  37% { opacity: 1; text-shadow: var(--glow); }
+  100% { opacity: 1; text-shadow: var(--glow); }
+}
+
+/* ---- Subject cut-out ---- */
+.subject {
+  position: relative;
+  z-index: 3;
+  height: 60vh;
+  max-height: 660px;
+  width: auto;
+  object-fit: contain;
+  object-position: bottom;
+  filter: drop-shadow(0 18px 38px rgba(0, 0, 0, 0.32));
+}
+
+/* ---- Availability pill ---- */
+.pill {
+  position: absolute;
+  left: 64px;
+  bottom: 130px;
+  z-index: 7;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  border: 1px solid rgba(183, 158, 140, 0.33);
+  border-radius: 40px;
+  padding: 10px 18px;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-creme);
+}
+.pillDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--color-amber-dot);
+  box-shadow: 0 0 0 3px rgba(217, 160, 91, 0.2);
+}
+
+/* ---- Vertical side text ---- */
+.sideText {
+  position: absolute;
+  top: 50%;
+  z-index: 6;
+  writing-mode: vertical-rl;
+  white-space: nowrap;
+  font-size: 11px;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--color-taupe);
+  opacity: 0.85;
+}
+.sideLeft { left: 26px; transform: translateY(-50%) rotate(180deg); }
+.sideRight { right: 26px; transform: translateY(-50%); }
+
+/* ---- Sparkles + corner ticks ---- */
+.spark { position: absolute; z-index: 6; color: var(--color-taupe); user-select: none; pointer-events: none; }
+.tick { position: absolute; z-index: 6; width: 14px; height: 14px; border-color: rgba(183, 158, 140, 0.33); border-style: solid; border-width: 0; }
+.tickTL { top: 96px; left: 48px; border-left-width: 1px; border-top-width: 1px; }
+.tickTR { top: 96px; right: 48px; border-right-width: 1px; border-top-width: 1px; }
+
+/* ---- Rotating wax-seal CTA ---- */
+.seal {
+  position: absolute;
+  right: 64px;
+  bottom: 118px;
+  z-index: 7;
+  width: 132px;
+  height: 132px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+.sealRing { position: absolute; inset: 0; animation: sealSpin 22s linear infinite; }
+.sealRing text { fill: var(--color-taupe); font-size: 9px; letter-spacing: 3px; text-transform: uppercase; }
+.sealCore {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--color-creme);
+  color: var(--color-espresso);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  transition: transform 0.3s;
+}
+.seal:hover .sealCore { transform: scale(1.08); }
+@keyframes sealSpin { to { transform: rotate(360deg); } }
+
+/* ---- Reduced motion ---- */
+@media (prefers-reduced-motion: reduce) {
+  .wordmark { animation: none; }
+  .sealRing { animation: none; }
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 720px) {
+  .subject { height: 48vh; }
+  .wordmark { font-size: 24vw; }
+  .pill { left: 20px; bottom: 90px; }
+  .seal { right: 20px; bottom: 84px; transform: scale(0.85); }
+  .sideText { display: none; }
+  .tick { display: none; }
+}
