@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Montserrat, Alex_Brush } from "next/font/google";
 import { SmoothScroll } from "@/components/smooth-scroll";
+import { Curtain } from "@/components/transition/curtain";
 import "./globals.css";
 
 const playfair = Playfair_Display({
@@ -37,6 +38,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <SmoothScroll>{children}</SmoothScroll>
+        <Curtain />
       </body>
     </html>
   );

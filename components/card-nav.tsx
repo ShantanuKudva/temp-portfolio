@@ -10,6 +10,7 @@ import {
 import { ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useIntro } from "@/components/hero/intro-store";
+import { useCurtain } from "@/components/transition/curtain-store";
 
 type NavLink = { label: string; href: string; ariaLabel?: string };
 type NavItem = { label: string; bg: string; links: NavLink[] };
@@ -55,6 +56,14 @@ export function CardNav() {
   const heroIn = useIntro((s) => s.heroIn);
   const introAnimate = useIntro((s) => s.animate);
   const entrance = introAnimate && !reduce;
+  const startTransition = useCurtain((s) => s.start);
+
+  // Route through the curtain transition instead of navigating directly.
+  const go = (href: string) => (e: React.MouseEvent) => {
+    e.preventDefault();
+    setOpen(false);
+    startTransition(href);
+  };
 
   // After the drop-in completes, switch to a snappy transition for scroll-hide.
   useEffect(() => {
@@ -118,6 +127,7 @@ export function CardNav() {
 
           <a
             href="#top"
+            onClick={go("#top")}
             className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-display text-xl italic font-semibold text-espresso"
           >
             Varsheni
@@ -125,6 +135,7 @@ export function CardNav() {
 
           <a
             href="#contact"
+            onClick={go("#contact")}
             className="flex h-[calc(100%-12px)] items-center rounded-xl bg-wine px-4 text-[12px] font-semibold uppercase tracking-[0.14em] text-creme transition-colors hover:bg-espresso"
           >
             Inquire ↗
@@ -154,6 +165,7 @@ export function CardNav() {
                   <a
                     key={l.label}
                     href={l.href}
+                    onClick={go(l.href)}
                     aria-label={l.ariaLabel ?? l.label}
                     className="inline-flex items-center gap-1.5 text-sm text-creme/85 transition-opacity hover:opacity-70"
                   >
