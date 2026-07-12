@@ -42,6 +42,20 @@ export function ContactAurora({ children }: { children: React.ReactNode }) {
             "radial-gradient(120% 60% at 50% 30%, transparent 25%, rgba(20,13,9,0.6) 100%)",
         }}
       />
+      {/* Subtle crème grid, edge-faded so it stays a quiet texture. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0"
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, rgba(247,243,238,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(247,243,238,0.05) 1px, transparent 1px)",
+          backgroundSize: "46px 46px",
+          WebkitMaskImage:
+            "radial-gradient(120% 85% at 50% 25%, #000 35%, transparent 85%)",
+          maskImage:
+            "radial-gradient(120% 85% at 50% 25%, #000 35%, transparent 85%)",
+        }}
+      />
       <div className="relative z-10">{children}</div>
     </div>
   );
