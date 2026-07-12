@@ -83,7 +83,7 @@ export function CardNav() {
       animate={{ y: (entrance && !heroIn) || hidden ? "-160%" : "0%" }}
       transition={
         entrance && !entered
-          ? { duration: 0.75, ease: EASE, delay: 0.3 }
+          ? { duration: 0.6, ease: EASE, delay: 0.15 }
           : { duration: reduce || !introAnimate ? 0 : 0.45, ease: EASE }
       }
       className="fixed left-1/2 top-5 z-[99] w-[92%] max-w-3xl"

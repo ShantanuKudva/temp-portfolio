@@ -41,15 +41,16 @@ export function HeroName({ children }: { children: React.ReactNode }) {
   // motion, not two stops), then neon, then hero.
   useEffect(() => {
     if (!revealed || !entrance) return;
-    const cPlace = animate(y, 0, { duration: 1.2, ease: EASE });
-    // Zoom starts while the placement is still settling, and eases out slowly.
+    const cPlace = animate(y, 0, { duration: 0.75, ease: EASE });
+    // Zoom overlaps the placement so it reads as one motion, eased (no spring).
     const cZoom = animate(scale, 1, {
-      duration: 1.7,
-      delay: 0.55,
+      duration: 1,
+      delay: 0.3,
       ease: [0.22, 1, 0.36, 1],
     });
-    const tLight = setTimeout(() => light(), 2350);
-    const tHero = setTimeout(() => bringHero(), 3550);
+    // Neon flickers to life *while* it zooms in, then the hero follows.
+    const tLight = setTimeout(() => light(), 500);
+    const tHero = setTimeout(() => bringHero(), 1750);
     return () => {
       cPlace.stop();
       cZoom.stop();

@@ -6,6 +6,7 @@ import { Silk } from "./silk";
 import { LoaderCurtain } from "./loader-curtain";
 import { BackGlow } from "./back-glow";
 import { HeroChromeReveal } from "./hero-chrome-reveal";
+import { PointerParallax } from "./pointer-parallax";
 import styles from "./hero.module.css";
 
 export function Hero() {
@@ -24,10 +25,13 @@ export function Hero() {
       <BackGlow />
 
       <LoaderCurtain />
+      <PointerParallax />
 
       <HeroName>Varsheni</HeroName>
 
-      <div className="absolute inset-0 z-4 flex items-end justify-center">
+      <div
+        className={`absolute inset-0 z-4 flex items-end justify-center ${styles.subjectParallax}`}
+      >
         <SubjectCutout />
       </div>
 

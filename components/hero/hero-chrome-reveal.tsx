@@ -24,7 +24,7 @@ export function HeroChromeReveal({ children }: { children: React.ReactNode }) {
       animate={
         heroIn || !entrance ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }
       }
-      transition={entrance ? { duration: 1.3, ease: EASE, delay: 0.15 } : { duration: 0 }}
+      transition={entrance ? { duration: 0.9, ease: EASE, delay: 0.1 } : { duration: 0 }}
     >
       {children}
     </motion.div>

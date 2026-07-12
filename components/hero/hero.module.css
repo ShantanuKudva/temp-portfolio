@@ -142,8 +142,16 @@
   z-index: 3;
   display: grid;
   place-items: center;
-  transform: translateY(-6%);
+  /* -6% raise + subtle pointer parallax (behind the subject → moves less). */
+  transform: translateY(-6%)
+    translate3d(calc(var(--mx, 0) * 9px), calc(var(--my, 0) * 7px), 0);
+  transition: transform 0.25s ease-out;
   pointer-events: none;
+}
+/* Subject sits in front → parallaxes a touch more for depth. */
+.subjectParallax {
+  transform: translate3d(calc(var(--mx, 0) * 17px), calc(var(--my, 0) * 12px), 0);
+  transition: transform 0.25s ease-out;
 }
 .wordmark {
   --glow: 0 0 22px rgba(247, 240, 227, 0.6), 0 0 48px rgba(236, 182, 152, 0.38),
@@ -163,22 +171,25 @@
   opacity: 0.34;
   text-shadow: none;
 }
-/* Intro path: a slow, classy ignition (one soft catch, then a graceful
-   swell to full glow) — triggered when `.wordmarkOn` is applied on the neon beat. */
+/* Neon flicker to life (runs while the name zooms in), settling to full glow. */
 .wordmarkOn {
-  animation: neonOn 2.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation: neonOn 1.2s ease-out forwards;
 }
 /* Skip path: already lit, no flicker. */
 .wordmarkLit {
   opacity: 1;
   text-shadow: var(--glow);
 }
-/* Classy ignition: a single smooth, monotonic swell from off to full glow —
-   never dips back down (which read as "turning off to redo"). */
+/* Neon flicker: a few quick catches, then holds full glow. */
 @keyframes neonOn {
   0% { opacity: 0.34; text-shadow: none; }
-  35% { opacity: 0.6; text-shadow: var(--glow-sm); }
-  70% { opacity: 0.9; text-shadow: var(--glow); }
+  8% { opacity: 0.9; text-shadow: var(--glow); }
+  14% { opacity: 0.35; text-shadow: none; }
+  22% { opacity: 1; text-shadow: var(--glow); }
+  30% { opacity: 0.5; text-shadow: var(--glow-sm); }
+  40% { opacity: 1; text-shadow: var(--glow); }
+  52% { opacity: 0.8; text-shadow: var(--glow-sm); }
+  62% { opacity: 1; text-shadow: var(--glow); }
   100% { opacity: 1; text-shadow: var(--glow); }
 }
 

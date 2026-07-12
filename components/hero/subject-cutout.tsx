@@ -27,7 +27,7 @@ export function SubjectCutout() {
           ? { opacity: 1, y: 0, scale: 1 }
           : { opacity: 0, y: 44, scale: 1.03 }
       }
-      transition={entrance ? { duration: 1.6, ease: EASE } : { duration: 0 }}
+      transition={entrance ? { duration: 1.1, ease: EASE } : { duration: 0 }}
     >
       <Image
         src="/varsheni-2-cutout.png"
