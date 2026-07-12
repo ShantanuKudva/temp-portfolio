@@ -7,12 +7,36 @@ import { lenisRef } from "@/lib/lenis";
 
 // Jump to an in-page anchor, Lenis-aware so smooth-scroll stays in sync. Called
 // while the curtain covers the screen, so the jump is instant/hidden.
-function scrollToHash(hash: string) {
-  const el = document.querySelector(hash);
-  if (!el) return;
+//
+// Cross-page targets need to *wait*: after router.push the new route's sections
+// haven't mounted yet, and Lenis still knows the old page's height. So we poll a
+// few frames for the element to appear, then re-assert the scroll (with a
+// resize) over the next frames to correct for late layout shifts — web fonts,
+// WebGL canvases, the Cal.com iframe growing, etc.
+function scrollToHash(hash: string, attempts = 40) {
+  const el = document.querySelector(hash) as HTMLElement | null;
+
+  if (!el) {
+    if (attempts > 0) {
+      requestAnimationFrame(() => scrollToHash(hash, attempts - 1));
+    }
+    return;
+  }
+
   const lenis = lenisRef.current;
-  if (lenis) lenis.scrollTo(el as HTMLElement, { offset: -90, immediate: true });
-  else (el as HTMLElement).scrollIntoView();
+  if (!lenis) {
+    el.scrollIntoView();
+    return;
+  }
+
+  const jump = () => {
+    lenis.resize();
+    const target = document.querySelector(hash) as HTMLElement | null;
+    if (target) lenis.scrollTo(target, { offset: -90, immediate: true });
+  };
+  jump();
+  requestAnimationFrame(jump);
+  requestAnimationFrame(() => requestAnimationFrame(jump));
 }
 
 // A firm, symmetric ease for the wipe (fast middle, settled ends).
@@ -56,11 +80,9 @@ export function Curtain() {
         if (path && !samePage) {
           if (hash) {
             // Navigate without Next's auto-scroll, then jump to the anchor once
-            // the new route has rendered (still hidden under the cover).
+            // the new route has rendered (scrollToHash polls until it mounts).
             router.push(pending, { scroll: false });
-            requestAnimationFrame(() =>
-              requestAnimationFrame(() => scrollToHash(hash)),
-            );
+            scrollToHash(hash);
           } else {
             router.push(pending);
           }
