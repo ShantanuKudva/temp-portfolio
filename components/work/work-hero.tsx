@@ -2,17 +2,33 @@
 
 import { Reveal } from "@/components/motion/reveal";
 import { Parallax } from "@/components/motion/parallax";
+import styles from "./work.module.css";
 
 /**
- * Work page hero — eyebrow, Playfair headline, a Montserrat sub-line, and the
- * availability pill (same language as About). Velvet surface; the region's
- * ColorBends signature glows behind the sections below.
+ * Work page hero — availability pill, eyebrow, Playfair headline with the shared
+ * hairline rule, and a Montserrat sub-line (same language as About's intro).
  */
 export function WorkHero() {
   return (
-    <section className="relative px-6 pb-14 pt-36 sm:px-10 sm:pt-40">
-      <div className="mx-auto max-w-5xl">
-        <Parallax speed={30}>
+    <section className="relative overflow-hidden px-6 pb-16 pt-36 sm:px-10 sm:pt-40">
+      {/* Scattered sparkle props. */}
+      <span
+        aria-hidden
+        className={`pointer-events-none absolute right-[14%] top-40 font-script text-amber-dot ${styles.twinkle}`}
+        style={{ fontSize: 20 }}
+      >
+        ✦
+      </span>
+      <span
+        aria-hidden
+        className={`pointer-events-none absolute left-[8%] top-56 font-script text-amber-dot ${styles.twinkle}`}
+        style={{ fontSize: 13, animationDelay: "1.6s" }}
+      >
+        ✦
+      </span>
+
+      <div className="mx-auto max-w-6xl">
+        <Parallax speed={28}>
           <div className="space-y-6">
             <Reveal>
               <span className="inline-flex items-center gap-2 rounded-full border border-amber-dot/40 bg-amber-dot/10 px-4 py-1.5 font-sans text-[11px] font-medium uppercase tracking-[0.18em] text-amber-dot">
@@ -39,7 +55,11 @@ export function WorkHero() {
               </h1>
             </Reveal>
 
-            <Reveal delay={0.15}>
+            <Reveal delay={0.14}>
+              <div className={`${styles.rule} w-32`} />
+            </Reveal>
+
+            <Reveal delay={0.18}>
               <p className="max-w-xl font-sans text-[15px] leading-relaxed text-creme/70 sm:text-base">
                 Every reel here is an app or a business I actually lived with —
                 used it the way you would, then said plainly whether it earns a
