@@ -291,7 +291,7 @@
   position: relative;
   height: 60vh;
   max-height: 660px;
-  will-change: transform, opacity;
+  will-change: transform, opacity, filter;
 }
 .subjectImg {
   display: block;

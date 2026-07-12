@@ -21,13 +21,17 @@ export function SubjectCutout() {
   return (
     <motion.div
       className={styles.subject}
-      initial={entrance ? { opacity: 0, y: 44, scale: 1.03 } : false}
+      initial={
+        entrance
+          ? { opacity: 0, y: 44, scale: 1.03, filter: "blur(18px)" }
+          : false
+      }
       animate={
         heroIn || !entrance
-          ? { opacity: 1, y: 0, scale: 1 }
-          : { opacity: 0, y: 44, scale: 1.03 }
+          ? { opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }
+          : { opacity: 0, y: 44, scale: 1.03, filter: "blur(18px)" }
       }
-      transition={entrance ? { duration: 1.1, ease: EASE } : { duration: 0 }}
+      transition={entrance ? { duration: 1.2, ease: EASE } : { duration: 0 }}
     >
       <Image
         src="/varsheni-2-cutout.png"
