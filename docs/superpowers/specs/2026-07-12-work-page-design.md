@@ -33,7 +33,7 @@ pattern. Gold (`--color-amber-dot`) stays a restrained accent; body/UI accents l
 
 ## 3. Page structure (top → bottom)
 
-Root: `<main>` with `background: linear-gradient(165deg, #2a0710 0%, #1a0509 45%)`,
+Root: `<main>` with `background: linear-gradient(165deg, #5b0f1a 0%, #380710 45%)`,
 `text-creme`, `relative flex-1`.
 
 ### 3.1 Page hero (`work-hero.tsx`)
@@ -87,7 +87,7 @@ Root: `<main>` with `background: linear-gradient(165deg, #2a0710 0%, #1a0509 45%
 ### 3.6 Ambient ColorBends (part of `work-page.tsx` / `reel-wall.tsx` region)
 - A single ColorBends layer behind the featured + wall region (not the whole page), the
   way About scopes Aurora to a region.
-- Wine/crimson stops, e.g. `colors={["#7a1020", "#3d0b16", "#a8674a"]}`, low `speed`
+- Wine/crimson stops, e.g. `colors={["#9a1a2c", "#5b0f1a", "#38070f"]}`, low `speed`
   (~0.18), `transparent`, gentle `intensity`.
 - Feathered with a vertical linear-gradient mask (top+bottom transparent) so it blends
   into the velvet with no hard seam — same technique used across About/Connect.
