@@ -2,25 +2,31 @@
 
 import { CONTACT, PACKAGES, type Package } from "@/lib/contact-info";
 import { Reveal } from "@/components/motion/reveal";
+import { SpotlightCard } from "@/components/effects/spotlight-card";
 
 function Tile({ pkg, delay }: { pkg: Package; delay: number }) {
   return (
     <Reveal delay={delay} className="h-full">
-      <div className="flex h-full flex-col rounded-3xl border border-creme/12 bg-gradient-to-br from-[#3f2d25]/90 via-[#2a1c14]/85 to-[#140d09]/92 p-7 backdrop-blur-md transition-colors duration-300 hover:border-amber-dot/50 sm:p-8">
-        <h3 className="font-display text-2xl sm:text-[1.7rem]">{pkg.name}</h3>
-        <p className="mt-1.5 font-sans text-[14px] leading-relaxed text-creme/60">
-          {pkg.blurb}
-        </p>
-        <ul className="mt-6 flex-1 space-y-2.5">
-          {pkg.deliverables.map((d) => (
-            <li key={d} className="flex items-start gap-2.5 font-sans text-[14px] text-creme/75">
-              <span aria-hidden className="mt-2 h-1 w-1 shrink-0 rounded-full bg-clay" />
-              {d}
-            </li>
-          ))}
-        </ul>
-        <p className="mt-7 font-display text-xl text-amber-dot">{pkg.priceFrom}</p>
-      </div>
+      <SpotlightCard
+        spotlightColor="rgba(217, 160, 91, 0.16)"
+        className="h-full rounded-3xl border border-creme/12 bg-gradient-to-br from-[#3f2d25]/90 via-[#2a1c14]/85 to-[#140d09]/92 p-7 backdrop-blur-md transition-colors duration-300 hover:border-amber-dot/50 sm:p-8"
+      >
+        <div className="relative z-10 flex h-full flex-col">
+          <h3 className="font-display text-2xl sm:text-[1.7rem]">{pkg.name}</h3>
+          <p className="mt-1.5 font-sans text-[14px] leading-relaxed text-creme/60">
+            {pkg.blurb}
+          </p>
+          <ul className="mt-6 flex-1 space-y-2.5">
+            {pkg.deliverables.map((d) => (
+              <li key={d} className="flex items-start gap-2.5 font-sans text-[14px] text-creme/75">
+                <span aria-hidden className="mt-2 h-1 w-1 shrink-0 rounded-full bg-clay" />
+                {d}
+              </li>
+            ))}
+          </ul>
+          <p className="mt-7 font-display text-xl text-amber-dot">{pkg.priceFrom}</p>
+        </div>
+      </SpotlightCard>
     </Reveal>
   );
 }
