@@ -6,6 +6,7 @@ import { GradualBlur } from "@/components/effects/gradual-blur";
 import { ContactAurora } from "./contact-aurora";
 import { RateCard } from "./rate-card";
 import { Booking } from "./booking";
+import { PrismaticClose } from "./prismatic-close";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -70,15 +71,8 @@ export function ContactPage() {
         {/* ═══ Book & reach me ═══ */}
         <Booking />
 
-        {/* ═══ Close ═══ */}
-        <section className="relative px-6 py-20 text-center sm:py-28">
-          <Reveal className="mx-auto max-w-xl">
-            <p className="font-display text-2xl leading-snug text-creme/90 sm:text-3xl">
-              No hard sell, no fluff — just an{" "}
-              <span className="font-script text-moonlight">honest</span> conversation.
-            </p>
-          </Reveal>
-        </section>
+        {/* ═══ Close — "no hard sell" with a prismatic burst ═══ */}
+        <PrismaticClose />
       </ContactAurora>
 
       {/* Bottom gradual blur, pinned across the page. */}
