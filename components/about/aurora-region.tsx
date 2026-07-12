@@ -32,7 +32,18 @@ export function AuroraRegion({ children }: { children: React.ReactNode }) {
     <div ref={ref} className="relative overflow-hidden">
       {/* Sticky, viewport-sized aurora (chocolate/mocha/taupe). */}
       <div className="pointer-events-none absolute inset-0">
-        <motion.div className="sticky top-0 h-screen w-full" style={{ opacity }}>
+        <motion.div
+          className="sticky top-0 h-screen w-full"
+          style={{
+            opacity,
+            // Feather top + bottom so the glow blends into the velvet instead of
+            // ending on a hard horizontal edge at the viewport bounds.
+            WebkitMaskImage:
+              "linear-gradient(to bottom, transparent 0%, #000 20%, #000 80%, transparent 100%)",
+            maskImage:
+              "linear-gradient(to bottom, transparent 0%, #000 20%, #000 80%, transparent 100%)",
+          }}
+        >
           {mounted && (
             <Aurora
               colorStops={["#c98a3f", "#6b4e42", "#b79e8c"]}
