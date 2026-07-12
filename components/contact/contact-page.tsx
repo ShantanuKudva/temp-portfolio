@@ -3,11 +3,12 @@
 import { motion, useReducedMotion } from "motion/react";
 import { Reveal } from "@/components/motion/reveal";
 import { Parallax } from "@/components/motion/parallax";
-import { GradualBlur } from "@/components/effects/gradual-blur";
+import { PageBottomBlur } from "@/components/effects/page-bottom-blur";
 import { ContactAurora } from "./contact-aurora";
 import { RateCard } from "./rate-card";
 import { Booking } from "./booking";
 import { CurvedClose } from "./curved-close";
+import { MakerCredit } from "@/components/maker-credit";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -76,10 +77,11 @@ export function ContactPage() {
 
         {/* ═══ Close — "no hard sell" as a curved marquee ═══ */}
         <CurvedClose />
+        <MakerCredit />
       </ContactAurora>
 
-      {/* Bottom gradual blur, pinned across the page. */}
-      <GradualBlur position="bottom" target="page" height="5.5rem" strength={3.2} />
+      {/* Bottom gradual blur — fades out as the footer arrives (stays crisp). */}
+      <PageBottomBlur />
     </main>
   );
 }

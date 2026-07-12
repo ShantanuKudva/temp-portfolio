@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import type { Reel } from "@/lib/work";
-import { GradualBlur } from "@/components/effects/gradual-blur";
+import { PageBottomBlur } from "@/components/effects/page-bottom-blur";
 import { WorkAurora } from "./work-aurora";
 import { WorkHero } from "./work-hero";
 import { ReelGallery } from "./reel-gallery";
@@ -10,6 +10,7 @@ import { CaseStudy } from "./case-study";
 import { Process } from "./process";
 import { WorkCta } from "./work-cta";
 import { ReelLightbox } from "./reel-lightbox";
+import { MakerCredit } from "@/components/maker-credit";
 
 /**
  * The Work page — mirrors the Connect layout in the wine theme (the nav's Work
@@ -33,12 +34,13 @@ export function WorkPage() {
         <CaseStudy />
         <Process />
         <WorkCta />
+        <MakerCredit />
       </WorkAurora>
 
       <ReelLightbox reel={active} onClose={close} />
 
-      {/* Bottom gradual blur, pinned across the page. */}
-      <GradualBlur position="bottom" target="page" height="5.5rem" strength={3.2} />
+      {/* Bottom gradual blur — fades out as the footer arrives (stays crisp). */}
+      <PageBottomBlur />
     </main>
   );
 }

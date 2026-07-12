@@ -5,13 +5,14 @@ import Image from "next/image";
 import { motion } from "motion/react";
 import StrandsBase from "@/components/Strands";
 import { Reveal } from "@/components/motion/reveal";
-import { GradualBlur } from "@/components/effects/gradual-blur";
+import { PageBottomBlur } from "@/components/effects/page-bottom-blur";
 import { LogoWall } from "./logo-wall";
 import { WhoIAm } from "./who-i-am";
 import { WhatIBring } from "./what-i-bring";
 import { AuroraRegion } from "./aurora-region";
 import { AboutCta } from "./cta";
 import { Seal } from "./seal";
+import { MakerCredit } from "@/components/maker-credit";
 import styles from "./about.module.css";
 
 // JS-interop components — flexible props (their .jsx infers strict types from defaults).
@@ -271,8 +272,10 @@ export function AboutPage() {
       {/* ═══ Let's talk — Silk CTA ═══ */}
       <AboutCta />
 
-      {/* Bottom gradual blur, pinned across the page. */}
-      <GradualBlur position="bottom" target="page" height="5.5rem" strength={3.2} />
+      <MakerCredit />
+
+      {/* Bottom gradual blur — fades out as the footer arrives (stays crisp). */}
+      <PageBottomBlur />
     </main>
   );
 }
