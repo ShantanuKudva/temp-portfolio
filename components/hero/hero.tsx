@@ -1,4 +1,5 @@
 import { SiteNav } from "@/components/site-nav";
+import { GradualBlur } from "@/components/effects/gradual-blur";
 import { NeonName } from "./neon-name";
 import { WaxSeal } from "./wax-seal";
 import { SubjectCutout } from "./subject-cutout";
@@ -57,6 +58,8 @@ export function Hero() {
 
         <WaxSeal />
       </div>
+
+      <GradualBlur position="bottom" height="8rem" strength={3} />
     </header>
   );
 }
