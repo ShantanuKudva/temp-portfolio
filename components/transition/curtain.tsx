@@ -39,6 +39,18 @@ function scrollToHash(hash: string, attempts = 40) {
   requestAnimationFrame(() => requestAnimationFrame(jump));
 }
 
+// Wait until the router has actually committed the new route (the URL flips)
+// and the new tree has had a couple of frames to paint, then run `cb`. Keeps the
+// curtain fully covering across the navigation so the wipe never reveals the old
+// page for a frame.
+function afterNavigation(path: string, cb: () => void, attempts = 60) {
+  if (window.location.pathname === path || attempts <= 0) {
+    requestAnimationFrame(() => requestAnimationFrame(cb));
+    return;
+  }
+  requestAnimationFrame(() => afterNavigation(path, cb, attempts - 1));
+}
+
 // A firm, symmetric ease for the wipe (fast middle, settled ends).
 const EASE = [0.76, 0, 0.24, 1] as const;
 
@@ -69,34 +81,39 @@ export function Curtain() {
   const target = phase === "cover" ? FULL : GONE;
 
   const handleComplete = () => {
-    if (phase === "cover") {
-      // Fully covered → perform the navigation, then wipe away.
-      if (pending) {
-        const hashIndex = pending.indexOf("#");
-        const path = hashIndex >= 0 ? pending.slice(0, hashIndex) : pending;
-        const hash = hashIndex >= 0 ? pending.slice(hashIndex) : "";
-        const samePage = !path || path === window.location.pathname;
+    if (phase !== "cover") {
+      done();
+      return;
+    }
+    if (!pending) {
+      covered();
+      return;
+    }
 
-        if (path && !samePage) {
-          if (hash) {
-            // Navigate without Next's auto-scroll, then jump to the anchor once
-            // the new route has rendered (scrollToHash polls until it mounts).
-            router.push(pending, { scroll: false });
-            scrollToHash(hash);
-          } else {
-            router.push(pending);
-          }
-        } else if (hash) {
-          scrollToHash(hash);
-        } else {
-          const lenis = lenisRef.current;
-          if (lenis) lenis.scrollTo(0, { immediate: true });
-          else window.scrollTo(0, 0);
-        }
+    const hashIndex = pending.indexOf("#");
+    const path = hashIndex >= 0 ? pending.slice(0, hashIndex) : pending;
+    const hash = hashIndex >= 0 ? pending.slice(hashIndex) : "";
+    const samePage = !path || path === window.location.pathname;
+
+    // Position the new view (anchor or top), then wipe the curtain away.
+    const settle = () => {
+      if (hash) {
+        scrollToHash(hash);
+      } else {
+        const lenis = lenisRef.current;
+        if (lenis) lenis.scrollTo(0, { immediate: true });
+        else window.scrollTo(0, 0);
       }
       covered();
+    };
+
+    if (path && !samePage) {
+      // Navigate, then hold the cover until the new route has mounted + painted
+      // so the wipe never flashes the old page.
+      router.push(pending, { scroll: false });
+      afterNavigation(path, settle);
     } else {
-      done();
+      settle();
     }
   };
 
