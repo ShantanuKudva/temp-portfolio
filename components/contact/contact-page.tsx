@@ -2,6 +2,7 @@
 
 import { motion, useReducedMotion } from "motion/react";
 import { Reveal } from "@/components/motion/reveal";
+import { Parallax } from "@/components/motion/parallax";
 import { GradualBlur } from "@/components/effects/gradual-blur";
 import { ContactAurora } from "./contact-aurora";
 import { RateCard } from "./rate-card";
@@ -44,25 +45,27 @@ export function ContactPage() {
           <Sparkle className="right-[20%] top-40" size={14} delay={1.6} />
           <Sparkle className="left-[30%] top-[60%]" size={12} delay={2.8} />
 
-          <Reveal className="mx-auto max-w-2xl">
-            <p className="mb-4 font-sans text-xs font-medium uppercase tracking-[0.34em] text-moonlight">
-              <span>✦</span>&nbsp;&nbsp;Connect
-            </p>
-            <p className="mb-2 font-script text-5xl text-moonlight sm:text-6xl">let&apos;s talk</p>
-            <h1 className="mb-6 font-display text-4xl leading-[1.08] sm:text-6xl">
-              Have an app or business worth an honest look?
-            </h1>
-            <p className="mx-auto mb-8 max-w-md font-sans text-base leading-relaxed text-creme/70">
-              Brand deals, honest reviews, and collaborations — here&apos;s where we start.
-            </p>
-            <span className="inline-flex items-center gap-2 rounded-full border border-moonlight/40 bg-moonlight/10 px-4 py-1.5 font-sans text-[11px] font-medium uppercase tracking-[0.18em] text-moonlight">
-              <span className="relative flex h-1.5 w-1.5">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-moonlight opacity-70" />
-                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-moonlight" />
+          <Parallax speed={34}>
+            <Reveal className="mx-auto max-w-2xl">
+              <p className="mb-4 font-sans text-xs font-medium uppercase tracking-[0.34em] text-moonlight">
+                <span>✦</span>&nbsp;&nbsp;Connect
+              </p>
+              <p className="mb-2 font-script text-5xl text-moonlight sm:text-6xl">let&apos;s talk</p>
+              <h1 className="mb-6 font-display text-4xl leading-[1.08] sm:text-6xl">
+                Have an app or business worth an honest look?
+              </h1>
+              <p className="mx-auto mb-8 max-w-md font-sans text-base leading-relaxed text-creme/70">
+                Brand deals, honest reviews, and collaborations — here&apos;s where we start.
+              </p>
+              <span className="inline-flex items-center gap-2 rounded-full border border-moonlight/40 bg-moonlight/10 px-4 py-1.5 font-sans text-[11px] font-medium uppercase tracking-[0.18em] text-moonlight">
+                <span className="relative flex h-1.5 w-1.5">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-moonlight opacity-70" />
+                  <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-moonlight" />
+                </span>
+                Booking new collabs
               </span>
-              Booking new collabs
-            </span>
-          </Reveal>
+            </Reveal>
+          </Parallax>
         </section>
 
         {/* ═══ Rate card ═══ */}

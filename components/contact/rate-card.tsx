@@ -4,6 +4,7 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { CONTACT, PACKAGES, type Package } from "@/lib/contact-info";
 import { Reveal } from "@/components/motion/reveal";
+import { Parallax } from "@/components/motion/parallax";
 import { SpotlightCard } from "@/components/effects/spotlight-card";
 import LightRaysBase from "@/components/LightRays";
 
@@ -86,16 +87,18 @@ export function RateCard() {
   return (
     <section id="packages" className="relative scroll-mt-24 py-20 sm:py-28">
       <div className="mx-auto max-w-6xl px-6 sm:px-10">
-        <Reveal>
-          <p className="mb-3 font-sans text-xs font-medium uppercase tracking-[0.3em] text-moonlight">
-            <span>✦</span>&nbsp;&nbsp;Rate card
-          </p>
-        </Reveal>
-        <Reveal delay={0.06}>
-          <h2 className="mb-12 max-w-xl font-display text-3xl leading-tight sm:text-5xl">
-            What working together looks like.
-          </h2>
-        </Reveal>
+        <Parallax speed={28}>
+          <Reveal>
+            <p className="mb-3 font-sans text-xs font-medium uppercase tracking-[0.3em] text-moonlight">
+              <span>✦</span>&nbsp;&nbsp;Rate card
+            </p>
+          </Reveal>
+          <Reveal delay={0.06}>
+            <h2 className="mb-12 max-w-xl font-display text-3xl leading-tight sm:text-5xl">
+              What working together looks like.
+            </h2>
+          </Reveal>
+        </Parallax>
 
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
           {PACKAGES.map((pkg, i) => (
