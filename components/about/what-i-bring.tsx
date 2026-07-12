@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import LightRaysBase from "@/components/LightRays";
 import { Reveal } from "@/components/motion/reveal";
@@ -150,16 +151,53 @@ export function WhatIBring() {
   return (
     <section id="bring" className="relative scroll-mt-24 py-20 sm:py-28">
       <div className="mx-auto max-w-6xl px-6 sm:px-10">
-        <Reveal>
-          <p className="mb-3 font-sans text-xs font-medium uppercase tracking-[0.3em] text-amber-dot">
-            <span>✦</span>&nbsp;&nbsp;What I bring to the table
-          </p>
-        </Reveal>
-        <Reveal delay={0.06}>
-          <h2 className="mb-12 max-w-xl font-display text-3xl leading-tight sm:text-5xl">
-            Five reasons the review is worth trusting.
-          </h2>
-        </Reveal>
+        {/* Section intro: the pitch beside her face. */}
+        <div className="mb-12 grid items-center gap-8 sm:gap-12 md:grid-cols-[1.35fr_1fr]">
+          <div>
+            <Reveal>
+              <p className="mb-3 font-sans text-xs font-medium uppercase tracking-[0.3em] text-amber-dot">
+                <span>✦</span>&nbsp;&nbsp;What I bring to the table
+              </p>
+            </Reveal>
+            <Reveal delay={0.06}>
+              <h2 className="max-w-xl font-display text-3xl leading-tight sm:text-5xl">
+                Five reasons the review is worth trusting.
+              </h2>
+            </Reveal>
+          </div>
+
+          {/* Portrait — edges feathered into the velvet (no hard frame). */}
+          <Reveal delay={0.12} className="md:justify-self-end">
+            <div
+              className="relative aspect-[4/5] w-full max-w-[20rem]"
+              style={{
+                WebkitMaskImage:
+                  "linear-gradient(to right, transparent 0%, #000 16%, #000 84%, transparent 100%), linear-gradient(to bottom, transparent 0%, #000 10%, #000 88%, transparent 100%)",
+                WebkitMaskComposite: "source-in",
+                maskImage:
+                  "linear-gradient(to right, transparent 0%, #000 16%, #000 84%, transparent 100%), linear-gradient(to bottom, transparent 0%, #000 10%, #000 88%, transparent 100%)",
+                maskComposite: "intersect",
+              }}
+            >
+              <Image
+                src="/varsheni-4.png"
+                alt="Varsheni"
+                fill
+                sizes="(max-width: 768px) 90vw, 20rem"
+                className="object-cover object-[50%_22%]"
+              />
+              {/* Chocolate floor + amber warmth for cohesion with the cards. */}
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-0"
+                style={{
+                  background:
+                    "linear-gradient(180deg, transparent 45%, rgba(20,13,9,0.6) 100%), radial-gradient(90% 60% at 50% 12%, rgba(217,160,91,0.14), transparent 65%)",
+                }}
+              />
+            </div>
+          </Reveal>
+        </div>
 
         {/* Bento: a wide featured card + a 2×2 of the rest. */}
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">

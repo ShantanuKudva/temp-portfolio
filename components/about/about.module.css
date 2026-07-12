@@ -2,23 +2,41 @@
    Mobile stacks vertically, so the photo fades at its BOTTOM; on md+ the split
    is side-by-side, so it fades at its RIGHT edge into the column. */
 .photoMask {
-  -webkit-mask-image: linear-gradient(to bottom, #000 58%, transparent 100%);
-  mask-image: linear-gradient(to bottom, #000 58%, transparent 100%);
+  -webkit-mask-image:
+    linear-gradient(to right, transparent 0%, #000 12%, #000 88%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, #000 10%, #000 60%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to right, transparent 0%, #000 12%, #000 88%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, #000 10%, #000 60%, transparent 100%);
+  mask-composite: intersect;
 }
 @media (min-width: 768px) {
   .photoMask {
-    -webkit-mask-image: linear-gradient(
-      to right,
-      #000 48%,
-      rgba(0, 0, 0, 0.6) 74%,
-      transparent 96%
-    );
-    mask-image: linear-gradient(
-      to right,
-      #000 48%,
-      rgba(0, 0, 0, 0.6) 74%,
-      transparent 96%
-    );
+    /* Side-by-side split: feather every edge, with a stronger right-edge fade
+       so the portrait dissolves into the text column. */
+    -webkit-mask-image:
+      linear-gradient(
+        to right,
+        transparent 0%,
+        #000 10%,
+        #000 60%,
+        rgba(0, 0, 0, 0.55) 82%,
+        transparent 100%
+      ),
+      linear-gradient(to bottom, transparent 0%, #000 8%, #000 92%, transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-image:
+      linear-gradient(
+        to right,
+        transparent 0%,
+        #000 10%,
+        #000 60%,
+        rgba(0, 0, 0, 0.55) 82%,
+        transparent 100%
+      ),
+      linear-gradient(to bottom, transparent 0%, #000 8%, #000 92%, transparent 100%);
+    mask-composite: intersect;
   }
 }
 

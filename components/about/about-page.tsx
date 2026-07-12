@@ -2,12 +2,7 @@
 
 import { useRef } from "react";
 import Image from "next/image";
-import {
-  motion,
-  useReducedMotion,
-  useScroll,
-  useTransform,
-} from "motion/react";
+import { motion } from "motion/react";
 import StrandsBase from "@/components/Strands";
 import { Reveal } from "@/components/motion/reveal";
 import { GradualBlur } from "@/components/effects/gradual-blur";
@@ -69,15 +64,7 @@ function Sparkle({
 }
 
 export function AboutPage() {
-  const reduce = useReducedMotion();
   const sectionRef = useRef<HTMLElement>(null);
-
-  // Gentle parallax zoom on the pinned portrait as the story scrolls past it.
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start start", "end end"],
-  });
-  const photoScale = useTransform(scrollYProgress, [0, 1], [1.08, 1]);
 
   return (
     <main
@@ -94,7 +81,7 @@ export function AboutPage() {
         <div className="relative h-[64vh] overflow-hidden md:sticky md:top-0 md:h-screen">
           <motion.div
             className={`absolute inset-0 ${styles.photoMask}`}
-            style={reduce ? undefined : { scale: photoScale }}
+            style={{ scale: 0.92 }}
           >
             <Image
               src="/varsheni-3.png"
@@ -258,7 +245,7 @@ export function AboutPage() {
               <Reveal delay={0.1} className="relative w-32 shrink-0 sm:w-40">
                 <div className="overflow-hidden rounded-2xl border border-creme/15 shadow-[0_18px_50px_-20px_rgba(0,0,0,0.7)]">
                   <Image
-                    src="/varsheni-2.png"
+                    src="/varsheni-4.png"
                     alt="Varsheni"
                     width={512}
                     height={512}
