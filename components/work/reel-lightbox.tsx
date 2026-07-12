@@ -2,14 +2,14 @@
 
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { Pause, Play, Volume2, VolumeX, X } from "lucide-react";
+import { Play, Volume2, VolumeX, X } from "lucide-react";
 import type { Reel } from "@/lib/work";
-import { ElasticSlider } from "@/components/ElasticSlider";
 
 /**
- * Modal reel player. Centered 9:16 <video> over a dimmed, blurred backdrop with
- * play/pause, mute, and the ElasticSlider volume. Focus-trapped, Esc/backdrop/✕
- * to close, body scroll locked while open. Renders nothing when `reel` is null.
+ * Modal reel player. Centered 9:16 <video> over a dimmed, blurred backdrop.
+ * Tap the video to play/pause; an Instagram-style mute/volume toggle sits at the
+ * bottom-right. Focus-trapped, Esc/backdrop/✕ to close, body scroll locked while
+ * open. Renders nothing when `reel` is null.
  */
 export function ReelLightbox({
   reel,
@@ -23,7 +23,6 @@ export function ReelLightbox({
   const dialogRef = useRef<HTMLDivElement>(null);
   const [playing, setPlaying] = useState(true);
   const [muted, setMuted] = useState(false);
-  const [volume, setVolume] = useState(1);
 
   const open = reel !== null;
 
@@ -48,7 +47,6 @@ export function ReelLightbox({
   useEffect(() => {
     const v = videoRef.current;
     if (!open || !v) return;
-    v.volume = volume;
     v.muted = muted;
     void v.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -71,18 +69,6 @@ export function ReelLightbox({
     const next = !muted;
     setMuted(next);
     if (v) v.muted = next;
-  };
-
-  const changeVolume = (val: number) => {
-    setVolume(val);
-    const v = videoRef.current;
-    if (v) {
-      v.volume = val;
-      if (val > 0 && muted) {
-        setMuted(false);
-        v.muted = false;
-      }
-    }
   };
 
   return (
@@ -124,7 +110,7 @@ export function ReelLightbox({
               <X className="size-5" aria-hidden />
             </button>
 
-            <div className="overflow-hidden rounded-2xl border border-creme/15 bg-[#1a0509] shadow-[0_40px_120px_-30px_rgba(0,0,0,0.9)]">
+            <div className="relative overflow-hidden rounded-2xl border border-creme/15 bg-[#1a0509] shadow-[0_40px_120px_-30px_rgba(0,0,0,0.9)]">
               <video
                 ref={videoRef}
                 src={reel.src}
@@ -135,41 +121,33 @@ export function ReelLightbox({
                 className="aspect-9/16 w-full cursor-pointer bg-black object-cover"
               />
 
-              {/* controls */}
-              <div className="flex items-center gap-4 px-4 py-3">
+              {/* Tap-to-play glyph when paused (Instagram-style). */}
+              {!playing && (
                 <button
                   type="button"
                   onClick={togglePlay}
-                  aria-label={playing ? "Pause" : "Play"}
-                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-amber-dot text-espresso transition-colors hover:bg-creme"
+                  aria-label="Play"
+                  className="absolute inset-0 grid place-items-center"
                 >
-                  {playing ? (
-                    <Pause className="size-4" aria-hidden />
-                  ) : (
-                    <Play className="ml-0.5 size-4" aria-hidden />
-                  )}
+                  <span className="grid h-16 w-16 place-items-center rounded-full border border-creme/50 bg-[#1a0509]/40 backdrop-blur-sm">
+                    <Play className="ml-1 size-7 text-creme" aria-hidden />
+                  </span>
                 </button>
-                <ElasticSlider
-                  value={muted ? 0 : volume}
-                  onChange={changeVolume}
-                  aria-label="Volume"
-                  className="flex-1"
-                  leftIcon={
-                    <button
-                      type="button"
-                      onClick={toggleMute}
-                      aria-label={muted ? "Unmute" : "Mute"}
-                      className="flex items-center"
-                    >
-                      {muted || volume === 0 ? (
-                        <VolumeX className="size-4" aria-hidden />
-                      ) : (
-                        <Volume2 className="size-4" aria-hidden />
-                      )}
-                    </button>
-                  }
-                />
-              </div>
+              )}
+
+              {/* Instagram-style mute/volume toggle, bottom-right of the video. */}
+              <button
+                type="button"
+                onClick={toggleMute}
+                aria-label={muted ? "Unmute" : "Mute"}
+                className="absolute bottom-3 right-3 grid h-10 w-10 place-items-center rounded-full bg-[#1a0509]/70 text-creme backdrop-blur-sm transition-colors hover:text-amber-dot"
+              >
+                {muted ? (
+                  <VolumeX className="size-4" aria-hidden />
+                ) : (
+                  <Volume2 className="size-4" aria-hidden />
+                )}
+              </button>
             </div>
 
             {/* caption */}

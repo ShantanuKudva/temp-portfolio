@@ -12,6 +12,7 @@ const reel: Reel = {
   title: "The note-taker that finally stuck",
   subject: "Granola",
   kind: "app",
+  category: "Money & fintech",
   poster: "/work/posters/granola.jpg",
   src: "/work/reels/sample.mp4",
 };

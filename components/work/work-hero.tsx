@@ -3,6 +3,7 @@
 import { motion, useReducedMotion } from "motion/react";
 import { Reveal } from "@/components/motion/reveal";
 import { Parallax } from "@/components/motion/parallax";
+import { CtaStamp } from "./cta-stamp";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -38,6 +39,9 @@ function Sparkle({
 export function WorkHero() {
   return (
     <section className="relative overflow-hidden px-6 pb-10 pt-32 text-center sm:px-10 sm:pt-40">
+      {/* Rotating "work with me" CTA stamp, top corner. */}
+      <CtaStamp className="absolute right-6 top-28 z-20 hidden h-24 w-24 sm:right-10 sm:top-32 sm:block lg:h-28 lg:w-28" />
+
       <Sparkle className="left-[18%] top-28" size={20} />
       <Sparkle className="right-[20%] top-40" size={14} delay={1.6} />
       <Sparkle className="left-[30%] top-[60%]" size={12} delay={2.8} />

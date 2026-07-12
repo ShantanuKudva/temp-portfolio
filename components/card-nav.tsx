@@ -39,8 +39,9 @@ const ITEMS: NavItem[] = [
     colors: ["#9a1a2c", "#5b0f1a", "#38070f"],
     grad: "linear-gradient(150deg, #5b0f1a 0%, #380710 100%)",
     links: [
-      { label: "Reels", href: "/work", ariaLabel: "Watch the reels" },
-      { label: "Reviews", href: "/work", ariaLabel: "See the reviews" },
+      { label: "The gallery", href: "/work#gallery", ariaLabel: "Browse the reel gallery" },
+      { label: "Case study", href: "/work#case-study", ariaLabel: "Read the case study" },
+      { label: "How it's made", href: "/work#process", ariaLabel: "How the reels get made" },
     ],
   },
   {

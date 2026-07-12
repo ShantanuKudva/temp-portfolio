@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Playfair_Display, Montserrat, Alex_Brush } from "next/font/google";
 import { SmoothScroll } from "@/components/smooth-scroll";
 import { CardNav } from "@/components/card-nav";
+import { MakerCredit } from "@/components/maker-credit";
 import { Curtain } from "@/components/transition/curtain";
 import "./globals.css";
 
@@ -39,7 +40,10 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <CardNav />
-        <SmoothScroll>{children}</SmoothScroll>
+        <SmoothScroll>
+          {children}
+          <MakerCredit />
+        </SmoothScroll>
         <Curtain />
       </body>
     </html>
