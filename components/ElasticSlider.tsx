@@ -118,15 +118,15 @@ export function ElasticSlider({
         style={reduce ? undefined : { scaleX, originX }}
       >
         {/* rail */}
-        <span className="pointer-events-none absolute inset-x-0 top-1/2 h-1 -translate-y-1/2 rounded-full bg-creme/15" />
+        <span className="pointer-events-none absolute inset-x-0 top-1/2 h-1.5 -translate-y-1/2 rounded-full bg-creme/25" />
         {/* fill */}
         <span
-          className="pointer-events-none absolute left-0 top-1/2 h-1 -translate-y-1/2 rounded-full bg-creme/70"
+          className="pointer-events-none absolute left-0 top-1/2 h-1.5 -translate-y-1/2 rounded-full bg-amber-dot"
           style={{ width: `${pct}%` }}
         />
         {/* thumb */}
         <span
-          className="pointer-events-none absolute top-1/2 h-3.5 w-3.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-amber-dot shadow-[0_0_10px_rgba(217,160,91,0.5)]"
+          className="pointer-events-none absolute top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-creme bg-amber-dot shadow-[0_0_12px_rgba(217,160,91,0.7)]"
           style={{ left: `${pct}%` }}
         />
       </motion.div>

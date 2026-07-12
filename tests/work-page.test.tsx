@@ -3,6 +3,7 @@ import { render, screen } from "@testing-library/react";
 import { WorkPage } from "@/components/work/work-page";
 
 vi.mock("@/components/ColorBends", () => ({ default: () => null }));
+vi.mock("@/components/SoftAurora", () => ({ default: () => null }));
 vi.mock("@/components/ElasticSlider", () => ({ ElasticSlider: () => null }));
 
 describe("WorkPage", () => {

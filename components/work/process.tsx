@@ -38,7 +38,7 @@ export function Process() {
     >
       <div className="mx-auto max-w-6xl">
         <Reveal>
-          <p className="mb-3 font-sans text-xs font-medium uppercase tracking-[0.3em] text-amber-dot">
+          <p className="mb-3 font-sans text-xs font-medium uppercase tracking-[0.3em] text-[#eebb79]">
             <span>✦</span>&nbsp;&nbsp;How the reels get made
           </p>
         </Reveal>
@@ -68,7 +68,7 @@ export function Process() {
 
                 <div className="relative z-10 flex flex-col">
                   <div className="mb-4 flex items-center gap-3">
-                    <span className="font-sans text-[11px] font-medium uppercase tracking-[0.28em] text-amber-dot">
+                    <span className="font-sans text-[11px] font-medium uppercase tracking-[0.28em] text-[#eebb79]">
                       {s.n} / 04
                     </span>
                     <span className="h-px w-9 bg-amber-dot/50" />

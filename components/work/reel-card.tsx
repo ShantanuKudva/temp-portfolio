@@ -119,7 +119,7 @@ export function ReelCard({
         <span className="block font-display text-lg leading-snug text-creme drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)]">
           {reel.title}
         </span>
-        <span className="mt-1.5 block font-sans text-[11px] uppercase tracking-[0.18em] text-amber-dot/90">
+        <span className="mt-1.5 block font-sans text-[11px] uppercase tracking-[0.18em] text-[#eebb79]/90">
           {reel.subject}
         </span>
       </span>

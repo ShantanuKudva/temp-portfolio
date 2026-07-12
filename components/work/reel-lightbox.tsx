@@ -119,7 +119,7 @@ export function ReelLightbox({
               type="button"
               onClick={onClose}
               aria-label="Close"
-              className="absolute -top-11 right-0 flex h-9 w-9 items-center justify-center rounded-full border border-creme/25 text-creme/80 transition-colors hover:border-amber-dot/60 hover:text-amber-dot sm:-right-11 sm:top-0"
+              className="absolute -top-11 right-0 flex h-9 w-9 items-center justify-center rounded-full border border-creme/25 text-creme/80 transition-colors hover:border-amber-dot/60 hover:text-[#eebb79] sm:-right-11 sm:top-0"
             >
               <X className="size-5" aria-hidden />
             </button>
@@ -174,7 +174,7 @@ export function ReelLightbox({
 
             {/* caption */}
             <div className="mt-4 px-1">
-              <p className="font-sans text-[11px] uppercase tracking-[0.2em] text-amber-dot/90">
+              <p className="font-sans text-[11px] uppercase tracking-[0.2em] text-[#eebb79]/90">
                 {reel.kind === "app" ? "App" : "Business"} · {reel.subject}
               </p>
               <h2 className="mt-1 font-display text-xl leading-snug text-creme">
