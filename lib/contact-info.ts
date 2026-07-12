@@ -51,7 +51,7 @@ export const PACKAGES: Package[] = [
 ];
 
 export const CONTACT: ContactInfo = {
-  email: "kudvashantanu2002@gmail.com", // TEST inbox — swap for Varsheni's real one before launch
+  email: "hello@varsheni.com", // TODO(real): real inbox
   calLink: "varsheni/intro", // TODO(real): real Cal.com <username>/<event>
   instagram: "https://instagram.com/", // TODO(real): handle
   youtube: "https://youtube.com/", // TODO(real): channel
