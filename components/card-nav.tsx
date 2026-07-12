@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   motion,
   useReducedMotion,
@@ -9,6 +9,7 @@ import {
 } from "motion/react";
 import { ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useIntro } from "@/components/hero/intro-store";
 
 type NavLink = { label: string; href: string; ariaLabel?: string };
 type NavItem = { label: string; bg: string; links: NavLink[] };
@@ -46,9 +47,22 @@ const EASE = [0.16, 1, 0.3, 1] as const;
 export function CardNav() {
   const [open, setOpen] = useState(false);
   const [hidden, setHidden] = useState(false);
+  const [entered, setEntered] = useState(false);
   const lastY = useRef(0);
   const reduce = useReducedMotion();
   const { scrollY } = useScroll();
+
+  const heroIn = useIntro((s) => s.heroIn);
+  const introAnimate = useIntro((s) => s.animate);
+  const entrance = introAnimate && !reduce;
+
+  // After the drop-in completes, switch to a snappy transition for scroll-hide.
+  useEffect(() => {
+    if (heroIn && entrance && !entered) {
+      const t = setTimeout(() => setEntered(true), 1400);
+      return () => clearTimeout(t);
+    }
+  }, [heroIn, entrance, entered]);
 
   // Hide on scroll down, reveal on scroll up.
   useMotionValueEvent(scrollY, "change", (y) => {
@@ -64,10 +78,14 @@ export function CardNav() {
 
   return (
     <motion.div
-      initial={false}
+      initial={entrance ? { y: "-160%" } : false}
       style={{ x: "-50%" }}
-      animate={{ y: hidden ? "-160%" : "0%" }}
-      transition={reduce ? { duration: 0 } : { duration: 0.45, ease: EASE }}
+      animate={{ y: (entrance && !heroIn) || hidden ? "-160%" : "0%" }}
+      transition={
+        entrance && !entered
+          ? { duration: 0.75, ease: EASE, delay: 0.3 }
+          : { duration: reduce || !introAnimate ? 0 : 0.45, ease: EASE }
+      }
       className="fixed left-1/2 top-5 z-[99] w-[92%] max-w-3xl"
     >
       <motion.nav

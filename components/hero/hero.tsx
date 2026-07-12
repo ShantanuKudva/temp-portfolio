@@ -1,7 +1,11 @@
 import { GradualBlur } from "@/components/effects/gradual-blur";
-import { NeonName } from "./neon-name";
+import { HeroName } from "./hero-name";
 import { WaxSeal } from "./wax-seal";
 import { SubjectCutout } from "./subject-cutout";
+import { Silk } from "./silk";
+import { LoaderCurtain } from "./loader-curtain";
+import { BackGlow } from "./back-glow";
+import { HeroChromeReveal } from "./hero-chrome-reveal";
 import styles from "./hero.module.css";
 
 export function Hero() {
@@ -9,15 +13,25 @@ export function Hero() {
     <header
       id="top"
       role="banner"
-      className="relative flex min-h-screen flex-col overflow-hidden"
+      className="relative isolate flex min-h-screen flex-col overflow-hidden"
     >
+      {/* Explicit stacking, bottom → top:
+          silk(0) · wall(0) · backglow(1) · curtain(2) · name(3) · subject(4) · chrome(5) */}
+      <div className={styles.silk} aria-hidden>
+        <Silk color="#5b0f1a" speed={4} scale={1} noiseIntensity={1.2} rotation={0} />
+      </div>
       <div className={styles.wall} aria-hidden />
+      <BackGlow />
 
-      <div className="relative flex flex-1 items-end justify-center">
-        <NeonName>Varsheni</NeonName>
-        <div className={styles.backglow} aria-hidden />
+      <LoaderCurtain />
+
+      <HeroName>Varsheni</HeroName>
+
+      <div className="absolute inset-0 z-4 flex items-end justify-center">
         <SubjectCutout />
+      </div>
 
+      <HeroChromeReveal>
         <span className={`${styles.tick} ${styles.tickTL}`} aria-hidden />
         <span className={`${styles.tick} ${styles.tickTR}`} aria-hidden />
         <span
@@ -55,7 +69,7 @@ export function Hero() {
         </div>
 
         <WaxSeal />
-      </div>
+      </HeroChromeReveal>
 
       <GradualBlur position="bottom" height="6rem" strength={3.5} />
     </header>

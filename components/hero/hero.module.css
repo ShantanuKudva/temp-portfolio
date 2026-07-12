@@ -1,15 +1,90 @@
-/* ---- Velvet/suede wine wall ---- */
+/* ---- Loader curtain (sits behind the name, above silk/wall/backglow) ---- */
+.curtain {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  overflow: hidden;
+  /* Darker wine than the hero so the loader reads as its own quiet moment. */
+  background: #180409;
+}
+/* Soft, slow aurora drifting behind the loader — CSS, no extra WebGL. */
+.aurora {
+  position: absolute;
+  inset: -25%;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.75;
+  filter: blur(70px) saturate(115%);
+  background:
+    radial-gradient(38% 48% at 32% 30%, rgba(122, 22, 42, 0.85), transparent 62%),
+    radial-gradient(44% 52% at 70% 42%, rgba(74, 14, 24, 0.9), transparent 62%),
+    radial-gradient(34% 44% at 56% 72%, rgba(150, 52, 46, 0.5), transparent 62%),
+    radial-gradient(30% 40% at 42% 66%, rgba(217, 160, 91, 0.18), transparent 60%);
+  animation: auroraDrift 16s ease-in-out infinite alternate;
+}
+@keyframes auroraDrift {
+  0% {
+    transform: translate3d(-3%, -2%, 0) rotate(-2deg) scale(1.05);
+  }
+  100% {
+    transform: translate3d(3%, 3%, 0) rotate(3deg) scale(1.16);
+  }
+}
+.curtainProgress {
+  position: absolute;
+  left: 50%;
+  top: 56%;
+  transform: translateX(-50%);
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+.track {
+  width: min(300px, 62vw);
+  height: 4px;
+  border-radius: 20px;
+  overflow: hidden;
+  background: rgba(247, 240, 227, 0.14);
+}
+.bar {
+  height: 100%;
+  width: 100%;
+  transform-origin: 0% 50%;
+  border-radius: 20px;
+  background: var(--color-creme);
+}
+.pctRow {
+  display: flex;
+  align-items: baseline;
+  gap: 1px;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: var(--color-taupe);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- Animated silk shader base (behind the velvet overlay) ---- */
+.silk {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  /* Fallback tint before WebGL mounts / if it fails. */
+  background: var(--color-wine);
+}
+
+/* ---- Velvet/suede overlay: ambient light + vignette + corduroy, painted
+   over the silk (no opaque base, so the animation shows through). ---- */
 .wall {
   position: absolute;
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  /* Self-contained: wine base layer so the texture reads edge-to-edge even
-     where the ambient light + vignette fade out. */
   background:
     radial-gradient(115% 90% at 50% 44%, rgba(236, 182, 152, 0.12), transparent 70%),
-    radial-gradient(140% 100% at 50% 128%, rgba(18, 4, 8, 0.55), transparent 58%),
-    var(--color-wine);
+    radial-gradient(140% 100% at 50% 128%, rgba(18, 4, 8, 0.55), transparent 58%);
 }
 /* Velvet corduroy ribbing — a lit thread + a shadow thread per rib so the
    weave stays visible across the whole wall, not just the central lit band. */
@@ -57,13 +132,20 @@
   );
 }
 
-/* ---- Neon cursive wordmark ---- */
-.wordmark {
+/* ---- Neon cursive wordmark ----
+   Positioned by an anchor (grid-centred, shifted up to ~44%) so the animated
+   element carries no CSS transform — that would fight the layoutId morph from
+   the loader. The word itself arrives unlit; `.wordmarkOn` flickers it on. */
+.wordmarkAnchor {
   position: absolute;
-  left: 50%;
-  top: 44%;
-  transform: translate(-50%, -50%);
-  z-index: 2;
+  inset: 0;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  transform: translateY(-6%);
+  pointer-events: none;
+}
+.wordmark {
   --glow: 0 0 22px rgba(247, 240, 227, 0.6), 0 0 48px rgba(236, 182, 152, 0.38),
     0 0 92px rgba(236, 182, 152, 0.22);
   --glow-sm: 0 0 12px rgba(247, 240, 227, 0.45);
@@ -77,32 +159,39 @@
   white-space: nowrap;
   user-select: none;
   letter-spacing: 0.01em;
-  text-shadow: var(--glow);
-  animation: neonOn 2.7s linear 0.3s both;
+  /* Neon clearly OFF by default. */
+  opacity: 0.34;
+  text-shadow: none;
 }
+/* Intro path: a slow, classy ignition (one soft catch, then a graceful
+   swell to full glow) — triggered when `.wordmarkOn` is applied on the neon beat. */
+.wordmarkOn {
+  animation: neonOn 2.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+/* Skip path: already lit, no flicker. */
+.wordmarkLit {
+  opacity: 1;
+  text-shadow: var(--glow);
+}
+/* Classy ignition: a single smooth, monotonic swell from off to full glow —
+   never dips back down (which read as "turning off to redo"). */
 @keyframes neonOn {
-  0% { opacity: 0.12; text-shadow: none; }
-  6% { opacity: 0.12; text-shadow: none; }
-  7% { opacity: 0.85; text-shadow: var(--glow-sm); }
-  9% { opacity: 0.15; text-shadow: none; }
-  12% { opacity: 0.9; text-shadow: var(--glow); }
-  14% { opacity: 0.2; text-shadow: none; }
-  16% { opacity: 1; text-shadow: var(--glow); }
-  19% { opacity: 0.35; text-shadow: var(--glow-sm); }
-  21% { opacity: 1; text-shadow: var(--glow); }
-  26% { opacity: 0.55; text-shadow: var(--glow-sm); }
-  29% { opacity: 1; text-shadow: var(--glow); }
-  35% { opacity: 0.9; text-shadow: var(--glow); }
-  37% { opacity: 1; text-shadow: var(--glow); }
+  0% { opacity: 0.34; text-shadow: none; }
+  35% { opacity: 0.6; text-shadow: var(--glow-sm); }
+  70% { opacity: 0.9; text-shadow: var(--glow); }
   100% { opacity: 1; text-shadow: var(--glow); }
 }
 
-/* ---- Subject cut-out ---- */
+/* ---- Subject cut-out (wrapper animates, image fits; z from parent) ---- */
 .subject {
   position: relative;
-  z-index: 3;
   height: 60vh;
   max-height: 660px;
+  will-change: transform, opacity;
+}
+.subjectImg {
+  display: block;
+  height: 100%;
   width: auto;
   object-fit: contain;
   object-position: bottom;
@@ -164,6 +253,8 @@
   z-index: 7;
   width: 132px;
   height: 132px;
+  /* Re-enable clicks — the chrome reveal wrapper is pointer-events: none. */
+  pointer-events: auto;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -188,7 +279,9 @@
 
 /* ---- Reduced motion ---- */
 @media (prefers-reduced-motion: reduce) {
-  .wordmark { animation: none; }
+  .wordmark { animation: none; opacity: 1; text-shadow: var(--glow); }
+  .wordmarkOn { animation: none; }
+  .aurora { animation: none; }
   .sealRing { animation: none; }
 }
 
