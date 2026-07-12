@@ -4,29 +4,36 @@
   inset: 0;
   z-index: 0;
   pointer-events: none;
+  /* Self-contained: wine base layer so the texture reads edge-to-edge even
+     where the ambient light + vignette fade out. */
   background:
-    radial-gradient(100% 85% at 50% 48%, rgba(236, 182, 152, 0.1), transparent 74%),
-    radial-gradient(120% 80% at 50% 122%, rgba(30, 6, 12, 0.5), transparent 62%);
+    radial-gradient(115% 90% at 50% 44%, rgba(236, 182, 152, 0.12), transparent 70%),
+    radial-gradient(140% 100% at 50% 128%, rgba(18, 4, 8, 0.55), transparent 58%),
+    var(--color-wine);
 }
+/* Velvet corduroy ribbing — a lit thread + a shadow thread per rib so the
+   weave stays visible across the whole wall, not just the central lit band. */
 .wall::before {
   content: "";
   position: absolute;
   inset: 0;
-  opacity: 0.4;
+  opacity: 0.6;
   mix-blend-mode: soft-light;
   background-image: repeating-linear-gradient(
-    94deg,
-    rgba(255, 255, 255, 0.055) 0 1px,
-    transparent 1px 4px
+    93deg,
+    rgba(255, 255, 255, 0.07) 0 1px,
+    rgba(0, 0, 0, 0.14) 1px 2px,
+    transparent 2px 5px
   );
 }
+/* Fine fabric grain over the top. */
 .wall::after {
   content: "";
   position: absolute;
   inset: 0;
-  opacity: 0.08;
+  opacity: 0.11;
   mix-blend-mode: overlay;
-  background-size: 200px 200px;
+  background-size: 180px 180px;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
 }
 
@@ -57,12 +64,14 @@
   top: 44%;
   transform: translate(-50%, -50%);
   z-index: 2;
-  --glow: 0 0 26px rgba(247, 240, 227, 0.55), 0 0 60px rgba(236, 182, 152, 0.35),
-    0 0 120px rgba(236, 182, 152, 0.22);
-  --glow-sm: 0 0 14px rgba(247, 240, 227, 0.4);
+  --glow: 0 0 22px rgba(247, 240, 227, 0.6), 0 0 48px rgba(236, 182, 152, 0.38),
+    0 0 92px rgba(236, 182, 152, 0.22);
+  --glow-sm: 0 0 12px rgba(247, 240, 227, 0.45);
   font-family: var(--font-script), cursive;
   font-weight: 400;
-  font-size: clamp(140px, 26vw, 400px);
+  /* Sized so the word + its ~92px halo clears the viewport edges with margin —
+     the header clips overflow, so an edge-kissing word shears its own glow. */
+  font-size: clamp(96px, 23vw, 340px);
   line-height: 0.8;
   color: var(--color-creme);
   white-space: nowrap;

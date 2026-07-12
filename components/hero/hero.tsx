@@ -57,7 +57,7 @@ export function Hero() {
         <WaxSeal />
       </div>
 
-      <GradualBlur position="bottom" height="10rem" strength={3.5} />
+      <GradualBlur position="bottom" height="6rem" strength={3.5} />
     </header>
   );
 }

@@ -98,11 +98,12 @@ export function GradualBlur({
         className
       )}
       style={{
-        [position]: 0,
-        left: isVertical ? 0 : undefined,
-        right: isVertical ? 0 : undefined,
-        top: isVertical ? undefined : 0,
-        bottom: isVertical ? undefined : 0,
+        // Pin the chosen edge to 0 and stretch the cross-axis. (Setting both
+        // `[position]:0` and an explicit `top/bottom` collided and cancelled out.)
+        top: isVertical ? (position === "top" ? 0 : undefined) : 0,
+        bottom: isVertical ? (position === "bottom" ? 0 : undefined) : 0,
+        left: isVertical ? 0 : position === "left" ? 0 : undefined,
+        right: isVertical ? 0 : position === "right" ? 0 : undefined,
         height: isVertical ? height : "100%",
         width: isVertical ? "100%" : height,
         isolation: "isolate",

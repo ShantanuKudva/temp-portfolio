@@ -6,8 +6,8 @@ export function SubjectCutout() {
     <Image
       src="/varsheni-2-cutout.png"
       alt="Varsheni, tech UGC creator"
-      width={767}
-      height={893}
+      width={790}
+      height={902}
       priority
       className={styles.subject}
     />
