@@ -35,19 +35,38 @@ const LAYERS: Layer[] = [
 ];
 
 /**
- * Connect's signature backdrop: layered gold/indigo/moonlight auroras spanning
- * the whole page beneath the midnight base. Sticky + viewport-sized so they glow
- * behind whichever section is in view; the group fades in over ~1.2s on mount
- * (hiding the WebGL first-frame flash) and holds at a steady glow.
+ * Connect's signature backdrop. Two independent layers:
+ *  - the aurora GLOW is viewport-pinned (sticky) so it follows the scroll as a
+ *    top-of-screen light; it fades in over ~1.2s on mount (hiding the WebGL
+ *    first frame).
+ *  - the moonlight GRID + floor span the FULL page height (uniform tiling, faded
+ *    only at the extreme top/bottom edges) so the texture continues all the way
+ *    down — no mid-page seam.
  */
 export function ContactAurora({ children }: { children: React.ReactNode }) {
   const reduce = useReducedMotion();
 
   return (
     <div className="relative overflow-hidden">
+      {/* Full-page moonlight grid — continues the whole way down. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0"
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, rgba(174,178,230,0.045) 1px, transparent 1px), linear-gradient(to bottom, rgba(174,178,230,0.045) 1px, transparent 1px)",
+          backgroundSize: "13px 13px",
+          WebkitMaskImage:
+            "linear-gradient(to bottom, transparent 0%, #000 2%, #000 97%, transparent 100%)",
+          maskImage:
+            "linear-gradient(to bottom, transparent 0%, #000 2%, #000 97%, transparent 100%)",
+        }}
+      />
+
+      {/* Viewport-pinned aurora glow. */}
       <div className="pointer-events-none absolute inset-0">
         <motion.div
-          className="sticky top-0 h-screen w-full"
+          className="sticky top-0 h-screen w-full overflow-hidden"
           initial={{ opacity: 0 }}
           animate={{ opacity: reduce ? 0.42 : 0.72 }}
           transition={{ duration: 1.2, ease: EASE }}
@@ -72,28 +91,17 @@ export function ContactAurora({ children }: { children: React.ReactNode }) {
           ))}
         </motion.div>
       </div>
-      {/* Soft floor so content keeps contrast over the aurora. */}
-      <div
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(120% 60% at 50% 30%, transparent 25%, rgba(11,12,26,0.6) 100%)",
-        }}
-      />
-      {/* Subtle moonlight grid, edge-faded so it stays a quiet texture. */}
+
+      {/* Full-page soft floor so content keeps contrast over the field. */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0"
         style={{
-          backgroundImage:
-            "linear-gradient(to right, rgba(174,178,230,0.045) 1px, transparent 1px), linear-gradient(to bottom, rgba(174,178,230,0.045) 1px, transparent 1px)",
-          backgroundSize: "13px 13px",
-          WebkitMaskImage:
-            "radial-gradient(120% 85% at 50% 25%, #000 35%, transparent 85%)",
-          maskImage:
-            "radial-gradient(120% 85% at 50% 25%, #000 35%, transparent 85%)",
+          background:
+            "radial-gradient(140% 45% at 50% 0%, transparent 40%, rgba(11,12,26,0.45) 100%)",
         }}
       />
+
       <div className="relative z-10">{children}</div>
     </div>
   );
