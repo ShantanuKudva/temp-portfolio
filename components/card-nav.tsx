@@ -14,11 +14,11 @@ import { useCurtain } from "@/components/transition/curtain-store";
 import { NavCardBg } from "@/components/nav-card-bg";
 
 type NavLink = { label: string; href: string; ariaLabel?: string };
-type Effect = "prism" | "strands" | "silk";
+type Effect = "colorbends" | "strands" | "aurora";
 type NavItem = {
   label: string;
   effect: Effect;
-  color: string; // base hex (for the Silk shader / accents)
+  colors: string[]; // palette (ColorBends / Strands / Aurora colorStops)
   grad: string; // the card's colour gradient
   links: NavLink[];
 };
@@ -26,8 +26,8 @@ type NavItem = {
 const ITEMS: NavItem[] = [
   {
     label: "Work",
-    effect: "prism",
-    color: "#5b0f1a",
+    effect: "colorbends",
+    colors: ["#9a1a2c", "#5b0f1a", "#38070f"],
     grad: "linear-gradient(150deg, #5b0f1a 0%, #380710 100%)",
     links: [
       { label: "Reels", href: "#reels", ariaLabel: "Watch the reels" },
@@ -37,7 +37,7 @@ const ITEMS: NavItem[] = [
   {
     label: "About",
     effect: "strands",
-    color: "#3b2a24",
+    colors: ["#b79e8c", "#6b4e42", "#3b2a24"],
     grad: "linear-gradient(150deg, #3b2a24 0%, #221812 100%)",
     links: [
       { label: "Her story", href: "#about", ariaLabel: "About Varsheni" },
@@ -46,8 +46,8 @@ const ITEMS: NavItem[] = [
   },
   {
     label: "Connect",
-    effect: "silk",
-    color: "#6b4e42",
+    effect: "aurora",
+    colors: ["#b79e8c", "#8a6a55", "#5a3f34"],
     grad: "linear-gradient(150deg, #6b4e42 0%, #3f2d25 100%)",
     links: [
       { label: "Inquire", href: "#contact", ariaLabel: "Work with me" },
@@ -175,7 +175,7 @@ export function CardNav() {
             >
               <NavCardBg
                 effect={item.effect}
-                color={item.color}
+                colors={item.colors}
                 grad={item.grad}
                 active={open}
               />
