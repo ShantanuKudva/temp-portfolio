@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import {
   motion,
   useReducedMotion,
@@ -36,8 +37,8 @@ const ITEMS: NavItem[] = [
     colors: ["#9a1a2c", "#5b0f1a", "#38070f"],
     grad: "linear-gradient(150deg, #5b0f1a 0%, #380710 100%)",
     links: [
-      { label: "Reels", href: "#reels", ariaLabel: "Watch the reels" },
-      { label: "Reviews", href: "#work", ariaLabel: "See the reviews" },
+      { label: "Reels", href: "/work", ariaLabel: "Watch the reels" },
+      { label: "Reviews", href: "/work", ariaLabel: "See the reviews" },
     ],
   },
   {
@@ -46,8 +47,9 @@ const ITEMS: NavItem[] = [
     colors: ["#b79e8c", "#6b4e42", "#3b2a24"],
     grad: "linear-gradient(150deg, #3b2a24 0%, #221812 100%)",
     links: [
-      { label: "Her story", href: "#about", ariaLabel: "About Varsheni" },
-      { label: "Values", href: "#about", ariaLabel: "Her values" },
+      { label: "Her story", href: "/about#story", ariaLabel: "About Varsheni" },
+      { label: "Who I am", href: "/about#who", ariaLabel: "Who Varsheni is" },
+      { label: "On my radar", href: "/about#radar", ariaLabel: "Apps on her radar" },
     ],
   },
   {
@@ -57,7 +59,7 @@ const ITEMS: NavItem[] = [
     colors: ["#f3e6cf", "#d9a05b", "#a8674a"],
     grad: "linear-gradient(150deg, #3f2d25 0%, #201410 100%)",
     links: [
-      { label: "Inquire", href: "#contact", ariaLabel: "Work with me" },
+      { label: "Inquire", href: "/contact", ariaLabel: "Work with me" },
       { label: "Instagram", href: "#", ariaLabel: "Instagram" },
       { label: "YouTube", href: "#", ariaLabel: "YouTube" },
     ],
@@ -73,10 +75,14 @@ export function CardNav() {
   const lastY = useRef(0);
   const reduce = useReducedMotion();
   const { scrollY } = useScroll();
+  const pathname = usePathname();
+  // The cinematic drop-in belongs to the home hero only. On every other route
+  // the nav is simply present (no loader/hero to sequence it in).
+  const isHome = pathname === "/";
 
   const heroIn = useIntro((s) => s.heroIn);
   const introAnimate = useIntro((s) => s.animate);
-  const entrance = introAnimate && !reduce;
+  const entrance = isHome && introAnimate && !reduce;
   const startTransition = useCurtain((s) => s.start);
 
   // Route through the curtain transition instead of navigating directly.
@@ -169,16 +175,16 @@ export function CardNav() {
           </button>
 
           <a
-            href="#top"
-            onClick={go("#top")}
+            href="/"
+            onClick={go("/")}
             className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-display text-xl italic font-semibold"
           >
             Varsheni
           </a>
 
           <a
-            href="#contact"
-            onClick={go("#contact")}
+            href="/contact"
+            onClick={go("/contact")}
             className="flex h-[calc(100%-12px)] items-center rounded-xl bg-wine px-4 text-[12px] font-semibold uppercase tracking-[0.14em] text-creme transition-colors hover:bg-espresso"
           >
             Inquire ↗

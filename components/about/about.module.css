@@ -1,0 +1,138 @@
+/* Feather the pinned portrait into the velvet column — no hard seam.
+   Mobile stacks vertically, so the photo fades at its BOTTOM; on md+ the split
+   is side-by-side, so it fades at its RIGHT edge into the column. */
+.photoMask {
+  -webkit-mask-image: linear-gradient(to bottom, #000 58%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 58%, transparent 100%);
+}
+@media (min-width: 768px) {
+  .photoMask {
+    -webkit-mask-image: linear-gradient(
+      to right,
+      #000 48%,
+      rgba(0, 0, 0, 0.6) 74%,
+      transparent 96%
+    );
+    mask-image: linear-gradient(
+      to right,
+      #000 48%,
+      rgba(0, 0, 0, 0.6) 74%,
+      transparent 96%
+    );
+  }
+}
+
+/* Slow twinkle for the scattered ✦ sparkles. */
+.twinkle {
+  animation: aboutTwinkle 4.5s ease-in-out infinite;
+}
+@keyframes aboutTwinkle {
+  0%,
+  100% {
+    opacity: 0.18;
+    transform: scale(0.85);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.12);
+  }
+}
+
+/* Hairline accent rule under the headline, with a travelling crème sheen. */
+.rule {
+  position: relative;
+  height: 1px;
+  overflow: hidden;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(217, 160, 91, 0.75) 30%,
+    rgba(217, 160, 91, 0.75) 55%,
+    transparent
+  );
+}
+.rule::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 40%,
+    rgba(247, 240, 227, 0.9) 50%,
+    transparent 60%
+  );
+  background-size: 220% 100%;
+  animation: aboutSheen 4s linear infinite;
+}
+@keyframes aboutSheen {
+  0% {
+    background-position: 130% 0;
+  }
+  100% {
+    background-position: -130% 0;
+  }
+}
+
+/* Vertical side-label running up the far edge of the portrait. */
+.sideText {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
+
+/* Logo-wall marquee — two rows drift in opposite directions, edges masked. */
+.marquee {
+  display: flex;
+  width: max-content;
+  gap: 0;
+  animation: aboutMarquee 40s linear infinite;
+}
+.marqueeReverse {
+  animation-direction: reverse;
+  animation-duration: 52s;
+}
+@keyframes aboutMarquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    /* each row renders its content twice; slide exactly one copy */
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+.marqueeMask {
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000 12%,
+    #000 88%,
+    transparent
+  );
+  mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000 12%,
+    #000 88%,
+    transparent
+  );
+}
+
+/* Slowly rotating wax-seal. */
+.seal {
+  animation: aboutSpin 26s linear infinite;
+}
+@keyframes aboutSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .twinkle,
+  .rule::after,
+  .seal {
+    animation: none;
+  }
+  .marquee {
+    animation-play-state: paused;
+  }
+}

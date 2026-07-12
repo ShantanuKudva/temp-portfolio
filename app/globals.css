@@ -126,6 +126,24 @@
 :root { color-scheme: light; }
 .dark { color-scheme: dark; }
 
+/* Lenis smooth-scroll — once active it adds `.lenis` to <html>; the scroll root
+   must be height:auto (our Tailwind `h-full` on <html> would otherwise clamp the
+   page to one viewport and kill scrolling). */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

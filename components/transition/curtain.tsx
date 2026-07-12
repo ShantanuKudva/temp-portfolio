@@ -3,6 +3,17 @@
 import { motion, useReducedMotion } from "motion/react";
 import { useRouter } from "next/navigation";
 import { useCurtain } from "./curtain-store";
+import { lenisRef } from "@/lib/lenis";
+
+// Jump to an in-page anchor, Lenis-aware so smooth-scroll stays in sync. Called
+// while the curtain covers the screen, so the jump is instant/hidden.
+function scrollToHash(hash: string) {
+  const el = document.querySelector(hash);
+  if (!el) return;
+  const lenis = lenisRef.current;
+  if (lenis) lenis.scrollTo(el as HTMLElement, { offset: -90, immediate: true });
+  else (el as HTMLElement).scrollIntoView();
+}
 
 // A firm, symmetric ease for the wipe (fast middle, settled ends).
 const EASE = [0.76, 0, 0.24, 1] as const;
@@ -37,12 +48,28 @@ export function Curtain() {
     if (phase === "cover") {
       // Fully covered → perform the navigation, then wipe away.
       if (pending) {
-        if (pending.startsWith("#")) {
-          document
-            .querySelector(pending)
-            ?.scrollIntoView({ behavior: "auto", block: "start" });
+        const hashIndex = pending.indexOf("#");
+        const path = hashIndex >= 0 ? pending.slice(0, hashIndex) : pending;
+        const hash = hashIndex >= 0 ? pending.slice(hashIndex) : "";
+        const samePage = !path || path === window.location.pathname;
+
+        if (path && !samePage) {
+          if (hash) {
+            // Navigate without Next's auto-scroll, then jump to the anchor once
+            // the new route has rendered (still hidden under the cover).
+            router.push(pending, { scroll: false });
+            requestAnimationFrame(() =>
+              requestAnimationFrame(() => scrollToHash(hash)),
+            );
+          } else {
+            router.push(pending);
+          }
+        } else if (hash) {
+          scrollToHash(hash);
         } else {
-          router.push(pending);
+          const lenis = lenisRef.current;
+          if (lenis) lenis.scrollTo(0, { immediate: true });
+          else window.scrollTo(0, 0);
         }
       }
       covered();
