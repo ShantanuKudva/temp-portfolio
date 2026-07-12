@@ -1,8 +1,19 @@
 "use client";
 
-import ColorBends from "@/components/ColorBends";
-import Strands from "@/components/Strands";
-import Aurora from "@/components/Aurora";
+import ColorBendsBase from "@/components/ColorBends";
+import StrandsBase from "@/components/Strands";
+import AuroraBase from "@/components/Aurora";
+
+// JS-interop components — flexible props (their .jsx infer strict types from defaults).
+const ColorBends = ColorBendsBase as unknown as React.ComponentType<
+  Record<string, unknown>
+>;
+const Strands = StrandsBase as unknown as React.ComponentType<
+  Record<string, unknown>
+>;
+const Aurora = AuroraBase as unknown as React.ComponentType<
+  Record<string, unknown>
+>;
 
 type Effect = "colorbends" | "strands" | "aurora";
 

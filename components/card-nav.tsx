@@ -12,7 +12,12 @@ import { cn } from "@/lib/utils";
 import { useIntro } from "@/components/hero/intro-store";
 import { useCurtain } from "@/components/transition/curtain-store";
 import { NavCardBg } from "@/components/nav-card-bg";
-import GlassSurface from "@/components/GlassSurface";
+import GlassSurfaceBase from "@/components/GlassSurface";
+
+// JS-interop component — flexible props (its .jsx infers strict types from defaults).
+const GlassSurface = GlassSurfaceBase as unknown as React.ComponentType<
+  Record<string, unknown>
+>;
 
 type NavLink = { label: string; href: string; ariaLabel?: string };
 type Effect = "colorbends" | "strands" | "aurora";
