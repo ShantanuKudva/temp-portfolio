@@ -13,9 +13,9 @@
   aspect-ratio: 100 / 12;
   overflow: visible;
   display: block;
-  font-size: clamp(2.25rem, 7vw, 5.5rem);
+  font-size: clamp(2.75rem, 8vw, 6.5rem);
   fill: var(--color-creme);
-  font-weight: 700;
-  text-transform: uppercase;
+  font-weight: 400;
+  text-transform: none;
   line-height: 1;
 }

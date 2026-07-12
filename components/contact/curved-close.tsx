@@ -20,7 +20,7 @@ export function CurvedClose() {
         curveAmount={160}
         direction="left"
         interactive
-        className="font-display"
+        className="font-script"
       />
     </section>
   );
