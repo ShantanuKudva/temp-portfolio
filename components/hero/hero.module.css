@@ -34,18 +34,18 @@
 .backglow {
   position: absolute;
   left: 50%;
-  top: 44%;
+  top: 54%;
   transform: translate(-50%, -50%);
-  z-index: 2;
+  z-index: 1;
   pointer-events: none;
-  width: min(46vh, 490px);
-  height: min(70vh, 690px);
+  width: min(42vh, 440px);
+  height: min(60vh, 600px);
   border-radius: 50%;
-  filter: blur(14px);
+  filter: blur(16px);
   background: radial-gradient(
     circle,
-    rgba(248, 240, 227, 0.34) 0%,
-    rgba(248, 240, 227, 0.14) 44%,
+    rgba(248, 240, 227, 0.3) 0%,
+    rgba(248, 240, 227, 0.12) 46%,
     transparent 72%
   );
 }
@@ -56,7 +56,7 @@
   left: 50%;
   top: 40%;
   transform: translate(-50%, -50%);
-  z-index: 1;
+  z-index: 2;
   --glow: 0 0 26px rgba(247, 240, 227, 0.55), 0 0 60px rgba(236, 182, 152, 0.35),
     0 0 120px rgba(236, 182, 152, 0.22);
   --glow-sm: 0 0 14px rgba(247, 240, 227, 0.4);
