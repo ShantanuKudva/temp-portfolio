@@ -31,7 +31,7 @@ export function NavCardBg({
   active: boolean;
 }) {
   return (
-    <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-xl">
+    <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-3xl">
       {/* Colour base (shows behind the transparent shader effects). */}
       <div className="absolute inset-0" style={{ background: grad }} />
 

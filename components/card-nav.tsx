@@ -12,6 +12,7 @@ import { cn } from "@/lib/utils";
 import { useIntro } from "@/components/hero/intro-store";
 import { useCurtain } from "@/components/transition/curtain-store";
 import { NavCardBg } from "@/components/nav-card-bg";
+import GlassSurface from "@/components/GlassSurface";
 
 type NavLink = { label: string; href: string; ariaLabel?: string };
 type Effect = "colorbends" | "strands" | "aurora";
@@ -116,9 +117,31 @@ export function CardNav() {
         initial={false}
         animate={{ height: open ? "auto" : 60 }}
         transition={reduce ? { duration: 0 } : { duration: 0.4, ease: EASE }}
-        className="overflow-hidden rounded-2xl border border-taupe/30 bg-creme text-espresso shadow-[0_8px_30px_rgba(0,0,0,0.28)]"
+        className={cn(
+          "relative overflow-hidden rounded-4xl border shadow-[0_8px_30px_rgba(0,0,0,0.28)] transition-colors duration-300",
+          // Matte glass (crème text) when closed; solid crème (espresso text) when open.
+          open
+            ? "border-taupe/30 bg-creme text-espresso"
+            : "border-creme/20 bg-transparent text-creme",
+        )}
       >
-        <div className="relative flex h-[60px] items-center justify-between px-3 pl-5">
+        {/* Refractive glass surface behind the bar when closed. */}
+        {!open && (
+          <GlassSurface
+            width="100%"
+            height="100%"
+            borderRadius={32}
+            backgroundOpacity={0.06}
+            blur={11}
+            displace={0.6}
+            distortionScale={-110}
+            saturation={1.4}
+            brightness={58}
+            opacity={0.9}
+            style={{ position: "absolute", inset: 0 }}
+          />
+        )}
+        <div className="relative z-10 flex h-15 items-center justify-between px-3 pl-5">
           <button
             type="button"
             onClick={() => setOpen((o) => !o)}
@@ -128,14 +151,14 @@ export function CardNav() {
           >
             <span
               className={cn(
-                "h-[2px] w-[30px] bg-espresso transition-transform duration-300",
-                open && "translate-y-[4px] rotate-45"
+                "h-[2px] w-[30px] transition-all duration-300",
+                open ? "translate-y-[4px] rotate-45 bg-espresso" : "bg-creme"
               )}
             />
             <span
               className={cn(
-                "h-[2px] w-[30px] bg-espresso transition-transform duration-300",
-                open && "-translate-y-[4px] -rotate-45"
+                "h-[2px] w-[30px] transition-all duration-300",
+                open ? "-translate-y-[4px] -rotate-45 bg-espresso" : "bg-creme"
               )}
             />
           </button>
@@ -143,7 +166,7 @@ export function CardNav() {
           <a
             href="#top"
             onClick={go("#top")}
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-display text-xl italic font-semibold text-espresso"
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-display text-xl italic font-semibold"
           >
             Varsheni
           </a>
@@ -171,7 +194,7 @@ export function CardNav() {
                   ? { duration: 0 }
                   : { duration: 0.4, ease: EASE, delay: open ? i * 0.06 : 0 }
               }
-              className="relative flex min-h-[120px] flex-1 flex-col overflow-hidden rounded-xl p-4 sm:min-h-0"
+              className="relative flex min-h-[120px] flex-1 flex-col overflow-hidden rounded-3xl p-4 sm:min-h-0"
               style={{ color: "var(--color-creme)" }}
             >
               <NavCardBg
