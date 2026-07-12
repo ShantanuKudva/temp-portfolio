@@ -5,14 +5,14 @@
   z-index: 0;
   pointer-events: none;
   background:
-    radial-gradient(78% 64% at 50% 30%, rgba(236, 182, 152, 0.13), transparent 66%),
-    radial-gradient(120% 80% at 50% 120%, rgba(30, 6, 12, 0.5), transparent 60%);
+    radial-gradient(100% 85% at 50% 48%, rgba(236, 182, 152, 0.1), transparent 74%),
+    radial-gradient(120% 80% at 50% 122%, rgba(30, 6, 12, 0.5), transparent 62%);
 }
 .wall::before {
   content: "";
   position: absolute;
   inset: 0;
-  opacity: 0.6;
+  opacity: 0.4;
   mix-blend-mode: soft-light;
   background-image: repeating-linear-gradient(
     94deg,
@@ -54,7 +54,7 @@
 .wordmark {
   position: absolute;
   left: 50%;
-  top: 40%;
+  top: 44%;
   transform: translate(-50%, -50%);
   z-index: 2;
   --glow: 0 0 26px rgba(247, 240, 227, 0.55), 0 0 60px rgba(236, 182, 152, 0.35),
