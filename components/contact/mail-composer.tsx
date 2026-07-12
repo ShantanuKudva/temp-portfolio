@@ -34,7 +34,10 @@ export function MailComposer() {
   };
 
   return (
-    <div className="flex h-full flex-col overflow-hidden rounded-3xl border border-moonlight/20 bg-gradient-to-br from-[#232647]/80 via-[#161832]/85 to-[#0b0c1a]/92 backdrop-blur-md">
+    <div
+      id="write"
+      className="flex h-full scroll-mt-24 flex-col overflow-hidden rounded-3xl border border-moonlight/20 bg-gradient-to-br from-[#232647]/80 via-[#161832]/85 to-[#0b0c1a]/92 backdrop-blur-md"
+    >
       {/* Header. */}
       <div className="border-b border-creme/10 px-6 pb-5 pt-6 sm:px-7">
         <p className="font-sans text-[11px] font-medium uppercase tracking-[0.28em] text-moonlight">
