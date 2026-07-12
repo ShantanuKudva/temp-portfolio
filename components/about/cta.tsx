@@ -27,11 +27,18 @@ export function AboutCta() {
       ref={ref}
       className="relative overflow-hidden py-24 text-center sm:py-32"
     >
-      {/* Silk wall — fades in with scroll. */}
+      {/* Silk wall — fades in with scroll, edges feathered so it blends into
+          the velvet instead of starting on a hard horizontal seam. */}
       <motion.div
         aria-hidden
         className="pointer-events-none absolute inset-0"
-        style={{ opacity: silkOpacity }}
+        style={{
+          opacity: silkOpacity,
+          WebkitMaskImage:
+            "linear-gradient(to bottom, transparent 0%, #000 24%, #000 82%, transparent 100%)",
+          maskImage:
+            "linear-gradient(to bottom, transparent 0%, #000 24%, #000 82%, transparent 100%)",
+        }}
       >
         <Silk
           color="#3b2a24"
