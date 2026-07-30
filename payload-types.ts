@@ -68,6 +68,10 @@ export interface Config {
   blocks: {};
   collections: {
     users: User;
+    media: Media;
+    videos: Video;
+    reels: Reel;
+    'rate-card-packages': RateCardPackage;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -76,6 +80,10 @@ export interface Config {
   collectionsJoins: {};
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
+    media: MediaSelect<false> | MediaSelect<true>;
+    videos: VideosSelect<false> | VideosSelect<true>;
+    reels: ReelsSelect<false> | ReelsSelect<true>;
+    'rate-card-packages': RateCardPackagesSelect<false> | RateCardPackagesSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -85,8 +93,14 @@ export interface Config {
     defaultIDType: number;
   };
   fallbackLocale: null;
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    about: About;
+    'site-settings': SiteSetting;
+  };
+  globalsSelect: {
+    about: AboutSelect<false> | AboutSelect<true>;
+    'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
+  };
   locale: null;
   widgets: {
     collections: CollectionsWidget;
@@ -143,6 +157,105 @@ export interface User {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media".
+ */
+export interface Media {
+  id: number;
+  /**
+   * Describes the image for screen readers.
+   */
+  alt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "videos".
+ */
+export interface Video {
+  id: number;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "reels".
+ */
+export interface Reel {
+  id: number;
+  /**
+   * The hook / review headline.
+   */
+  title: string;
+  /**
+   * The app or business being reviewed.
+   */
+  subject: string;
+  category:
+    | 'Money & fintech'
+    | 'AI & creator tools'
+    | 'Commerce & brands'
+    | 'Ed-tech'
+    | 'Health & fitness'
+    | 'Real estate'
+    | 'SaaS & B2B';
+  kind: 'app' | 'business';
+  video: number | Video;
+  /**
+   * 9:16 still shown before the video plays.
+   */
+  poster: number | Media;
+  /**
+   * Optional link to the original Instagram / YouTube post.
+   */
+  href?: string | null;
+  /**
+   * Lower numbers appear first within the category.
+   */
+  order: number;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "rate-card-packages".
+ */
+export interface RateCardPackage {
+  id: number;
+  name: string;
+  blurb: string;
+  deliverables: {
+    item: string;
+    id?: string | null;
+  }[];
+  /**
+   * Shown verbatim, e.g. "from ₹25,000".
+   */
+  priceFrom: string;
+  order: number;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -164,10 +277,27 @@ export interface PayloadKv {
  */
 export interface PayloadLockedDocument {
   id: number;
-  document?: {
-    relationTo: 'users';
-    value: number | User;
-  } | null;
+  document?:
+    | ({
+        relationTo: 'users';
+        value: number | User;
+      } | null)
+    | ({
+        relationTo: 'media';
+        value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'videos';
+        value: number | Video;
+      } | null)
+    | ({
+        relationTo: 'reels';
+        value: number | Reel;
+      } | null)
+    | ({
+        relationTo: 'rate-card-packages';
+        value: number | RateCardPackage;
+      } | null);
   globalSlug?: string | null;
   user: {
     relationTo: 'users';
@@ -235,6 +365,75 @@ export interface UsersSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media_select".
+ */
+export interface MediaSelect<T extends boolean = true> {
+  alt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "videos_select".
+ */
+export interface VideosSelect<T extends boolean = true> {
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "reels_select".
+ */
+export interface ReelsSelect<T extends boolean = true> {
+  title?: T;
+  subject?: T;
+  category?: T;
+  kind?: T;
+  video?: T;
+  poster?: T;
+  href?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "rate-card-packages_select".
+ */
+export interface RateCardPackagesSelect<T extends boolean = true> {
+  name?: T;
+  blurb?: T;
+  deliverables?:
+    | T
+    | {
+        item?: T;
+        id?: T;
+      };
+  priceFrom?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv_select".
  */
 export interface PayloadKvSelect<T extends boolean = true> {
@@ -272,6 +471,219 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "about".
+ */
+export interface About {
+  id: number;
+  hero: {
+    availability: string;
+    eyebrow: string;
+    headline: string;
+    intro: string;
+    bio?:
+      | {
+          text: string;
+          id?: string | null;
+        }[]
+      | null;
+    signature: string;
+  };
+  whoIAm: {
+    eyebrow: string;
+    heading: string;
+    paragraphs?:
+      | {
+          text: string;
+          id?: string | null;
+        }[]
+      | null;
+    education?:
+      | {
+          item: string;
+          id?: string | null;
+        }[]
+      | null;
+    qualifications?:
+      | {
+          item: string;
+          id?: string | null;
+        }[]
+      | null;
+    languages?:
+      | {
+          item: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  values: {
+    eyebrow: string;
+    items?:
+      | {
+          title: string;
+          body: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  bring?: {
+    items?:
+      | {
+          title: string;
+          body: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  quote: {
+    text: string;
+    attribution: string;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings".
+ */
+export interface SiteSetting {
+  id: number;
+  email: string;
+  /**
+   * Cal.com "<username>/<event>", e.g. "varsheni/intro".
+   */
+  calLink: string;
+  instagram: string;
+  youtube: string;
+  /**
+   * Path or URL to the rate-card PDF, e.g. "/rate-card.pdf".
+   */
+  rateCardPdf: string;
+  responseTime: string;
+  /**
+   * Pre-written mailto: starters for the Connect page carousel.
+   */
+  mailTemplates?:
+    | {
+        key: string;
+        label: string;
+        subject: string;
+        body: string;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "about_select".
+ */
+export interface AboutSelect<T extends boolean = true> {
+  hero?:
+    | T
+    | {
+        availability?: T;
+        eyebrow?: T;
+        headline?: T;
+        intro?: T;
+        bio?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+        signature?: T;
+      };
+  whoIAm?:
+    | T
+    | {
+        eyebrow?: T;
+        heading?: T;
+        paragraphs?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+        education?:
+          | T
+          | {
+              item?: T;
+              id?: T;
+            };
+        qualifications?:
+          | T
+          | {
+              item?: T;
+              id?: T;
+            };
+        languages?:
+          | T
+          | {
+              item?: T;
+              id?: T;
+            };
+      };
+  values?:
+    | T
+    | {
+        eyebrow?: T;
+        items?:
+          | T
+          | {
+              title?: T;
+              body?: T;
+              id?: T;
+            };
+      };
+  bring?:
+    | T
+    | {
+        items?:
+          | T
+          | {
+              title?: T;
+              body?: T;
+              id?: T;
+            };
+      };
+  quote?:
+    | T
+    | {
+        text?: T;
+        attribution?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings_select".
+ */
+export interface SiteSettingsSelect<T extends boolean = true> {
+  email?: T;
+  calLink?: T;
+  instagram?: T;
+  youtube?: T;
+  rateCardPdf?: T;
+  responseTime?: T;
+  mailTemplates?:
+    | T
+    | {
+        key?: T;
+        label?: T;
+        subject?: T;
+        body?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
