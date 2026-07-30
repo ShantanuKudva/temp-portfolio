@@ -5,7 +5,7 @@ import Image from "next/image";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import LightRaysBase from "@/components/LightRays";
 import { Reveal } from "@/components/motion/reveal";
-import type { TitledItem } from "@/lib/content/map/about";
+import type { AboutContent, TitledItem } from "@/lib/content/map/about";
 
 // JS-interop component — flexible props (its .jsx infers strict types from defaults).
 const LightRays = LightRaysBase as unknown as React.ComponentType<
@@ -117,9 +117,9 @@ function Card({
  * Hovering a card ignites LightRays inside it and blurs the rest into focus.
  * Aurora backdrop comes from the shared AuroraRegion wrapper.
  */
-export function WhatIBring({ items }: { items: TitledItem[] }) {
+export function WhatIBring({ content }: { content: AboutContent["bring"] }) {
   // The 01–05 numerals are positional, so they are derived rather than stored.
-  const numbered = items.map((item, i) => ({
+  const numbered = content.items.map((item, i) => ({
     ...item,
     n: String(i + 1).padStart(2, "0"),
   }));
@@ -136,12 +136,12 @@ export function WhatIBring({ items }: { items: TitledItem[] }) {
           <div>
             <Reveal>
               <p className="mb-3 font-sans text-xs font-medium uppercase tracking-[0.3em] text-amber-dot">
-                <span>✦</span>&nbsp;&nbsp;What I bring to the table
+                <span>✦</span>&nbsp;&nbsp;{content.eyebrow}
               </p>
             </Reveal>
             <Reveal delay={0.06}>
               <h2 className="max-w-xl font-display text-3xl leading-tight sm:text-5xl">
-                Five reasons the review is worth trusting.
+                {content.heading}
               </h2>
             </Reveal>
           </div>

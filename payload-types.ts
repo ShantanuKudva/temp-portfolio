@@ -801,7 +801,12 @@ export interface About {
         }[]
       | null;
   };
-  bring?: {
+  bring: {
+    eyebrow: string;
+    /**
+     * Mentions how many reasons there are, so update it if you add or remove items below.
+     */
+    heading: string;
     items?:
       | {
           title: string;
@@ -813,6 +818,35 @@ export interface About {
   quote: {
     text: string;
     attribution: string;
+  };
+  /**
+   * Headings for the scrolling logo wall. The logos themselves are set in code.
+   */
+  radar: {
+    eyebrow: string;
+    heading: string;
+  };
+  cta: {
+    script: string;
+    heading: string;
+    /**
+     * The filled button. Always links to the Connect page.
+     */
+    primaryLabel: string;
+    /**
+     * The outlined button. Always links to the Work page.
+     */
+    secondaryLabel: string;
+  };
+  /**
+   * Tiny flourishes: the sideways label running up the left edge, and the words circling the rotating wax seal.
+   */
+  props: {
+    sideLabel: string;
+    /**
+     * Wraps a circle, so keep it short or it will overlap.
+     */
+    sealText: string;
   };
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -979,6 +1013,8 @@ export interface AboutSelect<T extends boolean = true> {
   bring?:
     | T
     | {
+        eyebrow?: T;
+        heading?: T;
         items?:
           | T
           | {
@@ -992,6 +1028,26 @@ export interface AboutSelect<T extends boolean = true> {
     | {
         text?: T;
         attribution?: T;
+      };
+  radar?:
+    | T
+    | {
+        eyebrow?: T;
+        heading?: T;
+      };
+  cta?:
+    | T
+    | {
+        script?: T;
+        heading?: T;
+        primaryLabel?: T;
+        secondaryLabel?: T;
+      };
+  props?:
+    | T
+    | {
+        sideLabel?: T;
+        sealText?: T;
       };
   updatedAt?: T;
   createdAt?: T;

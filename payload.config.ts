@@ -14,6 +14,7 @@ import { RateCardPackages } from "./collections/RateCardPackages";
 import { About } from "./globals/About";
 import { Work } from "./globals/Work";
 import { SiteSettings } from "./globals/SiteSettings";
+import { polishMcpApiKeys } from "./lib/payload-mcp-polish";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -61,5 +62,7 @@ export default buildConfig({
         videos: { enabled: { find: true, create: true, update: true, delete: true } },
       },
     }),
+    // Must run after mcpPlugin — it edits the collection that plugin registers.
+    polishMcpApiKeys,
   ],
 });

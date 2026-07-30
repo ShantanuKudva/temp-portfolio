@@ -93,6 +93,17 @@ export const About: GlobalConfig = {
       name: "bring",
       label: "What I Bring",
       fields: [
+        { name: "eyebrow", type: "text", required: true, maxLength: 60 },
+        {
+          name: "heading",
+          type: "text",
+          required: true,
+          maxLength: 120,
+          admin: {
+            description:
+              "Mentions how many reasons there are, so update it if you add or remove items below.",
+          },
+        },
         {
           name: "items",
           type: "array",
@@ -112,6 +123,61 @@ export const About: GlobalConfig = {
       fields: [
         { name: "text", type: "textarea", required: true, maxLength: 300 },
         { name: "attribution", type: "text", required: true, maxLength: 60 },
+      ],
+    },
+    {
+      type: "group",
+      name: "radar",
+      label: "On My Radar",
+      admin: {
+        description:
+          "Headings for the scrolling logo wall. The logos themselves are set in code.",
+      },
+      fields: [
+        { name: "eyebrow", type: "text", required: true, maxLength: 60 },
+        { name: "heading", type: "text", required: true, maxLength: 120 },
+      ],
+    },
+    {
+      type: "group",
+      name: "cta",
+      label: "Closing call to action",
+      fields: [
+        { name: "script", type: "text", required: true, maxLength: 40 },
+        { name: "heading", type: "text", required: true, maxLength: 120 },
+        {
+          name: "primaryLabel",
+          type: "text",
+          required: true,
+          maxLength: 40,
+          admin: { description: "The filled button. Always links to the Connect page." },
+        },
+        {
+          name: "secondaryLabel",
+          type: "text",
+          required: true,
+          maxLength: 40,
+          admin: { description: "The outlined button. Always links to the Work page." },
+        },
+      ],
+    },
+    {
+      type: "group",
+      name: "props",
+      label: "Small decorative text",
+      admin: {
+        description:
+          "Tiny flourishes: the sideways label running up the left edge, and the words circling the rotating wax seal.",
+      },
+      fields: [
+        { name: "sideLabel", type: "text", required: true, maxLength: 80 },
+        {
+          name: "sealText",
+          type: "text",
+          required: true,
+          maxLength: 90,
+          admin: { description: "Wraps a circle, so keep it short or it will overlap." },
+        },
       ],
     },
   ],

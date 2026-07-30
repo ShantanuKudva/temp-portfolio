@@ -2,6 +2,7 @@
 
 import { RADAR_LOGOS, type RadarLogo } from "@/lib/radar-logos";
 import { Reveal } from "@/components/motion/reveal";
+import type { AboutContent } from "@/lib/content/map/about";
 import styles from "./about.module.css";
 
 function Mark({ logo }: { logo: RadarLogo }) {
@@ -52,7 +53,7 @@ function Row({ logos, reverse }: { logos: RadarLogo[]; reverse?: boolean }) {
  * interested in reviewing. Two marquee rows drifting opposite ways over the
  * velvet. Placeholder set (reused from v1) until real reviewed brands land.
  */
-export function LogoWall() {
+export function LogoWall({ content }: { content: AboutContent["radar"] }) {
   const half = Math.ceil(RADAR_LOGOS.length / 2);
   const top = RADAR_LOGOS.slice(0, half);
   const bottom = RADAR_LOGOS.slice(half);
@@ -65,12 +66,12 @@ export function LogoWall() {
       <div className="mx-auto mb-12 max-w-6xl px-6 sm:px-10">
         <Reveal>
           <p className="mb-3 font-sans text-xs font-medium uppercase tracking-[0.3em] text-amber-dot">
-            <span>✦</span>&nbsp;&nbsp;On my radar
+            <span>✦</span>&nbsp;&nbsp;{content.eyebrow}
           </p>
         </Reveal>
         <Reveal delay={0.06}>
           <h2 className="max-w-xl font-display text-3xl leading-tight sm:text-4xl">
-            The apps &amp; businesses I&apos;m itching to review next.
+            {content.heading}
           </h2>
         </Reveal>
       </div>

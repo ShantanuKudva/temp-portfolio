@@ -86,7 +86,7 @@ export function AboutPage({ content }: { content: AboutContent }) {
           <span
             className={`absolute left-4 top-1/2 -translate-y-1/2 font-sans text-[10px] uppercase tracking-[0.34em] text-creme/45 sm:left-6 ${styles.sideText}`}
           >
-            Apps · Businesses · Honest reviews
+            {content.props.sideLabel}
           </span>
         </div>
 
@@ -224,7 +224,7 @@ export function AboutPage({ content }: { content: AboutContent }) {
                     className="h-full w-full object-cover"
                   />
                 </div>
-                <Seal className="absolute -bottom-7 -left-7 h-20 w-20 opacity-90" />
+                <Seal text={content.props.sealText} className="absolute -bottom-7 -left-7 h-20 w-20 opacity-90" />
               </Reveal>
             </div>
           </div>
@@ -234,14 +234,14 @@ export function AboutPage({ content }: { content: AboutContent }) {
       {/* ═══ Who I am + What I bring — shared Aurora backdrop ═══ */}
       <AuroraRegion>
         <WhoIAm content={content.whoIAm} />
-        <WhatIBring items={content.bring} />
+        <WhatIBring content={content.bring} />
       </AuroraRegion>
 
       {/* ═══ On my radar — logo wall ═══ */}
-      <LogoWall />
+      <LogoWall content={content.radar} />
 
       {/* ═══ Let's talk — Silk CTA ═══ */}
-      <AboutCta />
+      <AboutCta content={content.cta} />
 
       <MakerCredit />
 

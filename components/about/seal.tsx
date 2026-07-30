@@ -4,7 +4,13 @@ import styles from "./about.module.css";
  * A slowly rotating wax-seal prop — circular text around a centred ✦. Echoes the
  * hero's "work with me" seal so /about feels part of the same world.
  */
-export function Seal({ className = "" }: { className?: string }) {
+export function Seal({
+  text,
+  className = "",
+}: {
+  text: string;
+  className?: string;
+}) {
   return (
     <div className={`${styles.seal} ${className}`} aria-hidden>
       <svg viewBox="0 0 120 120" className="h-full w-full">
@@ -41,7 +47,7 @@ export function Seal({ className = "" }: { className?: string }) {
           }}
         >
           <textPath href="#sealCircle" startOffset="0">
-            ✦ Honest reviews ✦ Work with me ✦ Apps · Businesses&nbsp;
+            {text}
           </textPath>
         </text>
         <text

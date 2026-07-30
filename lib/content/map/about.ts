@@ -20,8 +20,16 @@ export type AboutContent = {
     languages: string[];
   };
   values: { eyebrow: string; items: TitledItem[] };
-  bring: TitledItem[];
+  bring: { eyebrow: string; heading: string; items: TitledItem[] };
   quote: { text: string; attribution: string };
+  radar: { eyebrow: string; heading: string };
+  cta: {
+    script: string;
+    heading: string;
+    primaryLabel: string;
+    secondaryLabel: string;
+  };
+  props: { sideLabel: string; sealText: string };
 };
 
 const texts = (rows?: { text: string }[] | null): string[] => (rows ?? []).map((r) => r.text);
@@ -47,6 +55,18 @@ export const mapAbout = (doc: About): AboutContent => ({
     languages: items(doc.whoIAm.languages),
   },
   values: { eyebrow: doc.values.eyebrow, items: titled(doc.values.items) },
-  bring: titled(doc.bring?.items),
+  bring: {
+    eyebrow: doc.bring.eyebrow,
+    heading: doc.bring.heading,
+    items: titled(doc.bring.items),
+  },
   quote: { text: doc.quote.text, attribution: doc.quote.attribution },
+  radar: { eyebrow: doc.radar.eyebrow, heading: doc.radar.heading },
+  cta: {
+    script: doc.cta.script,
+    heading: doc.cta.heading,
+    primaryLabel: doc.cta.primaryLabel,
+    secondaryLabel: doc.cta.secondaryLabel,
+  },
+  props: { sideLabel: doc.props.sideLabel, sealText: doc.props.sealText },
 });

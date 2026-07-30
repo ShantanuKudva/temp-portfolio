@@ -5,6 +5,7 @@ import { motion, useScroll, useTransform } from "motion/react";
 import { Silk } from "@/components/hero/silk";
 import { Reveal } from "@/components/motion/reveal";
 import { CurtainLink } from "@/components/transition/curtain-link";
+import type { AboutContent } from "@/lib/content/map/about";
 import styles from "./about.module.css";
 
 /**
@@ -13,7 +14,7 @@ import styles from "./about.module.css";
  * is driven purely by scroll-linked opacity — so it can only ever fade, never
  * pop in.
  */
-export function AboutCta() {
+export function AboutCta({ content }: { content: AboutContent["cta"] }) {
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -73,22 +74,22 @@ export function AboutCta() {
       </span>
 
       <Reveal className="relative z-10 mx-auto max-w-2xl px-6">
-        <p className="mb-4 font-script text-4xl text-amber-dot">let&apos;s talk</p>
+        <p className="mb-4 font-script text-4xl text-amber-dot">{content.script}</p>
         <h2 className="mb-9 font-display text-3xl leading-tight sm:text-5xl">
-          Have an app or business worth an honest look?
+          {content.heading}
         </h2>
         <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
           <CurtainLink
             href="/contact"
             className="inline-flex items-center justify-center gap-2 rounded-full bg-amber-dot px-8 py-4 font-sans text-sm font-semibold uppercase tracking-[0.14em] text-espresso transition-colors hover:bg-creme"
           >
-            Work with me ↗
+            {content.primaryLabel}
           </CurtainLink>
           <CurtainLink
             href="/work"
             className="inline-flex items-center justify-center gap-2 rounded-full border border-creme/25 px-8 py-4 font-sans text-sm font-semibold uppercase tracking-[0.14em] text-creme transition-colors hover:border-amber-dot/60 hover:text-amber-dot"
           >
-            See the work
+            {content.secondaryLabel}
           </CurtainLink>
         </div>
       </Reveal>

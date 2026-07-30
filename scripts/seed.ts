@@ -177,6 +177,8 @@ const seed = async () => {
         ],
       },
       bring: {
+        eyebrow: "What I bring to the table",
+        heading: "Five reasons the review is worth trusting.",
         items: [
           {
             title: "Honest reviews",
@@ -203,6 +205,20 @@ const seed = async () => {
       quote: {
         text: "The best review saves you from a purchase you'd regret — and points you to the one you'll love.",
         attribution: "Est. 2026 — Made in India",
+      },
+      radar: {
+        eyebrow: "On my radar",
+        heading: "The apps & businesses I'm itching to review next.",
+      },
+      cta: {
+        script: "let's talk",
+        heading: "Have an app or business worth an honest look?",
+        primaryLabel: "Work with me ↗",
+        secondaryLabel: "See the work",
+      },
+      props: {
+        sideLabel: "Apps · Businesses · Honest reviews",
+        sealText: "✦ Honest reviews ✦ Work with me ✦ Apps · Businesses ",
       },
     },
   });
