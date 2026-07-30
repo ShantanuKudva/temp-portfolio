@@ -36,7 +36,14 @@ export default buildConfig({
   plugins: [
     vercelBlobStorage({
       enabled: true,
-      collections: { media: true, videos: true },
+      // `disablePayloadAccessControl` serves files straight from the Blob CDN
+      // instead of streaming them through a serverless function. Both
+      // collections are already public-read, so this changes no access
+      // posture — it just keeps 10MB reel videos off the function path.
+      collections: {
+        media: { disablePayloadAccessControl: true },
+        videos: { disablePayloadAccessControl: true },
+      },
       clientUploads: true,
       token: process.env.BLOB_READ_WRITE_TOKEN,
     }),
