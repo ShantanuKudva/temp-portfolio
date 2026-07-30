@@ -12,7 +12,9 @@
     "test:watch": "vitest",
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
     "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types",
-    "generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap"
+    "generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",
+    "seed": "cross-env NODE_OPTIONS=--no-deprecation payload run scripts/seed.ts",
+    "create-user": "cross-env NODE_OPTIONS=--no-deprecation payload run scripts/create-user.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.6.0",
