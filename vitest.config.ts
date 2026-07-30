@@ -11,5 +11,5 @@ export default defineConfig({
     include: ["tests/**/*.test.{ts,tsx}"],
     passWithNoTests: true,
   },
-  resolve: { alias: { "@": resolve(__dirname, ".") } },
+  resolve: { alias: { "@": resolve(import.meta.dirname, ".") } },
 });
