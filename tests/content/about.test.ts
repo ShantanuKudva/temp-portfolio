@@ -20,8 +20,23 @@ const doc = {
     languages: [{ id: "a", item: "Hindi" }, { id: "b", item: "Tamil" }],
   },
   values: { eyebrow: "What I stand for", items: [{ id: "a", title: "Honest", body: "Body." }] },
-  bring: { items: [{ id: "a", title: "Honest reviews", body: "Body." }] },
+  bring: {
+    eyebrow: "What I bring to the table",
+    heading: "Five reasons the review is worth trusting.",
+    items: [{ id: "a", title: "Honest reviews", body: "Body." }],
+  },
   quote: { text: "The best review.", attribution: "Est. 2026 — Made in India" },
+  radar: { eyebrow: "On my radar", heading: "The apps I want next." },
+  cta: {
+    script: "let's talk",
+    heading: "Have an app worth an honest look?",
+    primaryLabel: "Work with me ↗",
+    secondaryLabel: "See the work",
+  },
+  props: {
+    sideLabel: "Apps · Businesses · Honest reviews",
+    sealText: "✦ Honest reviews ✦",
+  },
 };
 
 describe("mapAbout", () => {
@@ -36,7 +51,7 @@ describe("mapAbout", () => {
   it("preserves title/body pairs for values and bring", () => {
     const about = mapAbout(doc as never);
     expect(about.values.items).toEqual([{ title: "Honest", body: "Body." }]);
-    expect(about.bring).toEqual([{ title: "Honest reviews", body: "Body." }]);
+    expect(about.bring.items).toEqual([{ title: "Honest reviews", body: "Body." }]);
   });
 
   it("carries the scalar hero and quote fields through unchanged", () => {
@@ -61,12 +76,12 @@ describe("mapAbout", () => {
         paragraphs: null,
       },
       values: { ...doc.values, items: null },
-      bring: { items: null },
+      bring: { ...doc.bring, items: null },
     };
     const about = mapAbout(bare as never);
     expect(about.hero.bio).toEqual([]);
     expect(about.whoIAm.languages).toEqual([]);
     expect(about.values.items).toEqual([]);
-    expect(about.bring).toEqual([]);
+    expect(about.bring.items).toEqual([]);
   });
 });

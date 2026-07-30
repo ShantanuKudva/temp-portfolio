@@ -47,6 +47,10 @@ export default buildConfig({
         videos: { disablePayloadAccessControl: true },
       },
       clientUploads: true,
+      // Uploads keep whatever filename the editor's file had, so without a
+      // suffix two reels with a poster named "poster.jpg" would overwrite each
+      // other. A random suffix makes every stored object unique.
+      addRandomSuffix: true,
       token: process.env.BLOB_READ_WRITE_TOKEN,
     }),
     // Lets Claude edit content over MCP with the same access control and
