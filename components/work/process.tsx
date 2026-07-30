@@ -1,36 +1,20 @@
 "use client";
 
 import { Reveal } from "@/components/motion/reveal";
+import type { WorkContent } from "@/lib/content/map/work";
 
-// TODO(real): tune to Varsheni's actual workflow.
-const STEPS = [
-  {
-    n: "01",
-    title: "The brief",
-    body: "We align on goals, audience and disclosure up front — no surprises, brand-safe from the first message.",
-  },
-  {
-    n: "02",
-    title: "I live with it",
-    body: "Days of real, everyday use — not a five-minute demo. The verdict only lands because it's earned.",
-  },
-  {
-    n: "03",
-    title: "Script & shoot",
-    body: "A plain-words take, written thumb-first and shot to be watched to the very last second.",
-  },
-  {
-    n: "04",
-    title: "Edit & deliver",
-    body: "Cut, captioned and colour-matched, delivered with usage rights and revisions built in.",
-  },
-];
 
 /**
  * "How the reels get made" — the process as a wine-glass bento with number
  * watermarks (mirrors About's What-I-bring card language).
  */
-export function Process() {
+export function Process({ content }: { content: WorkContent["process"] }) {
+  // The 01–04 numerals track position, so they are derived rather than stored.
+  const steps = content.steps.map((s, i) => ({
+    ...s,
+    n: String(i + 1).padStart(2, "0"),
+  }));
+
   return (
     <section
       id="process"
@@ -39,17 +23,17 @@ export function Process() {
       <div className="mx-auto max-w-6xl">
         <Reveal>
           <p className="mb-3 font-sans text-xs font-medium uppercase tracking-[0.3em] text-[#eebb79]">
-            <span>✦</span>&nbsp;&nbsp;How the reels get made
+            <span>✦</span>&nbsp;&nbsp;{content.eyebrow}
           </p>
         </Reveal>
         <Reveal delay={0.06}>
           <h2 className="mb-12 max-w-xl font-display text-3xl leading-tight sm:text-5xl">
-            From brief to your feed — the honest way.
+            {content.heading}
           </h2>
         </Reveal>
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {STEPS.map((s, i) => (
+          {steps.map((s, i) => (
             <Reveal key={s.n} delay={i * 0.06}>
               <div className="group relative flex min-h-[13.5rem] flex-col overflow-hidden rounded-3xl border border-creme/12 bg-gradient-to-br from-[#5b0f1a]/85 via-[#3a0a12]/80 to-[#160407]/92 p-7 backdrop-blur-md transition-colors duration-300 hover:border-amber-dot/45">
                 {/* number watermark */}

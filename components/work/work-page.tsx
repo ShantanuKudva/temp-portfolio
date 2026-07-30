@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type { Reel, ReelCategory } from "@/lib/work";
+import type { WorkContent } from "@/lib/content/map/work";
 import { PageBottomBlur } from "@/components/effects/page-bottom-blur";
 import { WorkAurora } from "./work-aurora";
 import { WorkHero } from "./work-hero";
@@ -18,7 +19,13 @@ import { MakerCredit } from "@/components/maker-credit";
  * a case study → the "how the reels get made" process → closing CTA. Owns the
  * lightbox open-state + selected reel.
  */
-export function WorkPage({ categories }: { categories: ReelCategory[] }) {
+export function WorkPage({
+  categories,
+  content,
+}: {
+  categories: ReelCategory[];
+  content: WorkContent;
+}) {
   const [active, setActive] = useState<Reel | null>(null);
   const open = (reel: Reel) => setActive(reel);
   const close = () => setActive(null);
@@ -29,11 +36,11 @@ export function WorkPage({ categories }: { categories: ReelCategory[] }) {
       style={{ background: "linear-gradient(165deg, #5b0f1a 0%, #380710 45%)" }}
     >
       <WorkAurora>
-        <WorkHero />
-        <ReelGallery categories={categories} onOpen={open} />
-        <CaseStudy />
-        <Process />
-        <WorkCta />
+        <WorkHero content={content.hero} />
+        <ReelGallery categories={categories} content={content.gallery} onOpen={open} />
+        <CaseStudy content={content.caseStudy} />
+        <Process content={content.process} />
+        <WorkCta content={content.cta} />
         <MakerCredit />
       </WorkAurora>
 

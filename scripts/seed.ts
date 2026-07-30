@@ -208,6 +208,76 @@ const seed = async () => {
   });
   payload.logger.info("Seeded about page.");
 
+  await payload.updateGlobal({
+    slug: "work",
+    data: {
+      hero: {
+        eyebrow: "The Work",
+        script: "press play",
+        headline: "Reviews worth your tap.",
+        intro:
+          "Every reel is an app or a business I actually lived with — used the way you would, then said plainly whether it earns a place on your home screen.",
+        availability: "Available for brand deals",
+      },
+      gallery: {
+        eyebrow: "The gallery",
+        heading: "Reviews, grouped by what they are.",
+        emptyState: "New reels are on the way — check back soon.",
+      },
+      caseStudy: {
+        eyebrow: "Case study",
+        heading: "The first deep-dive lands here.",
+        intro:
+          "No case studies yet — I'm just getting started. When a collaboration wraps, I'll break the whole thing down here, start to finish.",
+        badge: "First one in the works",
+        coverTitle: "What a breakdown will cover",
+        items: [
+          {
+            label: "The brief",
+            body: "The goal, the audience, and how we kept it brand-safe and disclosure-first.",
+          },
+          {
+            label: "The approach",
+            body: "What I tested, how long I lived with it, and the angle the reel took.",
+          },
+          {
+            label: "The results",
+            body: "What actually happened — in the brand's own words, no inflated numbers.",
+          },
+        ],
+      },
+      process: {
+        eyebrow: "How the reels get made",
+        heading: "From brief to your feed — the honest way.",
+        steps: [
+          {
+            title: "The brief",
+            body: "We align on goals, audience and disclosure up front — no surprises, brand-safe from the first message.",
+          },
+          {
+            title: "I live with it",
+            body: "Days of real, everyday use — not a five-minute demo. The verdict only lands because it's earned.",
+          },
+          {
+            title: "Script & shoot",
+            body: "A plain-words take, written thumb-first and shot to be watched to the very last second.",
+          },
+          {
+            title: "Edit & deliver",
+            body: "Cut, captioned and colour-matched, delivered with usage rights and revisions built in.",
+          },
+        ],
+      },
+      cta: {
+        script: "seen enough?",
+        heading: "Let's make something honest.",
+        primaryLabel: "Work with me ↗",
+        secondaryLabel: "Read her story →",
+      },
+    },
+  });
+  payload.logger.info("Seeded work page.");
+
   // Reels come last: they are the only part that uploads to Vercel Blob, so a
   // Blob misconfiguration cannot block the text content above.
   const existing = await payload.find({ collection: "reels", limit: 1 });

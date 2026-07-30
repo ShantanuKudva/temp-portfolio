@@ -5,6 +5,7 @@ import { motion, useInView } from "motion/react";
 import SoftAuroraBase from "@/components/SoftAurora";
 import { Reveal } from "@/components/motion/reveal";
 import { CurtainLink } from "@/components/transition/curtain-link";
+import type { WorkContent } from "@/lib/content/map/work";
 
 // JS-interop component — flexible props (its .jsx infers strict types from defaults).
 const SoftAurora = SoftAuroraBase as unknown as React.ComponentType<
@@ -15,7 +16,7 @@ const SoftAurora = SoftAuroraBase as unknown as React.ComponentType<
  * Closing CTA — the end of the page. A wine/gold SoftAurora glow rises from the
  * bottom edge behind a lean curtain-transition CTA toward /contact.
  */
-export function WorkCta() {
+export function WorkCta({ content }: { content: WorkContent["cta"] }) {
   const ref = useRef<HTMLElement>(null);
   const mounted = useInView(ref, { margin: "20% 0px 20% 0px" });
 
@@ -54,22 +55,22 @@ export function WorkCta() {
       </motion.div>
 
       <Reveal className="relative z-10 mx-auto max-w-2xl">
-        <p className="mb-3 font-script text-4xl text-[#eebb79]">seen enough?</p>
+        <p className="mb-3 font-script text-4xl text-[#eebb79]">{content.script}</p>
         <h2 className="mb-9 font-display text-3xl leading-tight sm:text-5xl">
-          Let&apos;s make something honest.
+          {content.heading}
         </h2>
         <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
           <CurtainLink
             href="/contact"
             className="inline-flex items-center justify-center gap-2 rounded-full bg-amber-dot px-8 py-4 font-sans text-sm font-semibold uppercase tracking-[0.14em] text-espresso transition-colors hover:bg-creme"
           >
-            Work with me ↗
+            {content.primaryLabel}
           </CurtainLink>
           <CurtainLink
             href="/about"
             className="inline-flex items-center justify-center gap-2 rounded-full border border-creme/25 px-8 py-4 font-sans text-sm font-semibold uppercase tracking-[0.14em] text-creme transition-colors hover:border-amber-dot/60 hover:text-[#eebb79]"
           >
-            Read her story →
+            {content.secondaryLabel}
           </CurtainLink>
         </div>
       </Reveal>

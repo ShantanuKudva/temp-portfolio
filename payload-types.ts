@@ -97,10 +97,12 @@ export interface Config {
   };
   fallbackLocale: null;
   globals: {
+    work: Work;
     about: About;
     'site-settings': SiteSetting;
   };
   globalsSelect: {
+    work: WorkSelect<false> | WorkSelect<true>;
     about: AboutSelect<false> | AboutSelect<true>;
     'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
   };
@@ -663,6 +665,84 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   createdAt?: T;
 }
 /**
+ * All the writing on your Work page — the headline at the top, the section intros, the case-study placeholder, the process steps, and the closing call to action. The reels themselves live under 'Reels'.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "work".
+ */
+export interface Work {
+  id: number;
+  hero: {
+    eyebrow: string;
+    /**
+     * The handwritten line above the headline.
+     */
+    script: string;
+    headline: string;
+    intro: string;
+    /**
+     * The small pill with the pulsing dot.
+     */
+    availability: string;
+  };
+  gallery: {
+    eyebrow: string;
+    heading: string;
+    /**
+     * Shown in place of the gallery when there are no reels.
+     */
+    emptyState: string;
+  };
+  caseStudy: {
+    eyebrow: string;
+    heading: string;
+    intro: string;
+    /**
+     * The small pill inside the dashed box.
+     */
+    badge: string;
+    coverTitle: string;
+    /**
+     * Numbered automatically in the order listed here.
+     */
+    items?:
+      | {
+          label: string;
+          body: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  process: {
+    eyebrow: string;
+    heading: string;
+    /**
+     * Numbered automatically in the order listed here.
+     */
+    steps?:
+      | {
+          title: string;
+          body: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  cta: {
+    script: string;
+    heading: string;
+    /**
+     * The filled button. Always links to the Connect page.
+     */
+    primaryLabel: string;
+    /**
+     * The outlined button. Always links to the About page.
+     */
+    secondaryLabel: string;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * Every piece of writing on your About page, section by section. Edit any field and the live site updates as soon as you save.
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -771,6 +851,68 @@ export interface SiteSetting {
     | null;
   updatedAt?: string | null;
   createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "work_select".
+ */
+export interface WorkSelect<T extends boolean = true> {
+  hero?:
+    | T
+    | {
+        eyebrow?: T;
+        script?: T;
+        headline?: T;
+        intro?: T;
+        availability?: T;
+      };
+  gallery?:
+    | T
+    | {
+        eyebrow?: T;
+        heading?: T;
+        emptyState?: T;
+      };
+  caseStudy?:
+    | T
+    | {
+        eyebrow?: T;
+        heading?: T;
+        intro?: T;
+        badge?: T;
+        coverTitle?: T;
+        items?:
+          | T
+          | {
+              label?: T;
+              body?: T;
+              id?: T;
+            };
+      };
+  process?:
+    | T
+    | {
+        eyebrow?: T;
+        heading?: T;
+        steps?:
+          | T
+          | {
+              title?: T;
+              body?: T;
+              id?: T;
+            };
+      };
+  cta?:
+    | T
+    | {
+        script?: T;
+        heading?: T;
+        primaryLabel?: T;
+        secondaryLabel?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

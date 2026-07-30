@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type { Reel, ReelCategory } from "@/lib/work";
+import type { WorkContent } from "@/lib/content/map/work";
 import { ReelCard } from "./reel-card";
 import { Reveal } from "@/components/motion/reveal";
 import { Parallax } from "@/components/motion/parallax";
@@ -13,9 +14,11 @@ import { Parallax } from "@/components/motion/parallax";
  */
 export function ReelGallery({
   categories,
+  content,
   onOpen,
 }: {
   categories: ReelCategory[];
+  content: WorkContent["gallery"];
   onOpen: (reel: Reel) => void;
 }) {
   // Track the hovered card per-group by a composite key so only siblings dim.
@@ -27,12 +30,12 @@ export function ReelGallery({
         <Parallax speed={28}>
           <Reveal>
             <p className="mb-3 font-sans text-xs font-medium uppercase tracking-[0.3em] text-[#eebb79]">
-              <span>✦</span>&nbsp;&nbsp;The gallery
+              <span>✦</span>&nbsp;&nbsp;{content.eyebrow}
             </p>
           </Reveal>
           <Reveal delay={0.06}>
             <h2 className="mb-14 max-w-xl font-display text-3xl leading-tight sm:text-5xl">
-              Reviews, grouped by what they are.
+              {content.heading}
             </h2>
           </Reveal>
         </Parallax>
@@ -40,7 +43,7 @@ export function ReelGallery({
         {categories.length === 0 ? (
           <Reveal>
             <p className="font-sans text-[15px] leading-relaxed text-creme/60">
-              New reels are on the way — check back soon.
+              {content.emptyState}
             </p>
           </Reveal>
         ) : (

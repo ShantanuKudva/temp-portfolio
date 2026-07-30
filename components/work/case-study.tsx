@@ -1,21 +1,15 @@
 "use client";
 
 import { Reveal } from "@/components/motion/reveal";
+import type { WorkContent } from "@/lib/content/map/work";
 
-// TODO(real): replace this empty-state with a real collaboration once one ships
-// — brief, approach, and the honest results (with the brand's own words).
-const WILL_COVER = [
-  { label: "The brief", body: "The goal, the audience, and how we kept it brand-safe and disclosure-first." },
-  { label: "The approach", body: "What I tested, how long I lived with it, and the angle the reel took." },
-  { label: "The results", body: "What actually happened — in the brand's own words, no inflated numbers." },
-];
 
 /**
  * Case study — an honest empty-state. Nothing has been posted yet, so instead of
  * fabricating a collaboration, this reserves the slot and sets expectations for
  * what the first real breakdown will cover.
  */
-export function CaseStudy() {
+export function CaseStudy({ content }: { content: WorkContent["caseStudy"] }) {
   return (
     <section
       id="case-study"
@@ -24,19 +18,17 @@ export function CaseStudy() {
       <div className="mx-auto max-w-6xl">
         <Reveal>
           <p className="mb-3 font-sans text-xs font-medium uppercase tracking-[0.3em] text-[#eebb79]">
-            <span>✦</span>&nbsp;&nbsp;Case study
+            <span>✦</span>&nbsp;&nbsp;{content.eyebrow}
           </p>
         </Reveal>
         <Reveal delay={0.06}>
           <h2 className="mb-5 max-w-xl font-display text-3xl leading-tight sm:text-5xl">
-            The first deep-dive lands here.
+            {content.heading}
           </h2>
         </Reveal>
         <Reveal delay={0.1}>
           <p className="mb-12 max-w-lg font-sans text-[15px] leading-relaxed text-creme/65">
-            No case studies yet — I&apos;m just getting started. When a
-            collaboration wraps, I&apos;ll break the whole thing down here, start
-            to finish.
+            {content.intro}
           </p>
         </Reveal>
 
@@ -48,14 +40,14 @@ export function CaseStudy() {
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#eebb79] opacity-70" />
                 <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[#eebb79]" />
               </span>
-              First one in the works
+              {content.badge}
             </span>
 
             <p className="mt-7 mb-6 font-display text-xl text-creme sm:text-2xl">
-              What a breakdown will cover
+              {content.coverTitle}
             </p>
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
-              {WILL_COVER.map((b, i) => (
+              {content.items.map((b, i) => (
                 <div key={b.label}>
                   <div className="mb-3 flex items-center gap-3">
                     <span className="font-display text-lg text-[#eebb79]/70">

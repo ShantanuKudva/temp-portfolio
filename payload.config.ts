@@ -12,6 +12,7 @@ import { Videos } from "./collections/Videos";
 import { Reels } from "./collections/Reels";
 import { RateCardPackages } from "./collections/RateCardPackages";
 import { About } from "./globals/About";
+import { Work } from "./globals/Work";
 import { SiteSettings } from "./globals/SiteSettings";
 
 const filename = fileURLToPath(import.meta.url);
@@ -23,7 +24,7 @@ export default buildConfig({
     importMap: { baseDir: path.resolve(dirname) },
   },
   collections: [Users, Media, Videos, Reels, RateCardPackages],
-  globals: [About, SiteSettings],
+  globals: [Work, About, SiteSettings],
   secret: process.env.PAYLOAD_SECRET || "",
   typescript: { outputFile: path.resolve(dirname, "payload-types.ts") },
   db: postgresAdapter({

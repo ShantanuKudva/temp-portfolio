@@ -4,6 +4,7 @@ import { motion, useReducedMotion } from "motion/react";
 import { Reveal } from "@/components/motion/reveal";
 import { Parallax } from "@/components/motion/parallax";
 import { CtaStamp } from "./cta-stamp";
+import type { WorkContent } from "@/lib/content/map/work";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -36,7 +37,7 @@ function Sparkle({
  * theme: eyebrow, an Alex Brush line, the Playfair headline, a sub-line and the
  * availability pill, all centred with a scroll parallax.
  */
-export function WorkHero() {
+export function WorkHero({ content }: { content: WorkContent["hero"] }) {
   return (
     <section className="relative overflow-hidden px-6 pb-10 pt-32 text-center sm:px-10 sm:pt-40">
       {/* Rotating "work with me" CTA stamp, top corner. */}
@@ -49,25 +50,23 @@ export function WorkHero() {
       <Parallax speed={34}>
         <Reveal className="mx-auto max-w-2xl">
           <p className="mb-4 font-sans text-xs font-medium uppercase tracking-[0.34em] text-[#eebb79]">
-            <span>✦</span>&nbsp;&nbsp;The Work
+            <span>✦</span>&nbsp;&nbsp;{content.eyebrow}
           </p>
           <p className="mb-2 font-script text-5xl text-[#eebb79] sm:text-6xl">
-            press play
+            {content.script}
           </p>
           <h1 className="mb-6 font-display text-4xl leading-[1.08] sm:text-6xl">
-            Reviews worth your tap.
+            {content.headline}
           </h1>
           <p className="mx-auto mb-8 max-w-md font-sans text-base leading-relaxed text-creme/70">
-            Every reel is an app or a business I actually lived with — used the
-            way you would, then said plainly whether it earns a place on your
-            home screen.
+            {content.intro}
           </p>
           <span className="inline-flex items-center gap-2 rounded-full border border-amber-dot/40 bg-amber-dot/10 px-4 py-1.5 font-sans text-[11px] font-medium uppercase tracking-[0.18em] text-[#eebb79]">
             <span className="relative flex h-1.5 w-1.5">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-dot opacity-70" />
               <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-amber-dot" />
             </span>
-            Available for brand deals
+            {content.availability}
           </span>
         </Reveal>
       </Parallax>
