@@ -5,6 +5,7 @@ import Image from "next/image";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import LightRaysBase from "@/components/LightRays";
 import { Reveal } from "@/components/motion/reveal";
+import type { TitledItem } from "@/lib/content/map/about";
 
 // JS-interop component — flexible props (its .jsx infers strict types from defaults).
 const LightRays = LightRaysBase as unknown as React.ComponentType<
@@ -13,33 +14,6 @@ const LightRays = LightRaysBase as unknown as React.ComponentType<
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
-const BRING = [
-  {
-    n: "01",
-    title: "Honest reviews",
-    body: "No paid praise. If it isn't worth your tap, I say so — on camera, in plain words. That honesty is exactly why the recommendation lands.",
-  },
-  {
-    n: "02",
-    title: "Real, hands-on testing",
-    body: "Days of living with the product before a single line of script gets written.",
-  },
-  {
-    n: "03",
-    title: "Brand-safe & clear",
-    body: "Disclosure-first, always on-brand, never clickbait.",
-  },
-  {
-    n: "04",
-    title: "Thumb-stopping craft",
-    body: "Short-form built to be watched to the very last second.",
-  },
-  {
-    n: "05",
-    title: "Apps & businesses",
-    body: "From the app you open every morning to the small brand worth knowing.",
-  },
-];
 
 function Card({
   item,
@@ -50,7 +24,7 @@ function Card({
   onHover,
   className = "",
 }: {
-  item: (typeof BRING)[number];
+  item: TitledItem & { n: string };
   featured?: boolean;
   delay?: number;
   dimmed: boolean;
@@ -143,7 +117,13 @@ function Card({
  * Hovering a card ignites LightRays inside it and blurs the rest into focus.
  * Aurora backdrop comes from the shared AuroraRegion wrapper.
  */
-export function WhatIBring() {
+export function WhatIBring({ items }: { items: TitledItem[] }) {
+  // The 01–05 numerals are positional, so they are derived rather than stored.
+  const numbered = items.map((item, i) => ({
+    ...item,
+    n: String(i + 1).padStart(2, "0"),
+  }));
+
   const [hovered, setHovered] = useState<number | null>(null);
   const set = (i: number) => (v: boolean) =>
     setHovered((cur) => (v ? i : cur === i ? null : cur));
@@ -201,7 +181,7 @@ export function WhatIBring() {
 
         {/* Bento: a wide featured card + a 2×2 of the rest. */}
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-          {BRING.map((item, i) => (
+          {numbered.map((item, i) => (
             <Card
               key={item.n}
               item={item}

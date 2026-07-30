@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import type { Reel } from "@/lib/work";
+import type { Reel, ReelCategory } from "@/lib/work";
 import { PageBottomBlur } from "@/components/effects/page-bottom-blur";
 import { WorkAurora } from "./work-aurora";
 import { WorkHero } from "./work-hero";
@@ -18,7 +18,7 @@ import { MakerCredit } from "@/components/maker-credit";
  * a case study → the "how the reels get made" process → closing CTA. Owns the
  * lightbox open-state + selected reel.
  */
-export function WorkPage() {
+export function WorkPage({ categories }: { categories: ReelCategory[] }) {
   const [active, setActive] = useState<Reel | null>(null);
   const open = (reel: Reel) => setActive(reel);
   const close = () => setActive(null);
@@ -30,7 +30,7 @@ export function WorkPage() {
     >
       <WorkAurora>
         <WorkHero />
-        <ReelGallery onOpen={open} />
+        <ReelGallery categories={categories} onOpen={open} />
         <CaseStudy />
         <Process />
         <WorkCta />

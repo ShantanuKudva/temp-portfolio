@@ -2,14 +2,13 @@
 
 import { useEffect } from "react";
 import Cal, { getCalApi } from "@calcom/embed-react";
-import { CONTACT } from "@/lib/contact-info";
 
 /**
  * Inline Cal.com booking, themed dark with the gold brand colour and wrapped in
  * a chocolate frame (amber hairline + feathered top) so the light iframe reads
  * as part of the velvet instead of a floating white slab.
  */
-export function CalEmbed() {
+export function CalEmbed({ calLink }: { calLink: string }) {
   useEffect(() => {
     let cancelled = false;
     (async () => {
@@ -39,7 +38,7 @@ export function CalEmbed() {
       />
       <div className="overflow-hidden rounded-[1.35rem]">
         <Cal
-          calLink={CONTACT.calLink}
+          calLink={calLink}
           config={{ theme: "dark", layout: "month_view" }}
           style={{ width: "100%", height: "100%", minHeight: "560px", overflow: "scroll" }}
         />

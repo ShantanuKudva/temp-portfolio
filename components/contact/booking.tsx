@@ -4,12 +4,19 @@ import { CalEmbed } from "./cal-embed";
 import { MailComposer } from "./mail-composer";
 import { Reveal } from "@/components/motion/reveal";
 import { Parallax } from "@/components/motion/parallax";
+import type { ContactInfo, MailTemplate } from "@/lib/contact-info";
 
 /**
  * "Book & reach me" — the Cal.com booking as the star, with a simple email
  * composer in line beside it (stacked on mobile).
  */
-export function Booking() {
+export function Booking({
+  contact,
+  mailTemplates,
+}: {
+  contact: ContactInfo;
+  mailTemplates: MailTemplate[];
+}) {
   return (
     <section id="book" className="relative scroll-mt-24 py-20 sm:py-28">
       <div className="mx-auto max-w-6xl px-6 sm:px-10">
@@ -22,8 +29,8 @@ export function Booking() {
         </Parallax>
 
         <div className="grid grid-cols-1 items-stretch gap-8 md:grid-cols-[1fr_1.4fr] md:gap-10">
-          <MailComposer />
-          <CalEmbed />
+          <MailComposer contact={contact} templates={mailTemplates} />
+          <CalEmbed calLink={contact.calLink} />
         </div>
       </div>
     </section>

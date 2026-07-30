@@ -1,18 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { CONTACT, MAIL_TEMPLATES, type MailTemplate } from "@/lib/contact-info";
+import type { ContactInfo, MailTemplate } from "@/lib/contact-info";
 
-function mailtoHref(subject: string, body: string) {
-  return `mailto:${CONTACT.email}?subject=${encodeURIComponent(
+function mailtoHref(email: string, subject: string, body: string) {
+  return `mailto:${email}?subject=${encodeURIComponent(
     subject,
   )}&body=${encodeURIComponent(body)}`;
 }
 
-const SOCIALS = [
-  { label: "Instagram", href: CONTACT.instagram },
-  { label: "YouTube", href: CONTACT.youtube },
-];
+const EMPTY_TEMPLATE: MailTemplate = { key: "blank", label: "", subject: "", body: "" };
 
 const FIELD =
   "w-full rounded-2xl border border-creme/10 bg-[#05060c]/70 px-4 py-3 font-sans text-[14px] text-creme outline-none transition-[border-color,box-shadow] placeholder:text-creme/25 focus:border-moonlight/50 focus:shadow-[0_0_0_3px_rgba(174,178,230,0.12)]";
@@ -22,10 +19,22 @@ const FIELD =
  * pick a starter, tweak the subject + message, and Send opens the visitor's mail
  * app via mailto: with everything prefilled. No backend.
  */
-export function MailComposer() {
-  const [active, setActive] = useState(MAIL_TEMPLATES[0].key);
-  const [subject, setSubject] = useState(MAIL_TEMPLATES[0].subject);
-  const [body, setBody] = useState(MAIL_TEMPLATES[0].body);
+export function MailComposer({
+  contact,
+  templates,
+}: {
+  contact: ContactInfo;
+  templates: MailTemplate[];
+}) {
+  const first = templates[0] ?? EMPTY_TEMPLATE;
+  const socials = [
+    { label: "Instagram", href: contact.instagram },
+    { label: "YouTube", href: contact.youtube },
+  ];
+
+  const [active, setActive] = useState(first.key);
+  const [subject, setSubject] = useState(first.subject);
+  const [body, setBody] = useState(first.body);
 
   const pick = (t: MailTemplate) => {
     setActive(t.key);
@@ -51,7 +60,7 @@ export function MailComposer() {
       <div className="flex flex-1 flex-col gap-4 px-6 py-6 sm:px-7">
         {/* Starter chips. */}
         <div className="flex flex-wrap gap-2">
-          {MAIL_TEMPLATES.map((t) => (
+          {templates.map((t) => (
             <button
               key={t.key}
               type="button"
@@ -85,7 +94,7 @@ export function MailComposer() {
         />
 
         <a
-          href={mailtoHref(subject, body)}
+          href={mailtoHref(contact.email, subject, body)}
           className="group inline-flex items-center justify-center gap-2 rounded-2xl bg-moonlight px-6 py-3.5 font-sans text-sm font-semibold uppercase tracking-[0.14em] text-[#141733] transition-colors hover:bg-creme"
         >
           Send email
@@ -96,13 +105,13 @@ export function MailComposer() {
       {/* Footer — direct channels + response time. */}
       <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 border-t border-creme/10 px-6 py-4 font-sans text-[13px] sm:px-7">
         <a
-          href={`mailto:${CONTACT.email}`}
+          href={`mailto:${contact.email}`}
           className="text-creme/70 transition-colors hover:text-moonlight"
         >
-          {CONTACT.email}
+          {contact.email}
         </a>
         <span className="h-3 w-px bg-creme/15" aria-hidden />
-        {SOCIALS.map((s) => (
+        {socials.map((s) => (
           <a
             key={s.label}
             href={s.href}

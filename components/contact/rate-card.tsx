@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { CONTACT, PACKAGES, type Package } from "@/lib/contact-info";
+import { type Package } from "@/lib/contact-info";
 import { Reveal } from "@/components/motion/reveal";
 import { Parallax } from "@/components/motion/parallax";
 import { SpotlightCard } from "@/components/effects/spotlight-card";
@@ -83,7 +83,13 @@ function Tile({ pkg, delay }: { pkg: Package; delay: number }) {
  * "What working together looks like" — three package tiles with "from ₹X"
  * anchors and a downloadable rate-card PDF. Same card family as About's bento.
  */
-export function RateCard() {
+export function RateCard({
+  packages,
+  rateCardPdf,
+}: {
+  packages: Package[];
+  rateCardPdf: string;
+}) {
   return (
     <section id="packages" className="relative scroll-mt-24 py-20 sm:py-28">
       <div className="mx-auto max-w-6xl px-6 sm:px-10">
@@ -101,14 +107,14 @@ export function RateCard() {
         </Parallax>
 
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-          {PACKAGES.map((pkg, i) => (
+          {packages.map((pkg, i) => (
             <Tile key={pkg.key} pkg={pkg} delay={i * 0.06} />
           ))}
         </div>
 
         <Reveal delay={0.12}>
           <a
-            href={CONTACT.rateCardPdf}
+            href={rateCardPdf}
             className="mt-8 inline-flex items-center gap-2 rounded-full border border-creme/25 px-6 py-3 font-sans text-sm font-semibold uppercase tracking-[0.14em] text-creme transition-colors hover:border-moonlight/60 hover:text-moonlight"
             download
           >

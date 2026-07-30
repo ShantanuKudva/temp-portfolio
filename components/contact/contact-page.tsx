@@ -9,6 +9,7 @@ import { RateCard } from "./rate-card";
 import { Booking } from "./booking";
 import { CurvedClose } from "./curved-close";
 import { MakerCredit } from "@/components/maker-credit";
+import type { ContactInfo, MailTemplate, Package } from "@/lib/contact-info";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -33,7 +34,15 @@ function Sparkle({ className, size = 16, delay = 0 }: { className: string; size?
  * with the shared bottom gradual blur. Warm espresso base with gold/terracotta
  * accents — the Connect nav-card's world.
  */
-export function ContactPage() {
+export function ContactPage({
+  packages,
+  contact,
+  mailTemplates,
+}: {
+  packages: Package[];
+  contact: ContactInfo;
+  mailTemplates: MailTemplate[];
+}) {
   return (
     <main
       className="relative flex-1 text-creme"
@@ -70,10 +79,10 @@ export function ContactPage() {
         </section>
 
         {/* ═══ Rate card ═══ */}
-        <RateCard />
+        <RateCard packages={packages} rateCardPdf={contact.rateCardPdf} />
 
         {/* ═══ Book & reach me ═══ */}
-        <Booking />
+        <Booking contact={contact} mailTemplates={mailTemplates} />
 
         {/* ═══ Close — "no hard sell" as a curved marquee ═══ */}
         <CurvedClose />

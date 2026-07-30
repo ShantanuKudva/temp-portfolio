@@ -1,8 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import type { Reel } from "@/lib/work";
-import { REEL_CATEGORIES } from "@/lib/work";
+import type { Reel, ReelCategory } from "@/lib/work";
 import { ReelCard } from "./reel-card";
 import { Reveal } from "@/components/motion/reveal";
 import { Parallax } from "@/components/motion/parallax";
@@ -12,7 +11,13 @@ import { Parallax } from "@/components/motion/parallax";
  * with a small grid of 9:16 cards; hovering one recedes its siblings (About's
  * bento focus). Tapping opens the lightbox. Mirrors Connect's rate-card rhythm.
  */
-export function ReelGallery({ onOpen }: { onOpen: (reel: Reel) => void }) {
+export function ReelGallery({
+  categories,
+  onOpen,
+}: {
+  categories: ReelCategory[];
+  onOpen: (reel: Reel) => void;
+}) {
   // Track the hovered card per-group by a composite key so only siblings dim.
   const [hovered, setHovered] = useState<string | null>(null);
 
@@ -32,8 +37,15 @@ export function ReelGallery({ onOpen }: { onOpen: (reel: Reel) => void }) {
           </Reveal>
         </Parallax>
 
+        {categories.length === 0 ? (
+          <Reveal>
+            <p className="font-sans text-[15px] leading-relaxed text-creme/60">
+              New reels are on the way — check back soon.
+            </p>
+          </Reveal>
+        ) : (
         <div className="flex flex-col gap-16">
-          {REEL_CATEGORIES.map((cat) => (
+          {categories.map((cat) => (
             <div key={cat.label}>
               {/* Category label + hairline. */}
               <Reveal>
@@ -69,6 +81,7 @@ export function ReelGallery({ onOpen }: { onOpen: (reel: Reel) => void }) {
             </div>
           ))}
         </div>
+        )}
       </div>
     </section>
   );

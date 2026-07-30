@@ -14,31 +14,13 @@ import { AboutCta } from "./cta";
 import { Seal } from "./seal";
 import { MakerCredit } from "@/components/maker-credit";
 import styles from "./about.module.css";
+import type { AboutContent } from "@/lib/content/map/about";
 
 // JS-interop components — flexible props (their .jsx infers strict types from defaults).
 const Strands = StrandsBase as unknown as React.ComponentType<
   Record<string, unknown>
 >;
 
-// Placeholder copy — Varsheni swaps this for her own voice later.
-const VALUES = [
-  {
-    title: "Honest to a fault",
-    body: "If it's not worth your tap, I'll say so. No paid praise, no polishing over the cracks.",
-  },
-  {
-    title: "I actually test it",
-    body: "Every app and business gets used the way you would — days, not a five-minute demo.",
-  },
-  {
-    title: "Made for real people",
-    body: "No jargon walls. Clear, warm reviews that respect your time and your money.",
-  },
-  {
-    title: "Apps & businesses",
-    body: "From the tool you open every morning to the small brand worth knowing.",
-  },
-];
 
 const GRAIN =
   "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")";
@@ -64,7 +46,7 @@ function Sparkle({
   );
 }
 
-export function AboutPage() {
+export function AboutPage({ content }: { content: AboutContent }) {
   const sectionRef = useRef<HTMLElement>(null);
 
   return (
@@ -147,7 +129,7 @@ export function AboutPage() {
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-dot opacity-70" />
                   <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-amber-dot" />
                 </span>
-                Available for brand deals
+                {content.hero.availability}
               </span>
             </Reveal>
 
@@ -155,7 +137,7 @@ export function AboutPage() {
             <div className="space-y-5">
               <Reveal>
                 <p className="font-sans text-xs font-medium uppercase tracking-[0.34em] text-amber-dot">
-                  <span>✦</span>&nbsp;&nbsp;About
+                  <span>✦</span>&nbsp;&nbsp;{content.hero.eyebrow}
                 </p>
               </Reveal>
               <Reveal delay={0.06}>
@@ -163,7 +145,7 @@ export function AboutPage() {
                   className="font-display text-4xl leading-[1.08] sm:text-5xl lg:text-[3.4rem]"
                   style={{ textShadow: "0 0 40px rgba(217,160,91,0.12)" }}
                 >
-                  Honest reviews, for people done being let down.
+                  {content.hero.headline}
                 </h1>
               </Reveal>
               <Reveal delay={0.1}>
@@ -171,32 +153,23 @@ export function AboutPage() {
               </Reveal>
               <Reveal delay={0.14}>
                 <p className="max-w-md font-sans text-[15px] leading-relaxed text-creme/70 sm:text-base">
-                  Hi, I&apos;m Varsheni — a tech UGC creator who reviews the apps
-                  and businesses worth your attention.
+                  {content.hero.intro}
                 </p>
               </Reveal>
             </div>
 
             {/* Bio */}
             <div className="max-w-md space-y-5">
-              <Reveal>
-                <p className="font-sans text-[15px] leading-relaxed text-creme/75 sm:text-base">
-                  I started reviewing apps because glossy ads said everything and
-                  told you nothing. So I began doing the boring, honest part —
-                  actually living with a product before I ever recommend it.
-                </p>
-              </Reveal>
-              <Reveal delay={0.08}>
-                <p className="font-sans text-[15px] leading-relaxed text-creme/75 sm:text-base">
-                  Today I help brands reach an audience that trusts what I say,
-                  because I only say it when I mean it. If it earns a spot on your
-                  home screen, I&apos;ll tell you why — and if it doesn&apos;t,
-                  I&apos;ll tell you that too.
-                </p>
-              </Reveal>
+              {content.hero.bio.map((text, i) => (
+                <Reveal key={i} delay={i * 0.08}>
+                  <p className="font-sans text-[15px] leading-relaxed text-creme/75 sm:text-base">
+                    {text}
+                  </p>
+                </Reveal>
+              ))}
               <Reveal delay={0.14}>
                 <p className="font-script text-3xl text-amber-dot">
-                  — honest, always.
+                  {content.hero.signature}
                 </p>
               </Reveal>
             </div>
@@ -205,11 +178,11 @@ export function AboutPage() {
             <div id="values" className="scroll-mt-24">
               <Reveal>
                 <p className="mb-6 font-sans text-xs font-medium uppercase tracking-[0.3em] text-taupe">
-                  What I stand for
+                  {content.values.eyebrow}
                 </p>
               </Reveal>
               <div className="flex flex-col gap-3">
-                {VALUES.map((v, i) => (
+                {content.values.items.map((v, i) => (
                   <Reveal
                     key={v.title}
                     delay={i * 0.05}
@@ -235,12 +208,10 @@ export function AboutPage() {
             <div className="relative flex flex-col-reverse items-start gap-7 pt-4 sm:flex-row sm:items-center">
               <Reveal className="min-w-0 flex-1">
                 <p className="font-display text-2xl leading-snug text-creme sm:text-[1.7rem]">
-                  &ldquo;The best review saves you from a purchase you&apos;d
-                  regret — and points you to the one you&apos;ll{" "}
-                  <span className="font-script text-amber-dot">love</span>.&rdquo;
+                  &ldquo;{content.quote.text}&rdquo;
                 </p>
                 <p className="mt-4 font-sans text-xs uppercase tracking-[0.24em] text-creme/50">
-                  Est. 2026 — Made in India
+                  {content.quote.attribution}
                 </p>
               </Reveal>
               <Reveal delay={0.1} className="relative w-32 shrink-0 sm:w-40">
@@ -262,8 +233,8 @@ export function AboutPage() {
 
       {/* ═══ Who I am + What I bring — shared Aurora backdrop ═══ */}
       <AuroraRegion>
-        <WhoIAm />
-        <WhatIBring />
+        <WhoIAm content={content.whoIAm} />
+        <WhatIBring items={content.bring} />
       </AuroraRegion>
 
       {/* ═══ On my radar — logo wall ═══ */}
