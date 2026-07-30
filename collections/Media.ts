@@ -2,7 +2,12 @@ import type { CollectionConfig } from "payload";
 
 export const Media: CollectionConfig = {
   slug: "media",
-  admin: { useAsTitle: "filename", group: "Uploads" },
+  admin: {
+    useAsTitle: "filename",
+    group: "Uploads",
+    description:
+      "Images used across the site, including reel posters. Uploaded automatically when you attach an image elsewhere — you rarely need to add anything here by hand.",
+  },
   access: {
     read: () => true,
     create: ({ req: { user } }) => Boolean(user),

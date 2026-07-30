@@ -3,6 +3,7 @@ import { fileURLToPath } from "url";
 import { buildConfig } from "payload";
 import { postgresAdapter } from "@payloadcms/db-postgres";
 import { vercelBlobStorage } from "@payloadcms/storage-vercel-blob";
+import { mcpPlugin } from "@payloadcms/plugin-mcp";
 import sharp from "sharp";
 
 import { Users } from "./collections/Users";
@@ -38,6 +39,19 @@ export default buildConfig({
       collections: { media: true, videos: true },
       clientUploads: true,
       token: process.env.BLOB_READ_WRITE_TOKEN,
+    }),
+    // Lets Claude edit content over MCP with the same access control and
+    // validation as the admin UI. `users` is deliberately excluded so account
+    // management stays a human, GUI-only operation.
+    mcpPlugin({
+      collections: {
+        reels: { enabled: { find: true, create: true, update: true, delete: true } },
+        "rate-card-packages": {
+          enabled: { find: true, create: true, update: true, delete: true },
+        },
+        media: { enabled: { find: true, create: true, update: true, delete: true } },
+        videos: { enabled: { find: true, create: true, update: true, delete: true } },
+      },
     }),
   ],
 });

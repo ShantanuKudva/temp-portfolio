@@ -64,6 +64,7 @@ export type SupportedTimezones =
 export interface Config {
   auth: {
     users: UserAuthOperations;
+    'payload-mcp-api-keys': PayloadMcpApiKeyAuthOperations;
   };
   blocks: {};
   collections: {
@@ -72,6 +73,7 @@ export interface Config {
     videos: Video;
     reels: Reel;
     'rate-card-packages': RateCardPackage;
+    'payload-mcp-api-keys': PayloadMcpApiKey;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -84,6 +86,7 @@ export interface Config {
     videos: VideosSelect<false> | VideosSelect<true>;
     reels: ReelsSelect<false> | ReelsSelect<true>;
     'rate-card-packages': RateCardPackagesSelect<false> | RateCardPackagesSelect<true>;
+    'payload-mcp-api-keys': PayloadMcpApiKeysSelect<false> | PayloadMcpApiKeysSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -105,13 +108,31 @@ export interface Config {
   widgets: {
     collections: CollectionsWidget;
   };
-  user: User;
+  user: User | PayloadMcpApiKey;
   jobs: {
     tasks: unknown;
     workflows: unknown;
   };
 }
 export interface UserAuthOperations {
+  forgotPassword: {
+    email: string;
+    password: string;
+  };
+  login: {
+    email: string;
+    password: string;
+  };
+  registerFirstUser: {
+    email: string;
+    password: string;
+  };
+  unlock: {
+    email: string;
+    password: string;
+  };
+}
+export interface PayloadMcpApiKeyAuthOperations {
   forgotPassword: {
     email: string;
     password: string;
@@ -156,6 +177,8 @@ export interface User {
   collection: 'users';
 }
 /**
+ * Images used across the site, including reel posters. Uploaded automatically when you attach an image elsewhere — you rarely need to add anything here by hand.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media".
  */
@@ -178,6 +201,8 @@ export interface Media {
   focalY?: number | null;
 }
 /**
+ * Reel video files (MP4 only, up to 50MB each). Usually uploaded straight from a reel rather than added here directly.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "videos".
  */
@@ -196,6 +221,8 @@ export interface Video {
   focalY?: number | null;
 }
 /**
+ * The videos on your Work page. Each reel needs a video file and a poster image (the still shown before it plays). Reels are grouped on the site by category, and 'order' decides which comes first inside a group — lower numbers appear earlier.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "reels".
  */
@@ -235,6 +262,8 @@ export interface Reel {
   createdAt: string;
 }
 /**
+ * The pricing tiles on your Connect page. Each package shows a name, a one-line description, what's included, and a starting price. 'Order' controls left-to-right position — lower numbers appear first.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "rate-card-packages".
  */
@@ -253,6 +282,105 @@ export interface RateCardPackage {
   order: number;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * API keys control which collections, resources, tools, and prompts MCP clients can access
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-mcp-api-keys".
+ */
+export interface PayloadMcpApiKey {
+  id: number;
+  /**
+   * The user that the API key is associated with.
+   */
+  user: number | User;
+  /**
+   * A useful label for the API key.
+   */
+  label?: string | null;
+  /**
+   * The purpose of the API key.
+   */
+  description?: string | null;
+  reels?: {
+    /**
+     * Allow clients to find reels.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create reels.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update reels.
+     */
+    update?: boolean | null;
+    /**
+     * Allow clients to delete reels.
+     */
+    delete?: boolean | null;
+  };
+  rateCardPackages?: {
+    /**
+     * Allow clients to find rate-card-packages.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create rate-card-packages.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update rate-card-packages.
+     */
+    update?: boolean | null;
+    /**
+     * Allow clients to delete rate-card-packages.
+     */
+    delete?: boolean | null;
+  };
+  media?: {
+    /**
+     * Allow clients to find media.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create media.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update media.
+     */
+    update?: boolean | null;
+    /**
+     * Allow clients to delete media.
+     */
+    delete?: boolean | null;
+  };
+  videos?: {
+    /**
+     * Allow clients to find videos.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create videos.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update videos.
+     */
+    update?: boolean | null;
+    /**
+     * Allow clients to delete videos.
+     */
+    delete?: boolean | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+  enableAPIKey?: boolean | null;
+  apiKey?: string | null;
+  apiKeyIndex?: string | null;
+  collection: 'payload-mcp-api-keys';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -297,12 +425,21 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'rate-card-packages';
         value: number | RateCardPackage;
+      } | null)
+    | ({
+        relationTo: 'payload-mcp-api-keys';
+        value: number | PayloadMcpApiKey;
       } | null);
   globalSlug?: string | null;
-  user: {
-    relationTo: 'users';
-    value: number | User;
-  };
+  user:
+    | {
+        relationTo: 'users';
+        value: number | User;
+      }
+    | {
+        relationTo: 'payload-mcp-api-keys';
+        value: number | PayloadMcpApiKey;
+      };
   updatedAt: string;
   createdAt: string;
 }
@@ -312,10 +449,15 @@ export interface PayloadLockedDocument {
  */
 export interface PayloadPreference {
   id: number;
-  user: {
-    relationTo: 'users';
-    value: number | User;
-  };
+  user:
+    | {
+        relationTo: 'users';
+        value: number | User;
+      }
+    | {
+        relationTo: 'payload-mcp-api-keys';
+        value: number | PayloadMcpApiKey;
+      };
   key?: string | null;
   value?:
     | {
@@ -434,6 +576,52 @@ export interface RateCardPackagesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-mcp-api-keys_select".
+ */
+export interface PayloadMcpApiKeysSelect<T extends boolean = true> {
+  user?: T;
+  label?: T;
+  description?: T;
+  reels?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+        delete?: T;
+      };
+  rateCardPackages?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+        delete?: T;
+      };
+  media?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+        delete?: T;
+      };
+  videos?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+        delete?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  enableAPIKey?: T;
+  apiKey?: T;
+  apiKeyIndex?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv_select".
  */
 export interface PayloadKvSelect<T extends boolean = true> {
@@ -473,6 +661,8 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   createdAt?: T;
 }
 /**
+ * Every piece of writing on your About page, section by section. Edit any field and the live site updates as soon as you save.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "about".
  */
@@ -546,6 +736,8 @@ export interface About {
   createdAt?: string | null;
 }
 /**
+ * How people reach you: the email and booking link on your Connect page, your social links, your rate-card PDF, and the ready-made email starters visitors can pick from.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "site-settings".
  */

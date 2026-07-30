@@ -7,6 +7,8 @@ export const RateCardPackages: CollectionConfig = {
     useAsTitle: "name",
     defaultColumns: ["name", "priceFrom", "order"],
     group: "Content",
+    description:
+      "The pricing tiles on your Connect page. Each package shows a name, a one-line description, what's included, and a starting price. 'Order' controls left-to-right position — lower numbers appear first.",
   },
   defaultSort: "order",
   access: {

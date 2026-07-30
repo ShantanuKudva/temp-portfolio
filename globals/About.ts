@@ -3,7 +3,11 @@ import type { GlobalConfig } from "payload";
 export const About: GlobalConfig = {
   slug: "about",
   label: "About Page",
-  admin: { group: "Content" },
+  admin: {
+    group: "Content",
+    description:
+      "Every piece of writing on your About page, section by section. Edit any field and the live site updates as soon as you save.",
+  },
   access: {
     read: () => true,
     update: ({ req: { user } }) => Boolean(user),

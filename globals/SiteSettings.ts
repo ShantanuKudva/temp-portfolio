@@ -3,7 +3,11 @@ import type { GlobalConfig } from "payload";
 export const SiteSettings: GlobalConfig = {
   slug: "site-settings",
   label: "Site Settings",
-  admin: { group: "Settings" },
+  admin: {
+    group: "Settings",
+    description:
+      "How people reach you: the email and booking link on your Connect page, your social links, your rate-card PDF, and the ready-made email starters visitors can pick from.",
+  },
   access: {
     read: () => true,
     update: ({ req: { user } }) => Boolean(user),
