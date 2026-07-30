@@ -6,24 +6,6 @@ import config from "@payload-config";
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 const publicDir = path.resolve(dirname, "../public");
 
-// `slug` matches the poster filename in public/work/posters/<slug>.jpg.
-const REELS = [
-  { slug: "cred", title: "Is the hype worth your credit score?", subject: "CRED", kind: "app", category: "Money & fintech" },
-  { slug: "jupiter", title: "Banking that doesn't make you think", subject: "Jupiter", kind: "app", category: "Money & fintech" },
-  { slug: "granola", title: "The note-taker that finally stuck", subject: "Granola", kind: "app", category: "AI & creator tools" },
-  { slug: "murf", title: "Voiceovers without a booth", subject: "Murf", kind: "app", category: "AI & creator tools" },
-  { slug: "dukaan", title: "A storefront in an afternoon", subject: "Dukaan", kind: "business", category: "Commerce & brands" },
-  { slug: "reelo", title: "Loyalty that small shops can run", subject: "Reelo", kind: "business", category: "Commerce & brands" },
-  { slug: "classplus", title: "Running a coaching class from your phone", subject: "Classplus", kind: "app", category: "Ed-tech" },
-  { slug: "vedantu", title: "Does live tutoring actually hold up?", subject: "Vedantu", kind: "app", category: "Ed-tech" },
-  { slug: "healthifyme", title: "The calorie tracker that stops nagging", subject: "HealthifyMe", kind: "app", category: "Health & fitness" },
-  { slug: "cultfit", title: "Booking a workout you'll actually show up to", subject: "Cult.fit", kind: "business", category: "Health & fitness" },
-  { slug: "nobroker", title: "Renting a flat without the broker cut", subject: "NoBroker", kind: "business", category: "Real estate" },
-  { slug: "housing", title: "How honest are the listing photos?", subject: "Housing", kind: "business", category: "Real estate" },
-  { slug: "devrev", title: "Support and product in one place", subject: "DevRev", kind: "business", category: "SaaS & B2B" },
-  { slug: "keka", title: "The HR tool your team won't dread", subject: "Keka", kind: "business", category: "SaaS & B2B" },
-] as const;
-
 const PACKAGES = [
   {
     name: "Single Review",
@@ -343,30 +325,6 @@ const seed = async () => {
     },
   });
   payload.logger.info("Seeded home page.");
-
-  // Reels come last: they are the only part that uploads to Vercel Blob, so a
-  // Blob misconfiguration cannot block the text content above.
-  const existing = await payload.find({ collection: "reels", limit: 1 });
-  if (existing.totalDocs > 0) {
-    payload.logger.info("Reels already exist — skipping reel seed.");
-  } else {
-    let order = 0;
-    for (const { slug, ...reel } of REELS) {
-      const poster = await payload.create({
-        collection: "media",
-        data: { alt: `${reel.subject} reel poster` },
-        filePath: path.join(publicDir, `work/posters/${slug}.jpg`),
-      });
-
-      await payload.create({
-        collection: "reels",
-        data: { ...reel, poster: poster.id, order: order++ },
-      });
-    }
-    payload.logger.info(
-      `Seeded ${REELS.length} reels with posters. Videos are added per reel in the admin.`,
-    );
-  }
 
   process.exit(0);
 };
