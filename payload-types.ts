@@ -151,6 +151,8 @@ export interface PayloadMcpApiKeyAuthOperations {
   };
 }
 /**
+ * Who can sign in to this admin panel. Add an account to give someone access; delete one to take it away.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
@@ -221,7 +223,7 @@ export interface Video {
   focalY?: number | null;
 }
 /**
- * The videos on your Work page. Each reel needs a video file and a poster image (the still shown before it plays). Reels are grouped on the site by category, and 'order' decides which comes first inside a group — lower numbers appear earlier.
+ * Everything in the gallery on your Work page. Each reel needs a video file and a poster image — the still shown before it plays. Reels are grouped on the site by category, and 'order' decides which comes first inside a group: lower numbers appear earlier.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "reels".
@@ -262,7 +264,7 @@ export interface Reel {
   createdAt: string;
 }
 /**
- * The pricing tiles on your Connect page. Each package shows a name, a one-line description, what's included, and a starting price. 'Order' controls left-to-right position — lower numbers appear first.
+ * The pricing tiles on your Connect page. Each package shows a name, a one-line description, what's included, and a starting price. 'Order' controls left-to-right position: lower numbers appear first.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "rate-card-packages".
@@ -736,7 +738,7 @@ export interface About {
   createdAt?: string | null;
 }
 /**
- * How people reach you: the email and booking link on your Connect page, your social links, your rate-card PDF, and the ready-made email starters visitors can pick from.
+ * How people reach you from the Connect page: your email, your Cal.com booking link, your social links, the rate-card PDF, and the ready-made email starters visitors can pick from.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "site-settings".

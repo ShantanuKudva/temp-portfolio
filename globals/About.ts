@@ -2,9 +2,9 @@ import type { GlobalConfig } from "payload";
 
 export const About: GlobalConfig = {
   slug: "about",
-  label: "About Page",
+  label: "Page copy",
   admin: {
-    group: "Content",
+    group: "About page",
     description:
       "Every piece of writing on your About page, section by section. Edit any field and the live site updates as soon as you save.",
   },

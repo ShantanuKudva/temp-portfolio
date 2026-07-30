@@ -15,9 +15,9 @@ export const Reels: CollectionConfig = {
   admin: {
     useAsTitle: "title",
     defaultColumns: ["title", "subject", "category", "order"],
-    group: "Content",
+    group: "Work page",
     description:
-      "The videos on your Work page. Each reel needs a video file and a poster image (the still shown before it plays). Reels are grouped on the site by category, and 'order' decides which comes first inside a group — lower numbers appear earlier.",
+      "Everything in the gallery on your Work page. Each reel needs a video file and a poster image — the still shown before it plays. Reels are grouped on the site by category, and 'order' decides which comes first inside a group: lower numbers appear earlier.",
   },
   defaultSort: "order",
   access: {

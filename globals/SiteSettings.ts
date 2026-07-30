@@ -2,11 +2,11 @@ import type { GlobalConfig } from "payload";
 
 export const SiteSettings: GlobalConfig = {
   slug: "site-settings",
-  label: "Site Settings",
+  label: "Contact & links",
   admin: {
-    group: "Settings",
+    group: "Connect page",
     description:
-      "How people reach you: the email and booking link on your Connect page, your social links, your rate-card PDF, and the ready-made email starters visitors can pick from.",
+      "How people reach you from the Connect page: your email, your Cal.com booking link, your social links, the rate-card PDF, and the ready-made email starters visitors can pick from.",
   },
   access: {
     read: () => true,

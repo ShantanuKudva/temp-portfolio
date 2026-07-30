@@ -2,13 +2,13 @@ import type { CollectionConfig } from "payload";
 
 export const RateCardPackages: CollectionConfig = {
   slug: "rate-card-packages",
-  labels: { singular: "Rate Card Package", plural: "Rate Card Packages" },
+  labels: { singular: "Rate card package", plural: "Rate card" },
   admin: {
     useAsTitle: "name",
     defaultColumns: ["name", "priceFrom", "order"],
-    group: "Content",
+    group: "Connect page",
     description:
-      "The pricing tiles on your Connect page. Each package shows a name, a one-line description, what's included, and a starting price. 'Order' controls left-to-right position — lower numbers appear first.",
+      "The pricing tiles on your Connect page. Each package shows a name, a one-line description, what's included, and a starting price. 'Order' controls left-to-right position: lower numbers appear first.",
   },
   defaultSort: "order",
   access: {
