@@ -5,6 +5,7 @@ import { MailComposer } from "./mail-composer";
 import { Reveal } from "@/components/motion/reveal";
 import { Parallax } from "@/components/motion/parallax";
 import type { ContactInfo, MailTemplate } from "@/lib/contact-info";
+import type { ConnectContent } from "@/lib/content/map/connect";
 
 /**
  * "Book & reach me" — the Cal.com booking as the star, with a simple email
@@ -13,9 +14,11 @@ import type { ContactInfo, MailTemplate } from "@/lib/contact-info";
 export function Booking({
   contact,
   mailTemplates,
+  content,
 }: {
   contact: ContactInfo;
   mailTemplates: MailTemplate[];
+  content: ConnectContent["booking"];
 }) {
   return (
     <section id="book" className="relative scroll-mt-24 py-20 sm:py-28">
@@ -23,13 +26,13 @@ export function Booking({
         <Parallax speed={26}>
           <Reveal>
             <h2 className="mb-12 max-w-xl font-display text-3xl leading-tight sm:text-5xl">
-              Book a call — or write a note.
+              {content.heading}
             </h2>
           </Reveal>
         </Parallax>
 
         <div className="grid grid-cols-1 items-stretch gap-8 md:grid-cols-[1fr_1.4fr] md:gap-10">
-          <MailComposer contact={contact} templates={mailTemplates} />
+          <MailComposer contact={contact} templates={mailTemplates} content={content} />
           <CalEmbed calLink={contact.calLink} />
         </div>
       </div>

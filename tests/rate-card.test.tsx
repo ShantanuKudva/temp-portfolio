@@ -21,8 +21,14 @@ const PACKAGES: Package[] = [
 
 const RATE_CARD_PDF = "/rate-card.pdf";
 
+const CONTENT = {
+  eyebrow: "Rate card",
+  heading: "What working together looks like.",
+  downloadLabel: "↓ Download rate card (PDF)",
+};
+
 test("RateCard renders every package with its name and 'from ₹' price", () => {
-  render(<RateCard packages={PACKAGES} rateCardPdf={RATE_CARD_PDF} />);
+  render(<RateCard packages={PACKAGES} rateCardPdf={RATE_CARD_PDF} content={CONTENT} />);
   for (const p of PACKAGES) {
     expect(screen.getByText(p.name)).toBeInTheDocument();
     expect(screen.getByText(p.priceFrom)).toBeInTheDocument();
@@ -31,13 +37,13 @@ test("RateCard renders every package with its name and 'from ₹' price", () => 
 });
 
 test("RateCard links the PDF download to the configured rate card", () => {
-  render(<RateCard packages={PACKAGES} rateCardPdf={RATE_CARD_PDF} />);
+  render(<RateCard packages={PACKAGES} rateCardPdf={RATE_CARD_PDF} content={CONTENT} />);
   const link = screen.getByRole("link", { name: /rate card/i });
   expect(link).toHaveAttribute("href", RATE_CARD_PDF);
 });
 
 test("RateCard renders nothing but the section when there are no packages", () => {
-  render(<RateCard packages={[]} rateCardPdf={RATE_CARD_PDF} />);
+  render(<RateCard packages={[]} rateCardPdf={RATE_CARD_PDF} content={CONTENT} />);
   expect(screen.queryByText("Single Review")).not.toBeInTheDocument();
   expect(screen.getByRole("link", { name: /rate card/i })).toBeInTheDocument();
 });

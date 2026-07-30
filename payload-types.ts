@@ -71,6 +71,7 @@ export interface Config {
     users: User;
     media: Media;
     videos: Video;
+    documents: Document;
     reels: Reel;
     'rate-card-packages': RateCardPackage;
     'payload-mcp-api-keys': PayloadMcpApiKey;
@@ -84,6 +85,7 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     videos: VideosSelect<false> | VideosSelect<true>;
+    documents: DocumentsSelect<false> | DocumentsSelect<true>;
     reels: ReelsSelect<false> | ReelsSelect<true>;
     'rate-card-packages': RateCardPackagesSelect<false> | RateCardPackagesSelect<true>;
     'payload-mcp-api-keys': PayloadMcpApiKeysSelect<false> | PayloadMcpApiKeysSelect<true>;
@@ -97,13 +99,17 @@ export interface Config {
   };
   fallbackLocale: null;
   globals: {
+    home: Home;
     work: Work;
     about: About;
+    connect: Connect;
     'site-settings': SiteSetting;
   };
   globalsSelect: {
+    home: HomeSelect<false> | HomeSelect<true>;
     work: WorkSelect<false> | WorkSelect<true>;
     about: AboutSelect<false> | AboutSelect<true>;
+    connect: ConnectSelect<false> | ConnectSelect<true>;
     'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
   };
   locale: null;
@@ -211,6 +217,24 @@ export interface Media {
  * via the `definition` "videos".
  */
 export interface Video {
+  id: number;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "documents".
+ */
+export interface Document {
   id: number;
   updatedAt: string;
   createdAt: string;
@@ -426,6 +450,10 @@ export interface PayloadLockedDocument {
         value: number | Video;
       } | null)
     | ({
+        relationTo: 'documents';
+        value: number | Document;
+      } | null)
+    | ({
         relationTo: 'reels';
         value: number | Reel;
       } | null)
@@ -535,6 +563,23 @@ export interface MediaSelect<T extends boolean = true> {
  * via the `definition` "videos_select".
  */
 export interface VideosSelect<T extends boolean = true> {
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "documents_select".
+ */
+export interface DocumentsSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   url?: T;
@@ -666,6 +711,25 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * The landing page is almost entirely image and motion — the only words on it are the name that flickers on like a neon sign.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "home".
+ */
+export interface Home {
+  id: number;
+  /**
+   * Shown in the handwritten neon script. Keep it short — long names overflow on phones.
+   */
+  name: string;
+  /**
+   * Describes the cut-out photo for screen readers and search engines. Not visible on the page.
+   */
+  portraitAlt: string;
+  updatedAt?: string | null;
+  createdAt?: string | null;
 }
 /**
  * All the writing on your Work page — the headline at the top, the section intros, the case-study placeholder, the process steps, and the closing call to action. The reels themselves live under 'Reels'.
@@ -855,6 +919,53 @@ export interface About {
   createdAt?: string | null;
 }
 /**
+ * All the writing on your Connect page — the headline at the top, the section headings, and the closing marquee. Your prices live under 'Rate card', and your email and links under 'Contact & links'.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "connect".
+ */
+export interface Connect {
+  id: number;
+  hero: {
+    eyebrow: string;
+    /**
+     * The handwritten line above the headline.
+     */
+    script: string;
+    headline: string;
+    intro: string;
+    /**
+     * The small pill with the pulsing dot.
+     */
+    availability: string;
+  };
+  rateCard: {
+    eyebrow: string;
+    heading: string;
+    /**
+     * The button under the pricing tiles.
+     */
+    downloadLabel: string;
+  };
+  booking: {
+    heading: string;
+    /**
+     * Above the email box, next to the calendar.
+     */
+    composerEyebrow: string;
+    composerHeading: string;
+    sendLabel: string;
+  };
+  close: {
+    /**
+     * Scrolls in a curve at the bottom of the page and repeats, so end it with a space.
+     */
+    marqueeText: string;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * How people reach you from the Connect page: your email, your Cal.com booking link, your social links, the rate-card PDF, and the ready-made email starters visitors can pick from.
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -870,9 +981,9 @@ export interface SiteSetting {
   instagram: string;
   youtube: string;
   /**
-   * Path or URL to the rate-card PDF, e.g. "/rate-card.pdf".
+   * Upload the PDF visitors download from your Connect page. Leave it empty and the download button is hidden rather than linking to a missing file.
    */
-  rateCardPdf: string;
+  rateCardPdf?: (number | null) | Document;
   responseTime: string;
   /**
    * Pre-written mailto: starters for the Connect page carousel.
@@ -888,6 +999,17 @@ export interface SiteSetting {
     | null;
   updatedAt?: string | null;
   createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "home_select".
+ */
+export interface HomeSelect<T extends boolean = true> {
+  name?: T;
+  portraitAlt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1051,6 +1173,44 @@ export interface AboutSelect<T extends boolean = true> {
     | {
         sideLabel?: T;
         sealText?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "connect_select".
+ */
+export interface ConnectSelect<T extends boolean = true> {
+  hero?:
+    | T
+    | {
+        eyebrow?: T;
+        script?: T;
+        headline?: T;
+        intro?: T;
+        availability?: T;
+      };
+  rateCard?:
+    | T
+    | {
+        eyebrow?: T;
+        heading?: T;
+        downloadLabel?: T;
+      };
+  booking?:
+    | T
+    | {
+        heading?: T;
+        composerEyebrow?: T;
+        composerHeading?: T;
+        sendLabel?: T;
+      };
+  close?:
+    | T
+    | {
+        marqueeText?: T;
       };
   updatedAt?: T;
   createdAt?: T;

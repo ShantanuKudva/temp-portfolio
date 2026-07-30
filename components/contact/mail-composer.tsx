@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type { ContactInfo, MailTemplate } from "@/lib/contact-info";
+import type { ConnectContent } from "@/lib/content/map/connect";
 
 function mailtoHref(email: string, subject: string, body: string) {
   return `mailto:${email}?subject=${encodeURIComponent(
@@ -22,9 +23,11 @@ const FIELD =
 export function MailComposer({
   contact,
   templates,
+  content,
 }: {
   contact: ContactInfo;
   templates: MailTemplate[];
+  content: ConnectContent["booking"];
 }) {
   const first = templates[0] ?? EMPTY_TEMPLATE;
   const socials = [
@@ -50,10 +53,10 @@ export function MailComposer({
       {/* Header. */}
       <div className="border-b border-creme/10 px-6 pb-5 pt-6 sm:px-7">
         <p className="font-sans text-[11px] font-medium uppercase tracking-[0.28em] text-moonlight">
-          Write a note
+          {content.composerEyebrow}
         </p>
         <p className="mt-1 font-display text-xl text-creme sm:text-2xl">
-          Tell me about it.
+          {content.composerHeading}
         </p>
       </div>
 
@@ -97,7 +100,7 @@ export function MailComposer({
           href={mailtoHref(contact.email, subject, body)}
           className="group inline-flex items-center justify-center gap-2 rounded-2xl bg-moonlight px-6 py-3.5 font-sans text-sm font-semibold uppercase tracking-[0.14em] text-[#141733] transition-colors hover:bg-creme"
         >
-          Send email
+          {content.sendLabel}
           <span className="transition-transform group-hover:translate-x-0.5">↗</span>
         </a>
       </div>
@@ -122,6 +125,12 @@ export function MailComposer({
             {s.label}
           </a>
         ))}
+        {contact.responseTime && (
+          <>
+            <span className="h-3 w-px bg-creme/15" aria-hidden />
+            <span className="text-creme/50">{contact.responseTime}</span>
+          </>
+        )}
       </div>
     </div>
   );

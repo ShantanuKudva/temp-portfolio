@@ -15,7 +15,7 @@ const EASE = [0.16, 1, 0.3, 1] as const;
  * over-scale, arriving before the neon flickers on. On the skip path or under
  * reduced motion she's simply present, no entrance.
  */
-export function SubjectCutout() {
+export function SubjectCutout({ alt }: { alt: string }) {
   const heroIn = useIntro((s) => s.heroIn);
   const animate = useIntro((s) => s.animate);
   const reduce = useReducedMotion();
@@ -40,7 +40,7 @@ export function SubjectCutout() {
       {/* Base: the whole subject — blurs (shallow DoF) when her face is focused. */}
       <Image
         src="/varsheni-2-cutout.png"
-        alt="Varsheni, tech UGC creator"
+        alt={alt}
         width={790}
         height={902}
         priority

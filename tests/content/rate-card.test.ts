@@ -41,7 +41,7 @@ const settings = {
   calLink: "varsheni/intro",
   instagram: "https://instagram.com/",
   youtube: "https://youtube.com/",
-  rateCardPdf: "/rate-card.pdf",
+  rateCardPdf: { id: 1, url: "https://blob/rate-card.pdf" },
   responseTime: "Usually replies within 48h",
   mailTemplates: [
     { id: "a", key: "collab", label: "Brand collaboration", subject: "Subj", body: "Body" },
@@ -56,9 +56,15 @@ describe("mapContact", () => {
       calLink: "varsheni/intro",
       instagram: "https://instagram.com/",
       youtube: "https://youtube.com/",
-      rateCardPdf: "/rate-card.pdf",
+      rateCardPdf: "https://blob/rate-card.pdf",
       responseTime: "Usually replies within 48h",
     });
+  });
+});
+
+describe("mapContact — rate card PDF", () => {
+  it("returns an empty string when no PDF has been uploaded", () => {
+    expect(mapContact({ ...settings, rateCardPdf: null } as never).rateCardPdf).toBe("");
   });
 });
 

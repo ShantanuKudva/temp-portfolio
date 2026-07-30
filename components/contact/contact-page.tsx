@@ -10,6 +10,7 @@ import { Booking } from "./booking";
 import { CurvedClose } from "./curved-close";
 import { MakerCredit } from "@/components/maker-credit";
 import type { ContactInfo, MailTemplate, Package } from "@/lib/contact-info";
+import type { ConnectContent } from "@/lib/content/map/connect";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -38,10 +39,12 @@ export function ContactPage({
   packages,
   contact,
   mailTemplates,
+  content,
 }: {
   packages: Package[];
   contact: ContactInfo;
   mailTemplates: MailTemplate[];
+  content: ConnectContent;
 }) {
   return (
     <main
@@ -58,34 +61,34 @@ export function ContactPage({
           <Parallax speed={34}>
             <Reveal className="mx-auto max-w-2xl">
               <p className="mb-4 font-sans text-xs font-medium uppercase tracking-[0.34em] text-moonlight">
-                <span>✦</span>&nbsp;&nbsp;Connect
+                <span>✦</span>&nbsp;&nbsp;{content.hero.eyebrow}
               </p>
-              <p className="mb-2 font-script text-5xl text-moonlight sm:text-6xl">let&apos;s talk</p>
+              <p className="mb-2 font-script text-5xl text-moonlight sm:text-6xl">{content.hero.script}</p>
               <h1 className="mb-6 font-display text-4xl leading-[1.08] sm:text-6xl">
-                Have an app or business worth an honest look?
+                {content.hero.headline}
               </h1>
               <p className="mx-auto mb-8 max-w-md font-sans text-base leading-relaxed text-creme/70">
-                Brand deals, honest reviews, and collaborations — here&apos;s where we start.
+                {content.hero.intro}
               </p>
               <span className="inline-flex items-center gap-2 rounded-full border border-moonlight/40 bg-moonlight/10 px-4 py-1.5 font-sans text-[11px] font-medium uppercase tracking-[0.18em] text-moonlight">
                 <span className="relative flex h-1.5 w-1.5">
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-moonlight opacity-70" />
                   <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-moonlight" />
                 </span>
-                Booking new collabs
+                {content.hero.availability}
               </span>
             </Reveal>
           </Parallax>
         </section>
 
         {/* ═══ Rate card ═══ */}
-        <RateCard packages={packages} rateCardPdf={contact.rateCardPdf} />
+        <RateCard packages={packages} rateCardPdf={contact.rateCardPdf} content={content.rateCard} />
 
         {/* ═══ Book & reach me ═══ */}
-        <Booking contact={contact} mailTemplates={mailTemplates} />
+        <Booking contact={contact} mailTemplates={mailTemplates} content={content.booking} />
 
         {/* ═══ Close — "no hard sell" as a curved marquee ═══ */}
-        <CurvedClose />
+        <CurvedClose text={content.close.marqueeText} />
         <MakerCredit />
       </ContactAurora>
 

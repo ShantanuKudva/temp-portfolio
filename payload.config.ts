@@ -9,10 +9,13 @@ import sharp from "sharp";
 import { Users } from "./collections/Users";
 import { Media } from "./collections/Media";
 import { Videos } from "./collections/Videos";
+import { Documents } from "./collections/Documents";
 import { Reels } from "./collections/Reels";
 import { RateCardPackages } from "./collections/RateCardPackages";
 import { About } from "./globals/About";
 import { Work } from "./globals/Work";
+import { Connect } from "./globals/Connect";
+import { Home } from "./globals/Home";
 import { SiteSettings } from "./globals/SiteSettings";
 import { polishMcpApiKeys } from "./lib/payload-mcp-polish";
 
@@ -24,8 +27,8 @@ export default buildConfig({
     user: Users.slug,
     importMap: { baseDir: path.resolve(dirname) },
   },
-  collections: [Users, Media, Videos, Reels, RateCardPackages],
-  globals: [Work, About, SiteSettings],
+  collections: [Users, Media, Videos, Documents, Reels, RateCardPackages],
+  globals: [Home, Work, About, Connect, SiteSettings],
   secret: process.env.PAYLOAD_SECRET || "",
   typescript: { outputFile: path.resolve(dirname, "payload-types.ts") },
   db: postgresAdapter({
@@ -45,6 +48,7 @@ export default buildConfig({
       collections: {
         media: { disablePayloadAccessControl: true },
         videos: { disablePayloadAccessControl: true },
+        documents: { disablePayloadAccessControl: true },
       },
       clientUploads: true,
       // Uploads keep whatever filename the editor's file had, so without a

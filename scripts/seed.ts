@@ -95,14 +95,26 @@ const seed = async () => {
     payload.logger.info(`Seeded ${PACKAGES.length} packages.`);
   }
 
+  // Placeholder rate card, regenerate with scripts/make-rate-card-pdf.py.
+  // Reuses an existing upload so re-running does not pile up duplicates.
+  const existingPdf = await payload.find({ collection: "documents", limit: 1 });
+  const rateCardPdf =
+    existingPdf.docs[0] ??
+    (await payload.create({
+      collection: "documents",
+      data: {},
+      filePath: path.join(publicDir, "rate-card.pdf"),
+    }));
+  payload.logger.info("Rate card PDF ready.");
+
   await payload.updateGlobal({
     slug: "site-settings",
     data: {
+      rateCardPdf: rateCardPdf.id,
       email: "hello@varsheni.com",
       calLink: "varsheni/intro",
       instagram: "https://instagram.com/",
       youtube: "https://youtube.com/",
-      rateCardPdf: "/rate-card.pdf",
       responseTime: "Usually replies within 48h",
       mailTemplates: MAIL_TEMPLATES,
     },
@@ -293,6 +305,44 @@ const seed = async () => {
     },
   });
   payload.logger.info("Seeded work page.");
+
+  await payload.updateGlobal({
+    slug: "connect",
+    data: {
+      hero: {
+        eyebrow: "Connect",
+        script: "let's talk",
+        headline: "Have an app or business worth an honest look?",
+        intro:
+          "Brand deals, honest reviews, and collaborations — here's where we start.",
+        availability: "Booking new collabs",
+      },
+      rateCard: {
+        eyebrow: "Rate card",
+        heading: "What working together looks like.",
+        downloadLabel: "↓ Download rate card (PDF)",
+      },
+      booking: {
+        heading: "Book a call — or write a note.",
+        composerEyebrow: "Write a note",
+        composerHeading: "Tell me about it.",
+        sendLabel: "Send email",
+      },
+      close: {
+        marqueeText: "No hard sell ✦ No fluff ✦ Just an honest conversation ",
+      },
+    },
+  });
+  payload.logger.info("Seeded connect page.");
+
+  await payload.updateGlobal({
+    slug: "home",
+    data: {
+      name: "Varsheni",
+      portraitAlt: "Varsheni, tech UGC creator",
+    },
+  });
+  payload.logger.info("Seeded home page.");
 
   // Reels come last: they are the only part that uploads to Vercel Blob, so a
   // Blob misconfiguration cannot block the text content above.

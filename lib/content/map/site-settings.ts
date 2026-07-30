@@ -1,12 +1,15 @@
 import type { ContactInfo, MailTemplate } from "@/lib/contact-info";
 import type { SiteSetting } from "@/payload-types";
 
+const fileUrl = (value: SiteSetting["rateCardPdf"]): string =>
+  typeof value === "object" && value !== null && "url" in value ? (value.url ?? "") : "";
+
 export const mapContact = (doc: SiteSetting): ContactInfo => ({
   email: doc.email,
   calLink: doc.calLink,
   instagram: doc.instagram,
   youtube: doc.youtube,
-  rateCardPdf: doc.rateCardPdf,
+  rateCardPdf: fileUrl(doc.rateCardPdf),
   responseTime: doc.responseTime,
 });
 

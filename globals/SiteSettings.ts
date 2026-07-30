@@ -25,10 +25,13 @@ export const SiteSettings: GlobalConfig = {
     { name: "youtube", type: "text", required: true, maxLength: 120 },
     {
       name: "rateCardPdf",
-      type: "text",
-      required: true,
-      maxLength: 200,
-      admin: { description: 'Path or URL to the rate-card PDF, e.g. "/rate-card.pdf".' },
+      type: "upload",
+      relationTo: "documents",
+      label: "Rate card PDF",
+      admin: {
+        description:
+          "Upload the PDF visitors download from your Connect page. Leave it empty and the download button is hidden rather than linking to a missing file.",
+      },
     },
     { name: "responseTime", type: "text", required: true, maxLength: 60 },
     {

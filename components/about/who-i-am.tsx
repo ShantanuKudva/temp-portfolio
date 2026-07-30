@@ -5,6 +5,8 @@ import { Reveal } from "@/components/motion/reveal";
 import type { AboutContent } from "@/lib/content/map/about";
 
 function FactColumn({ label, items }: { label: string; items: string[] }) {
+  if (items.length === 0) return null;
+
   return (
     <div className="pt-1">
       <p className="mb-4 font-sans text-[11px] uppercase tracking-[0.24em] text-amber-dot/80">
@@ -65,6 +67,7 @@ export function WhoIAm({ content }: { content: AboutContent["whoIAm"] }) {
             <Reveal delay={0.06}>
               <FactColumn label="Qualifications" items={content.qualifications} />
             </Reveal>
+            {content.languages.length > 0 && (
             <Reveal delay={0.12} className="sm:col-span-2">
               <div className="pt-1">
                 <p className="mb-4 font-sans text-[11px] uppercase tracking-[0.24em] text-amber-dot/80">
@@ -82,6 +85,7 @@ export function WhoIAm({ content }: { content: AboutContent["whoIAm"] }) {
                 </div>
               </div>
             </Reveal>
+            )}
           </div>
         </div>
       </div>

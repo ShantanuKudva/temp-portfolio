@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import { Hero } from "@/components/hero/hero";
 
 test("Hero renders as a banner with the name, subject alt, and CTAs", () => {
-  render(<Hero />);
+  render(<Hero content={{ name: "Varsheni", portraitAlt: "Varsheni, tech UGC creator" }} />);
   expect(screen.getByRole("banner")).toBeInTheDocument();
   expect(screen.getByText("Varsheni")).toBeInTheDocument();
   expect(screen.getByAltText(/tech ugc creator/i)).toBeInTheDocument();

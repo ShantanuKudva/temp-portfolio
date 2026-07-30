@@ -9,8 +9,9 @@ import { NeonWash } from "./neon-wash";
 import { HeroChromeReveal } from "./hero-chrome-reveal";
 import { PointerParallax } from "./pointer-parallax";
 import styles from "./hero.module.css";
+import type { HomeContent } from "@/lib/content/map/connect";
 
-export function Hero() {
+export function Hero({ content }: { content: HomeContent }) {
   return (
     <header
       id="top"
@@ -29,12 +30,12 @@ export function Hero() {
       <LoaderCurtain />
       <PointerParallax />
 
-      <HeroName>Varsheni</HeroName>
+      <HeroName>{content.name}</HeroName>
 
       <div
         className={`absolute inset-0 z-4 flex items-end justify-center ${styles.subjectParallax}`}
       >
-        <SubjectCutout />
+        <SubjectCutout alt={content.portraitAlt} />
       </div>
 
       <HeroChromeReveal>
