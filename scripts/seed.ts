@@ -300,15 +300,6 @@ const seed = async () => {
   if (existing.totalDocs > 0) {
     payload.logger.info("Reels already exist — skipping reel seed.");
   } else {
-    // One shared placeholder clip today — every reel points at it until
-    // Varsheni uploads per-reel video in the admin.
-    const video = await payload.create({
-      collection: "videos",
-      data: {},
-      filePath: path.join(publicDir, "work/reels/sample.mp4"),
-    });
-    payload.logger.info("Uploaded placeholder video.");
-
     let order = 0;
     for (const { slug, ...reel } of REELS) {
       const poster = await payload.create({
@@ -319,10 +310,12 @@ const seed = async () => {
 
       await payload.create({
         collection: "reels",
-        data: { ...reel, video: video.id, poster: poster.id, order: order++ },
+        data: { ...reel, poster: poster.id, order: order++ },
       });
     }
-    payload.logger.info(`Seeded ${REELS.length} reels with posters.`);
+    payload.logger.info(
+      `Seeded ${REELS.length} reels with posters. Videos are added per reel in the admin.`,
+    );
   }
 
   process.exit(0);

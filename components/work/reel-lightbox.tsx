@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { Play, Volume2, VolumeX, X } from "lucide-react";
 import type { Reel } from "@/lib/work";
@@ -111,15 +112,31 @@ export function ReelLightbox({
             </button>
 
             <div className="relative overflow-hidden rounded-2xl border border-creme/15 bg-[#1a0509] shadow-[0_40px_120px_-30px_rgba(0,0,0,0.9)]">
-              <video
-                ref={videoRef}
-                src={reel.src}
-                poster={reel.poster}
-                playsInline
-                loop
-                onClick={togglePlay}
-                className="aspect-9/16 w-full cursor-pointer bg-black object-cover"
-              />
+              {reel.src ? (
+                <video
+                  ref={videoRef}
+                  src={reel.src}
+                  poster={reel.poster}
+                  playsInline
+                  loop
+                  onClick={togglePlay}
+                  className="aspect-9/16 w-full cursor-pointer bg-black object-cover"
+                />
+              ) : (
+                /* Reel has a poster but no video uploaded yet. */
+                <div className="relative aspect-9/16 w-full bg-black">
+                  <Image
+                    src={reel.poster}
+                    alt=""
+                    fill
+                    sizes="(max-width: 768px) 90vw, 420px"
+                    className="object-cover opacity-70"
+                  />
+                  <p className="absolute inset-x-0 bottom-8 text-center font-sans text-[13px] text-creme/75">
+                    Video coming soon.
+                  </p>
+                </div>
+              )}
 
               {/* Tap-to-play glyph when paused (Instagram-style). */}
               {!playing && (

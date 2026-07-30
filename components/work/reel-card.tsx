@@ -76,17 +76,20 @@ export function ReelCard({
         sizes="(max-width: 768px) 90vw, 360px"
         className="object-cover transition-opacity duration-500 group-hover/reel:opacity-0"
       />
-      <video
-        ref={videoRef}
-        src={reel.src}
-        poster={reel.poster}
-        muted
-        loop
-        playsInline
-        preload="none"
-        aria-hidden
-        className="absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-500 group-hover/reel:opacity-100"
-      />
+      {/* No video yet on this reel — the poster stands alone. */}
+      {reel.src && (
+        <video
+          ref={videoRef}
+          src={reel.src}
+          poster={reel.poster}
+          muted
+          loop
+          playsInline
+          preload="none"
+          aria-hidden
+          className="absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-500 group-hover/reel:opacity-100"
+        />
+      )}
 
       {/* legibility scrim */}
       <span className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#1a0509]/90 via-transparent to-[#1a0509]/20" />

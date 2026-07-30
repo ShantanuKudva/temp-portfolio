@@ -249,7 +249,10 @@ export interface Reel {
     | 'Real estate'
     | 'SaaS & B2B';
   kind: 'app' | 'business';
-  video: number | Video;
+  /**
+   * Upload a file here and it belongs to this reel alone. Leave it empty and the card shows just the poster until you add one.
+   */
+  video?: (number | null) | Video;
   /**
    * 9:16 still shown before the video plays.
    */

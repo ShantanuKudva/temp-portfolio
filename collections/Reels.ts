@@ -61,7 +61,10 @@ export const Reels: CollectionConfig = {
       name: "video",
       type: "upload",
       relationTo: "videos",
-      required: true,
+      admin: {
+        description:
+          "Upload a file here and it belongs to this reel alone. Leave it empty and the card shows just the poster until you add one.",
+      },
     },
     {
       name: "poster",
