@@ -12,7 +12,6 @@ import { WhatIBring } from "./what-i-bring";
 import { AuroraRegion } from "./aurora-region";
 import { AboutCta } from "./cta";
 import { Seal } from "./seal";
-import { MakerCredit } from "@/components/maker-credit";
 import styles from "./about.module.css";
 import type { AboutContent } from "@/lib/content/map/about";
 
@@ -243,7 +242,6 @@ export function AboutPage({ content }: { content: AboutContent }) {
       {/* ═══ Let's talk — Silk CTA ═══ */}
       <AboutCta content={content.cta} />
 
-      <MakerCredit />
 
       {/* Bottom gradual blur — fades out as the footer arrives (stays crisp). */}
       <PageBottomBlur />

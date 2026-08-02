@@ -8,7 +8,6 @@ import { ContactAurora } from "./contact-aurora";
 import { RateCard } from "./rate-card";
 import { Booking } from "./booking";
 import { CurvedClose } from "./curved-close";
-import { MakerCredit } from "@/components/maker-credit";
 import type { ContactInfo, MailTemplate, Package } from "@/lib/contact-info";
 import type { ConnectContent } from "@/lib/content/map/connect";
 
@@ -89,7 +88,6 @@ export function ContactPage({
 
         {/* ═══ Close — "no hard sell" as a curved marquee ═══ */}
         <CurvedClose text={content.close.marqueeText} />
-        <MakerCredit />
       </ContactAurora>
 
       {/* Bottom gradual blur — fades out as the footer arrives (stays crisp). */}

@@ -6,8 +6,8 @@ import { lenisRef } from "@/lib/lenis";
 
 /**
  * The page-level bottom GradualBlur, but scroll-aware: it fades out as the
- * bottom of the page (the maker-credit footer) arrives, so the footer renders
- * crisp instead of under the frosted band. Keeps the dissolve everywhere else.
+ * bottom of the page arrives, so the closing content renders crisp instead of
+ * under the frosted band. Keeps the dissolve everywhere else.
  */
 export function PageBottomBlur({
   height = "5.5rem",

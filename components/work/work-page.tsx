@@ -11,7 +11,6 @@ import { CaseStudy } from "./case-study";
 import { Process } from "./process";
 import { WorkCta } from "./work-cta";
 import { ReelLightbox } from "./reel-lightbox";
-import { MakerCredit } from "@/components/maker-credit";
 
 /**
  * The Work page — mirrors the Connect layout in the wine theme (the nav's Work
@@ -41,12 +40,11 @@ export function WorkPage({
         <CaseStudy content={content.caseStudy} />
         <Process content={content.process} />
         <WorkCta content={content.cta} />
-        <MakerCredit />
       </WorkAurora>
 
       <ReelLightbox reel={active} onClose={close} />
 
-      {/* Bottom gradual blur — fades out as the footer arrives (stays crisp). */}
+      {/* Bottom gradual blur — fades out at the page end (stays crisp). */}
       <PageBottomBlur />
     </main>
   );
