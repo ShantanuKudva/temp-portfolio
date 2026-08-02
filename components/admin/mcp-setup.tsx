@@ -72,9 +72,9 @@ export async function McpSetup() {
       <h4 style={heading}>2b. Claude Code (terminal)</h4>
       <div style={step}>
         Run this once, with your key in place of YOUR-KEY:
-        <code style={code}>{`claude mcp add --transport http varsheni ${url} \\\n  --header "Authorization: Bearer YOUR-KEY"`}</code>
+        <code style={code}>{`claude mcp add --transport http portfolio ${url} \\\n  --header "Authorization: Bearer YOUR-KEY"`}</code>
         Check it worked with <code>claude mcp list</code> — it should say{" "}
-        <strong>Connected</strong> next to <code>varsheni</code>.
+        <strong>Connected</strong> next to <code>portfolio</code>.
       </div>
 
       <h4 style={heading}>3. Try it</h4>

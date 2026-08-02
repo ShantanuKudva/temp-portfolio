@@ -77,11 +77,11 @@ with the site's own address filled in.
    **Claude Code** —
 
    ```bash
-   claude mcp add --transport http varsheni https://<site-url>/api/mcp \
+   claude mcp add --transport http portfolio https://<site-url>/api/mcp \
      --header "Authorization: Bearer <API-KEY>"
    ```
 
-   `claude mcp list` should then show `varsheni` as Connected.
+   `claude mcp list` should then show `portfolio` as Connected.
 
 Agent calls run through the same access control and validation as the admin UI,
 **including delete**. Treat the key like a password. The `users` collection is
