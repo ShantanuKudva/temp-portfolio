@@ -61,23 +61,27 @@ it with the real designed PDF whenever it exists.
 
 ## Editing content with Claude
 
-The site exposes an MCP server at `<site-url>/api/mcp`.
+The steps are also rendered inside the admin, above **Account → AI access keys**,
+with the site's own address filled in.
 
-1. In `/admin` → **Account → AI access keys**, create a key. Give it a label —
-   the key is shown once, so copy it then.
-2. Add the server to the MCP client. For Claude Code / Claude Desktop:
+1. In `/admin` → **Account → AI access keys** → **Create new**. A label is
+   required — it is what the row is titled by. The key is shown **once**, so
+   copy it before leaving the page; if it is lost, delete the key and make
+   another.
+2. Connect a client:
 
-```json
-{
-  "mcpServers": {
-    "varsheni": {
-      "type": "http",
-      "url": "https://<site-url>/api/mcp",
-      "headers": { "Authorization": "Bearer <API-KEY>" }
-    }
-  }
-}
-```
+   **Claude desktop / mobile** — Settings → Connectors → Add custom connector,
+   address `https://<site-url>/api/mcp`, and `Bearer <API-KEY>` where it asks
+   for authentication. This is the route for a non-technical editor.
+
+   **Claude Code** —
+
+   ```bash
+   claude mcp add --transport http varsheni https://<site-url>/api/mcp \
+     --header "Authorization: Bearer <API-KEY>"
+   ```
+
+   `claude mcp list` should then show `varsheni` as Connected.
 
 Agent calls run through the same access control and validation as the admin UI,
 **including delete**. Treat the key like a password. The `users` collection is

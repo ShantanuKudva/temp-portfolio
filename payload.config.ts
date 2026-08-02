@@ -17,7 +17,7 @@ import { Work } from "./globals/Work";
 import { Connect } from "./globals/Connect";
 import { Home } from "./globals/Home";
 import { SiteSettings } from "./globals/SiteSettings";
-import { polishMcpApiKeys } from "./lib/payload-mcp-polish";
+import { overrideMcpApiKeys } from "./lib/payload-mcp-polish";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -69,8 +69,7 @@ export default buildConfig({
         media: { enabled: { find: true, create: true, update: true, delete: true } },
         videos: { enabled: { find: true, create: true, update: true, delete: true } },
       },
+      overrideApiKeyCollection: overrideMcpApiKeys,
     }),
-    // Must run after mcpPlugin — it edits the collection that plugin registers.
-    polishMcpApiKeys,
   ],
 });

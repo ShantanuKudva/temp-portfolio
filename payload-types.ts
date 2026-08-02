@@ -315,7 +315,7 @@ export interface RateCardPackage {
   createdAt: string;
 }
 /**
- * API keys control which collections, resources, tools, and prompts MCP clients can access
+ * Keys that let an AI assistant read and edit this site's content. Each key acts as the person it belongs to. Treat one like a password, and delete any you no longer use.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-mcp-api-keys".
@@ -327,11 +327,11 @@ export interface PayloadMcpApiKey {
    */
   user: number | User;
   /**
-   * A useful label for the API key.
+   * What this key is for, e.g. "Claude on my laptop".
    */
-  label?: string | null;
+  label: string;
   /**
-   * The purpose of the API key.
+   * Optional note — who is using it, or when it can be revoked.
    */
   description?: string | null;
   reels?: {
