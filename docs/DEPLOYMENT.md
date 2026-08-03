@@ -68,6 +68,13 @@ with the site's own address filled in.
    required — it is what the row is titled by. The key is shown **once**, so
    copy it before leaving the page; if it is lost, delete the key and make
    another.
+
+   **Permissions are per key and start switched off.** Enabling an entity in
+   `payload.config.ts` only makes it *available*; each key then has to grant it.
+   A key saved without ticking anything connects fine and sees nothing, which
+   looks like a broken server. Expose a new page or collection and every
+   existing key needs it ticked on — permissions are never granted
+   retroactively.
 2. Connect a client:
 
    **Claude desktop / mobile** — Settings → Connectors → Add custom connector,

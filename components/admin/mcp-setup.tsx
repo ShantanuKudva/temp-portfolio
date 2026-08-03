@@ -53,9 +53,22 @@ export async function McpSetup() {
       <h4 style={heading}>1. Create the key</h4>
       <div style={step}>
         Use <strong>Create new</strong> above. Give it a label describing where
-        it will live, like &ldquo;Claude on my laptop&rdquo;, and save. The key
-        is shown <strong>once</strong> — copy it before leaving the page. If you
-        lose it, delete the key and make another.
+        it will live, like &ldquo;Claude on my laptop&rdquo;.
+      </div>
+      <div style={step}>
+        <strong>Then tick the permissions you want it to have.</strong> They all
+        start switched off, so a key saved without touching them can do nothing
+        at all — Claude will connect but see none of your content. Turn on the
+        pages and collections it should reach.
+      </div>
+      <div style={step}>
+        Save. The key is shown <strong>once</strong> — copy it before leaving the
+        page. If you lose it, delete the key and make another.
+      </div>
+      <div style={step}>
+        Adding something new later — a page, or a collection — means coming back
+        and ticking it on for each existing key. New permissions are never
+        granted retroactively.
       </div>
 
       <h4 style={heading}>2a. Claude desktop or mobile app</h4>
