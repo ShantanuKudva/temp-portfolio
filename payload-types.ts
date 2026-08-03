@@ -334,6 +334,24 @@ export interface PayloadMcpApiKey {
    * Optional note — who is using it, or when it can be revoked.
    */
   description?: string | null;
+  users?: {
+    /**
+     * Allow clients to find users.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create users.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update users.
+     */
+    update?: boolean | null;
+    /**
+     * Allow clients to delete users.
+     */
+    delete?: boolean | null;
+  };
   reels?: {
     /**
      * Allow clients to find reels.
@@ -405,6 +423,74 @@ export interface PayloadMcpApiKey {
      * Allow clients to delete videos.
      */
     delete?: boolean | null;
+  };
+  documents?: {
+    /**
+     * Allow clients to find documents.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to create documents.
+     */
+    create?: boolean | null;
+    /**
+     * Allow clients to update documents.
+     */
+    update?: boolean | null;
+    /**
+     * Allow clients to delete documents.
+     */
+    delete?: boolean | null;
+  };
+  home?: {
+    /**
+     * Allow clients to find home global.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to update home global.
+     */
+    update?: boolean | null;
+  };
+  work?: {
+    /**
+     * Allow clients to find work global.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to update work global.
+     */
+    update?: boolean | null;
+  };
+  about?: {
+    /**
+     * Allow clients to find about global.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to update about global.
+     */
+    update?: boolean | null;
+  };
+  connect?: {
+    /**
+     * Allow clients to find connect global.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to update connect global.
+     */
+    update?: boolean | null;
+  };
+  siteSettings?: {
+    /**
+     * Allow clients to find site-settings global.
+     */
+    find?: boolean | null;
+    /**
+     * Allow clients to update site-settings global.
+     */
+    update?: boolean | null;
   };
   updatedAt: string;
   createdAt: string;
@@ -634,6 +720,14 @@ export interface PayloadMcpApiKeysSelect<T extends boolean = true> {
   user?: T;
   label?: T;
   description?: T;
+  users?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+        delete?: T;
+      };
   reels?:
     | T
     | {
@@ -665,6 +759,44 @@ export interface PayloadMcpApiKeysSelect<T extends boolean = true> {
         create?: T;
         update?: T;
         delete?: T;
+      };
+  documents?:
+    | T
+    | {
+        find?: T;
+        create?: T;
+        update?: T;
+        delete?: T;
+      };
+  home?:
+    | T
+    | {
+        find?: T;
+        update?: T;
+      };
+  work?:
+    | T
+    | {
+        find?: T;
+        update?: T;
+      };
+  about?:
+    | T
+    | {
+        find?: T;
+        update?: T;
+      };
+  connect?:
+    | T
+    | {
+        find?: T;
+        update?: T;
+      };
+  siteSettings?:
+    | T
+    | {
+        find?: T;
+        update?: T;
       };
   updatedAt?: T;
   createdAt?: T;

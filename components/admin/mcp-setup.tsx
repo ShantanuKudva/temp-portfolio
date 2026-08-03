@@ -86,8 +86,9 @@ export async function McpSetup() {
       </div>
 
       <p style={{ margin: "1.2rem 0 0", lineHeight: 1.6, opacity: 0.75, fontSize: "0.85rem" }}>
-        Claude can edit reels, rate-card packages and page copy. It cannot add or
-        remove people who can sign in — that stays here, on purpose.
+        A key reaches everything this panel does: reels, packages, uploads, every
+        page&apos;s copy, your contact details, and the list of people who can
+        sign in. Whoever holds it can do all of that as you.
       </p>
     </div>
   );

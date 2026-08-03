@@ -84,8 +84,11 @@ with the site's own address filled in.
    `claude mcp list` should then show `portfolio` as Connected.
 
 Agent calls run through the same access control and validation as the admin UI,
-**including delete**. Treat the key like a password. The `users` collection is
-deliberately excluded, so accounts can only be managed by a human in the GUI.
+**including delete**, and cover every entity — reels, packages, uploads, all page
+copy, site settings, and `users`. A key therefore grants account management too,
+so a leaked one can create an admin account rather than merely edit content.
+Treat it like a password, give each client its own, and delete keys once they are
+no longer in use.
 
 ## Schema changes — read before adding or changing a field
 

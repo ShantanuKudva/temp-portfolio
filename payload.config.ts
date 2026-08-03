@@ -57,17 +57,63 @@ export default buildConfig({
       addRandomSuffix: true,
       token: process.env.BLOB_READ_WRITE_TOKEN,
     }),
-    // Lets Claude edit content over MCP with the same access control and
-    // validation as the admin UI. `users` is deliberately excluded so account
-    // management stays a human, GUI-only operation.
+    // Lets Claude edit over MCP with the same access control and validation as
+    // the admin UI. Every entity is reachable, `users` included — so a key also
+    // grants account management, not just content edits. Keys belong to a user
+    // and are revocable from the admin.
     mcpPlugin({
       collections: {
-        reels: { enabled: { find: true, create: true, update: true, delete: true } },
-        "rate-card-packages": {
+        users: {
+          description: "People who can sign in to the admin panel.",
           enabled: { find: true, create: true, update: true, delete: true },
         },
-        media: { enabled: { find: true, create: true, update: true, delete: true } },
-        videos: { enabled: { find: true, create: true, update: true, delete: true } },
+        reels: {
+          description: "The videos in the Work page gallery.",
+          enabled: { find: true, create: true, update: true, delete: true },
+        },
+        "rate-card-packages": {
+          description: "The pricing tiles on the Connect page.",
+          enabled: { find: true, create: true, update: true, delete: true },
+        },
+        media: {
+          description: "Images, including reel posters.",
+          enabled: { find: true, create: true, update: true, delete: true },
+        },
+        videos: {
+          description: "Reel video files.",
+          enabled: { find: true, create: true, update: true, delete: true },
+        },
+        documents: {
+          description: "PDFs, including the downloadable rate card.",
+          enabled: { find: true, create: true, update: true, delete: true },
+        },
+      },
+      // Globals hold every page's copy. Singletons, so find + update only.
+      globals: {
+        home: {
+          description: "Landing page: the neon name and the portrait's alt text.",
+          enabled: { find: true, update: true },
+        },
+        work: {
+          description:
+            "Work page copy: hero, gallery headings, case study, process steps, closing CTA.",
+          enabled: { find: true, update: true },
+        },
+        about: {
+          description:
+            "About page copy: hero and bio, 'who I am', values, 'what I bring', radar, pull quote, closing CTA.",
+          enabled: { find: true, update: true },
+        },
+        connect: {
+          description:
+            "Connect page copy: hero, rate-card and booking headings, closing marquee.",
+          enabled: { find: true, update: true },
+        },
+        "site-settings": {
+          description:
+            "Contact details: email, Cal.com link, socials, rate-card PDF, response time, mailto starters.",
+          enabled: { find: true, update: true },
+        },
       },
       overrideApiKeyCollection: overrideMcpApiKeys,
     }),
