@@ -78,8 +78,22 @@ describe("about — empty lists", () => {
 
   it("renders 'what I bring' with no items without crashing", () => {
     render(
-      <WhatIBring content={{ eyebrow: "Bring", heading: "Reasons.", items: [] }} />,
+      <WhatIBring
+        content={{ eyebrow: "Bring", heading: "Reasons.", items: [] }}
+        portrait={{ url: "https://blob/p.png", alt: "Varsheni" }}
+      />,
     );
+    expect(screen.getByRole("heading", { name: "Reasons." })).toBeInTheDocument();
+  });
+
+  it("omits the photo entirely when none is set, rather than rendering a broken image", () => {
+    render(
+      <WhatIBring
+        content={{ eyebrow: "Bring", heading: "Reasons.", items: [] }}
+        portrait={{ url: "", alt: "Varsheni" }}
+      />,
+    );
+    expect(screen.queryByAltText("Varsheni")).not.toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Reasons." })).toBeInTheDocument();
   });
 });

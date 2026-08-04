@@ -65,14 +65,16 @@ export function AboutPage({ content }: { content: AboutContent }) {
             className={`absolute inset-0 ${styles.photoMask}`}
             style={{ scale: 0.92 }}
           >
-            <Image
-              src="/varsheni-3.png"
-              alt="Varsheni, bathed in warm light"
-              fill
-              priority
-              sizes="(max-width: 768px) 100vw, 46vw"
-              className="object-cover object-[50%_28%]"
-            />
+            {content.images.portrait.url && (
+              <Image
+                src={content.images.portrait.url}
+                alt={content.images.portrait.alt}
+                fill
+                priority
+                sizes="(max-width: 768px) 100vw, 46vw"
+                className="object-cover object-[50%_28%]"
+              />
+            )}
           </motion.div>
           {/* Only a soft bottom vignette (for the name) — no hard edge overlay. */}
           <div
@@ -215,13 +217,15 @@ export function AboutPage({ content }: { content: AboutContent }) {
               </Reveal>
               <Reveal delay={0.1} className="relative w-32 shrink-0 sm:w-40">
                 <div className="overflow-hidden rounded-2xl border border-creme/15 shadow-[0_18px_50px_-20px_rgba(0,0,0,0.7)]">
-                  <Image
-                    src="/varsheni-4.png"
-                    alt="Varsheni"
-                    width={512}
-                    height={512}
-                    className="h-full w-full object-cover"
-                  />
+                  {content.images.quotePortrait.url && (
+                    <Image
+                      src={content.images.quotePortrait.url}
+                      alt={content.images.quotePortrait.alt}
+                      width={512}
+                      height={512}
+                      className="h-full w-full object-cover"
+                    />
+                  )}
                 </div>
                 <Seal text={content.props.sealText} className="absolute -bottom-7 -left-7 h-20 w-20 opacity-90" />
               </Reveal>
@@ -233,7 +237,7 @@ export function AboutPage({ content }: { content: AboutContent }) {
       {/* ═══ Who I am + What I bring — shared Aurora backdrop ═══ */}
       <AuroraRegion>
         <WhoIAm content={content.whoIAm} />
-        <WhatIBring content={content.bring} />
+        <WhatIBring content={content.bring} portrait={content.images.bringPortrait} />
       </AuroraRegion>
 
       {/* ═══ On my radar — logo wall ═══ */}

@@ -117,7 +117,13 @@ function Card({
  * Hovering a card ignites LightRays inside it and blurs the rest into focus.
  * Aurora backdrop comes from the shared AuroraRegion wrapper.
  */
-export function WhatIBring({ content }: { content: AboutContent["bring"] }) {
+export function WhatIBring({
+  content,
+  portrait,
+}: {
+  content: AboutContent["bring"];
+  portrait: AboutContent["images"]["bringPortrait"];
+}) {
   // The 01–05 numerals are positional, so they are derived rather than stored.
   const numbered = content.items.map((item, i) => ({
     ...item,
@@ -159,13 +165,15 @@ export function WhatIBring({ content }: { content: AboutContent["bring"] }) {
                 maskComposite: "intersect",
               }}
             >
-              <Image
-                src="/varsheni-4.png"
-                alt="Varsheni"
-                fill
-                sizes="(max-width: 768px) 90vw, 20rem"
-                className="object-cover object-[50%_22%]"
-              />
+              {portrait.url && (
+                <Image
+                  src={portrait.url}
+                  alt={portrait.alt}
+                  fill
+                  sizes="(max-width: 768px) 90vw, 20rem"
+                  className="object-cover object-[50%_22%]"
+                />
+              )}
               {/* Chocolate floor + amber warmth for cohesion with the cards. */}
               <div
                 aria-hidden

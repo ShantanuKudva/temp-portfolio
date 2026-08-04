@@ -163,6 +163,41 @@ export const About: GlobalConfig = {
     },
     {
       type: "group",
+      name: "images",
+      label: "Photos",
+      admin: {
+        description:
+          "The three photos of you on this page. Replace any of them by uploading a new file — the layout and effects stay the same.",
+      },
+      fields: [
+        {
+          name: "portrait",
+          type: "upload",
+          relationTo: "media",
+          label: "Main portrait",
+          admin: {
+            description:
+              "The tall photo down the left side. Portrait orientation works best; it is cropped to fill the column.",
+          },
+        },
+        {
+          name: "quotePortrait",
+          type: "upload",
+          relationTo: "media",
+          label: "Photo beside the quote",
+          admin: { description: "Small square, next to the pull quote and wax seal." },
+        },
+        {
+          name: "bringPortrait",
+          type: "upload",
+          relationTo: "media",
+          label: "Photo in 'What I bring'",
+          admin: { description: "Sits beside that section's heading. Roughly 4:5." },
+        },
+      ],
+    },
+    {
+      type: "group",
       name: "props",
       label: "Small decorative text",
       admin: {

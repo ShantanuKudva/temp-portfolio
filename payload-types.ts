@@ -1038,6 +1038,23 @@ export interface About {
     secondaryLabel: string;
   };
   /**
+   * The three photos of you on this page. Replace any of them by uploading a new file — the layout and effects stay the same.
+   */
+  images?: {
+    /**
+     * The tall photo down the left side. Portrait orientation works best; it is cropped to fill the column.
+     */
+    portrait?: (number | null) | Media;
+    /**
+     * Small square, next to the pull quote and wax seal.
+     */
+    quotePortrait?: (number | null) | Media;
+    /**
+     * Sits beside that section's heading. Roughly 4:5.
+     */
+    bringPortrait?: (number | null) | Media;
+  };
+  /**
    * Tiny flourishes: the sideways label running up the left edge, and the words circling the rotating wax seal.
    */
   props: {
@@ -1299,6 +1316,13 @@ export interface AboutSelect<T extends boolean = true> {
         heading?: T;
         primaryLabel?: T;
         secondaryLabel?: T;
+      };
+  images?:
+    | T
+    | {
+        portrait?: T;
+        quotePortrait?: T;
+        bringPortrait?: T;
       };
   props?:
     | T

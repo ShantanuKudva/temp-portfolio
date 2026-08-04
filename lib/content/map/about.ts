@@ -2,6 +2,9 @@ import type { About } from "@/payload-types";
 
 export type TitledItem = { title: string; body: string };
 
+/** A resolved upload. `url` is empty when nothing is set, so callers can skip it. */
+export type ImageRef = { url: string; alt: string };
+
 export type AboutContent = {
   hero: {
     availability: string;
@@ -30,12 +33,28 @@ export type AboutContent = {
     secondaryLabel: string;
   };
   props: { sideLabel: string; sealText: string };
+  images: {
+    portrait: ImageRef;
+    quotePortrait: ImageRef;
+    bringPortrait: ImageRef;
+  };
 };
 
-const texts = (rows?: { text: string }[] | null): string[] => (rows ?? []).map((r) => r.text);
-const items = (rows?: { item: string }[] | null): string[] => (rows ?? []).map((r) => r.item);
-const titled = (rows?: { title: string; body: string }[] | null): TitledItem[] =>
-  (rows ?? []).map((r) => ({ title: r.title, body: r.body }));
+const image = (value: unknown, fallbackAlt: string): ImageRef =>
+  typeof value === "object" && value !== null && "url" in value
+    ? {
+        url: (value as { url?: string | null }).url ?? "",
+        alt: (value as { alt?: string | null }).alt || fallbackAlt,
+      }
+    : { url: "", alt: fallbackAlt };
+
+const texts = (rows?: { text: string }[] | null): string[] =>
+  (rows ?? []).map((r) => r.text);
+const items = (rows?: { item: string }[] | null): string[] =>
+  (rows ?? []).map((r) => r.item);
+const titled = (
+  rows?: { title: string; body: string }[] | null,
+): TitledItem[] => (rows ?? []).map((r) => ({ title: r.title, body: r.body }));
 
 export const mapAbout = (doc: About): AboutContent => ({
   hero: {
@@ -69,4 +88,9 @@ export const mapAbout = (doc: About): AboutContent => ({
     secondaryLabel: doc.cta.secondaryLabel,
   },
   props: { sideLabel: doc.props.sideLabel, sealText: doc.props.sealText },
+  images: {
+    portrait: image(doc.images?.portrait, "Varsheni, bathed in warm light"),
+    quotePortrait: image(doc.images?.quotePortrait, "Varsheni"),
+    bringPortrait: image(doc.images?.bringPortrait, "Varsheni"),
+  },
 });

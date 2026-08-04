@@ -89,6 +89,29 @@ const seed = async () => {
     }));
   payload.logger.info("Rate card PDF ready.");
 
+  // The About page's photos, matched by filename so re-running reuses whatever
+  // is already uploaded rather than replacing a photo Varsheni has since
+  // swapped in through the admin.
+  const photo = async (file: string, alt: string) => {
+    const found = await payload.find({
+      collection: "media",
+      where: { filename: { like: file.replace(".png", "") } },
+      limit: 1,
+    });
+    return (
+      found.docs[0] ??
+      (await payload.create({
+        collection: "media",
+        data: { alt },
+        filePath: path.join(publicDir, file),
+      }))
+    );
+  };
+
+  const portrait = await photo("varsheni-3.png", "Varsheni, bathed in warm light");
+  const squarePortrait = await photo("varsheni-4.png", "Varsheni");
+  payload.logger.info("About photos ready.");
+
   await payload.updateGlobal({
     slug: "site-settings",
     data: {
@@ -213,6 +236,11 @@ const seed = async () => {
       props: {
         sideLabel: "Apps · Businesses · Honest reviews",
         sealText: "✦ Honest reviews ✦ Work with me ✦ Apps · Businesses ",
+      },
+      images: {
+        portrait: portrait.id,
+        quotePortrait: squarePortrait.id,
+        bringPortrait: squarePortrait.id,
       },
     },
   });
