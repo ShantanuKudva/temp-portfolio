@@ -105,16 +105,28 @@ export const uploadFromUrlTool = {
     const ext = mimetype.split("/")[1]?.replace("+xml", "") ?? "bin";
     const name = String(args.filename ?? "") || nameFromUrl(url, ext);
 
-    const doc = await req.payload.create({
-      collection,
-      data: collection === "media" && args.alt ? { alt: String(args.alt) } : {},
-      file: { data, mimetype, name, size: data.byteLength },
-      // Run as the key's owner so access control and validation behave exactly
-      // as they would for that person in the admin.
-      req,
-      overrideAccess: false,
-      user: req.user,
-    });
+    // The MCP endpoint resolves the key's owner into its own access settings and
+    // does not assign req.user, so a custom tool sees an anonymous request. Run
+    // under normal access control when a user is present; otherwise the request
+    // is already authorised — the endpoint rejected invalid keys before calling
+    // this, and the key's own permissions decide whether this tool runs at all.
+    const user = req.user ?? undefined;
+
+    let doc;
+    try {
+      doc = await req.payload.create({
+        collection,
+        data: collection === "media" && args.alt ? { alt: String(args.alt) } : {},
+        file: { data, mimetype, name, size: data.byteLength },
+        req,
+        overrideAccess: !user,
+        user,
+      });
+    } catch (err) {
+      return text(
+        `Upload failed: ${err instanceof Error ? err.message : String(err)}`,
+      );
+    }
 
     const id = (doc as { id: number | string }).id;
     const stored = (doc as { url?: string }).url ?? "(pending)";
