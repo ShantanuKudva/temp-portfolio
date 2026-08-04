@@ -90,6 +90,15 @@ export async function McpSetup() {
         <strong>Connected</strong> next to <code>portfolio</code>.
       </div>
 
+      <h4 style={heading}>Adding photos and videos by chat</h4>
+      <div style={step}>
+        Claude cannot read files off your computer, so pointing it at something
+        in your Downloads folder will fail. Either drag the file in here — which
+        is usually quickest — or, if it is already online somewhere public, give
+        Claude the link and ask it to upload from there. Share pages from Drive
+        or Dropbox will not work; it has to be a direct link to the file itself.
+      </div>
+
       <h4 style={heading}>3. Try it</h4>
       <div style={step}>
         Ask Claude something like <em>&ldquo;change the headline on my About page

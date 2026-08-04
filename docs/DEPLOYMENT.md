@@ -90,6 +90,27 @@ with the site's own address filled in.
 
    `claude mcp list` should then show `portfolio` as Connected.
 
+### Uploading files over MCP
+
+The generated `create*` tools take a `filePath`, which Payload resolves **on the
+server** — so a path from the editor's own machine fails with "No files were
+uploaded". That is not a misconfiguration; the file simply is not on the Vercel
+function.
+
+`uploadFromUrl` (in `lib/mcp-upload-tool.ts`) covers the gap: it fetches a
+publicly reachable URL server-side and hands Payload an in-memory buffer, so the
+file lands in Blob exactly as a drag-and-drop would. It validates the content
+type against the target (`media` images, `videos` MP4, `documents` PDF) and
+enforces the same 50MB ceiling, then returns the new id to set on a reel's
+`poster`/`video` or an About page photo.
+
+It needs a direct link to the file. Drive and Dropbox *share pages* serve HTML
+and are rejected with a message saying so. Dragging the file into the admin
+stays the shorter path when it is sitting on the editor's own disk.
+
+Custom tools are permissioned per key like everything else, under the key's
+**payload-mcp-tool** field.
+
 Agent calls run through the same access control and validation as the admin UI,
 **including delete**, and cover every entity — reels, packages, uploads, all page
 copy, site settings, and `users`. A key therefore grants account management too,

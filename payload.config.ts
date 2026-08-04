@@ -18,6 +18,7 @@ import { Connect } from "./globals/Connect";
 import { Home } from "./globals/Home";
 import { SiteSettings } from "./globals/SiteSettings";
 import { overrideMcpApiKeys } from "./lib/payload-mcp-polish";
+import { uploadFromUrlTool } from "./lib/mcp-upload-tool";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -115,6 +116,9 @@ export default buildConfig({
           enabled: { find: true, update: true },
         },
       },
+      // The generated upload tools resolve filePath on the server, which a
+      // remote editor cannot use. This adds a fetch-by-URL upload instead.
+      mcp: { tools: [uploadFromUrlTool] },
       overrideApiKeyCollection: overrideMcpApiKeys,
     }),
   ],
